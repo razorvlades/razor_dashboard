@@ -150,7 +150,7 @@ const SettingsAppItem = observer((props) => {
 
     const { globalStore } = useStores();
 
-    const saveApps = () => {
+    const saveApps = async () => {
         let newApps = [...globalStore.apps];
         newApps[index] = {
             name: name.current,
@@ -158,6 +158,26 @@ const SettingsAppItem = observer((props) => {
             icon: newApps[index].icon
         }
         globalStore.setApps(newApps);
+
+        // let res = await fetch('/getConfig');
+        // let json = await res.json();
+        // console.log(json.apps);
+
+        const res = await fetch('/updateConfig', {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                apps: globalStore.apps,
+                theme: globalStore.theme,
+                title: globalStore.title
+            })
+          });
+          const content = await res.json();
+        
+          console.log(content.config.apps);
     }
 
     return (
