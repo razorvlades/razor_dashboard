@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { useStores } from './stores';
 import { observer } from 'mobx-react';
-import ContentEditable from 'react-contenteditable'
+import ContentEditable from 'react-contenteditable';
+import Icons from './config/icons.json';
 
 const Settings = observer((props) => {
 
@@ -75,6 +76,8 @@ const Settings = observer((props) => {
                     <tr style={itemStyle}>
                         <th style={tableHeaderStyle}>Name</th>
                         <th style={tableHeaderStyle}>URL</th>
+                        <th style={tableHeaderStyle}>Icon</th>
+                        <th style={tableHeaderStyle}>Color</th>
                         <th style={tableHeaderStyle}>Edit</th>
                         <th style={tableHeaderStyle}>Delete</th>
                     </tr>
@@ -106,6 +109,7 @@ const SettingsAppItem = observer((props) => {
     const url = useRef(app.url);
     const [editing, setEditing] = useState(app.editing ? app.editing : false);
     const [deleting, setDeleting] = useState(false);
+    const [selectedIcon, setSelectedIcon] = useState(app.icon);
 
     const [hover, setHover] = useState(false);
 
@@ -116,24 +120,12 @@ const SettingsAppItem = observer((props) => {
         paddingTop: 10,
         paddingBottom: 10,
         cursor: 'pointer',
-        height: 40
+        height: 60
     }
 
-    const nameStyle = {
+    const columnStyle = {
         paddingLeft: 15,
         overflow:'wrap',
-    }
-    const urlStyle = {
-        paddingLeft: 15,
-        overflow:'wrap',
-    }
-    const editStyle = {
-        overflow:'wrap',
-        paddingLeft: 15,
-    }
-    const deleteStyle = {
-        overflow:'wrap',
-        paddingLeft: 15,
     }
 
     const handleChange = evt => {
@@ -196,7 +188,7 @@ const SettingsAppItem = observer((props) => {
         newApps[index] = {
             name: name.current,
             url: url.current,
-            icon: newApps[index].icon
+            icon: selectedIcon
         }
         globalStore.setApps(newApps);
 
@@ -215,20 +207,56 @@ const SettingsAppItem = observer((props) => {
         //   const content = await res.json();
     }
 
+    const _chooseColor = () => {
+
+    }
+
+    const _chooseIcon = async (e) => {
+        setSelectedIcon(e.target.value);
+        const newApp = {...app, icon: e.target.value};
+
+        // let newApps = globalStore.apps;
+        // newApps[index] = newApp;
+        // globalStore.setApps(newApps);
+    }
+
     return (
         <tr onMouseEnter={_toggleHover} onMouseLeave={_toggleHover} style={itemStyle}>
-            <td style={nameStyle}>
+            <td style={columnStyle}>
                 <ContentEditable disabled={!editing} html={name.current} onBlur={handleBlur} onChange={handleChange} />
             </td>
-            <td style={urlStyle}>
+            <td style={columnStyle}>
                 <ContentEditable disabled={!editing} html={url.current} onBlur={_handleURLBlur} onChange={_handleURLChange} />
             </td>
-            <td style={editStyle}>
+            <td style={columnStyle}>
+                <select
+                    value={selectedIcon} 
+                    onChange={_chooseIcon} 
+                >
+                    {
+                        Icons.icons.map((item, index) => {
+                            const isSelected = item.icon === selectedIcon;
+                            return (
+                                isSelected ? 
+                                <option value={item.icon} selected>{item.name}</option>
+                                :
+                                <option value={item.icon}>{item.name}</option>
+                            )
+                        })
+                    }
+                </select>
+            </td>
+            <td style={columnStyle}>
+                <button onClick={_chooseColor}>
+                    Choose Color
+                </button>
+            </td>
+            <td style={columnStyle}>
                 <button onClick={_toggleEditing}>
                     { !editing ? 'Edit' : 'Save'}
                 </button>
             </td>
-            <td style={deleteStyle}>
+            <td style={columnStyle}>
                 <button onClick={_onDeletePress}>
                     { deleting ? 'Are you sure?' : 'Delete'}
                 </button>
