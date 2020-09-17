@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { useStores } from './stores';
 import { observer } from 'mobx-react';
 import ContentEditable from 'react-contenteditable'
@@ -26,23 +26,6 @@ const Settings = observer((props) => {
         height: 40,
     }
 
-    const nameStyle = {
-        flex: 2,
-        paddingLeft: 15
-    }
-    const urlStyle = {
-        flex: 5,
-        paddingLeft: 15
-    }
-    const editStyle = {
-        flex: 1,
-        paddingLeft: 15
-    }
-    const deleteStyle = {
-        flex: 1,
-        paddingLeft: 15
-    }
-
     const tableHeaderStyle = {
         paddingTop: 12,
         paddingBottom: 12,
@@ -59,6 +42,30 @@ const Settings = observer((props) => {
         textAlign: "left",
         borderCollapse: "collapse",
         width: "100%"
+    }
+
+    const [hover, setHover] = useState(false);
+    const _toggleHover = () => setHover(!hover);
+
+    const addAppStyle = {
+        backgroundColor: hover ? '#F2F3F6' : 'white',
+        cursor: 'pointer',
+        height: 40,
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        paddingLeft: 15
+    }
+
+    const addApplication = () => {
+        const newApp = {
+            name: 'Application Name',
+            url: 'https://example.com',
+            icon: './assets/icons/plex.png',
+            editing: true
+        }
+        const newApps = [...globalStore.apps, newApp];
+        globalStore.setApps(newApps);
     }
 
     return (
@@ -81,6 +88,9 @@ const Settings = observer((props) => {
                     }
                 </tbody>
             </table>
+                <div onClick={addApplication} onMouseEnter={_toggleHover} onMouseLeave={_toggleHover} style={addAppStyle}>
+                    <div>Add New Application</div>
+                </div>
         </div>
     )
 });
@@ -94,7 +104,8 @@ const SettingsAppItem = observer((props) => {
 
     const name = useRef(app.name);
     const url = useRef(app.url);
-    const [editing, setEditing] = useState(false);
+    const [editing, setEditing] = useState(app.editing ? app.editing : false);
+    const [deleting, setDeleting] = useState(false);
 
     const [hover, setHover] = useState(false);
 
@@ -148,6 +159,36 @@ const SettingsAppItem = observer((props) => {
         setEditing(!editing);
     }
 
+    const _onDeletePress = () => {
+        if (deleting) {
+            deleteApp();
+        }
+        else {
+            setDeleting(true);
+        }
+    }
+
+    const deleteApp = async () => {
+        const newApps = globalStore.apps.filter((a, i) => {
+            return i !== index
+        });
+
+        globalStore.setApps(newApps);
+
+        await fetch('/updateConfig', {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                apps: newApps,
+                theme: globalStore.theme,
+                title: globalStore.title
+            })
+        });
+    }
+
     const { globalStore } = useStores();
 
     const saveApps = async () => {
@@ -159,25 +200,19 @@ const SettingsAppItem = observer((props) => {
         }
         globalStore.setApps(newApps);
 
-        // let res = await fetch('/getConfig');
-        // let json = await res.json();
-        // console.log(json.apps);
-
-        const res = await fetch('/updateConfig', {
+        await fetch('/updateConfig', {
             method: 'POST',
             headers: {
               'Accept': 'application/json',
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                apps: globalStore.apps,
+                apps: newApps,
                 theme: globalStore.theme,
                 title: globalStore.title
             })
-          });
-          const content = await res.json();
-        
-          console.log(content.config.apps);
+        });
+        //   const content = await res.json();
     }
 
     return (
@@ -193,7 +228,11 @@ const SettingsAppItem = observer((props) => {
                     { !editing ? 'Edit' : 'Save'}
                 </button>
             </td>
-            <td style={deleteStyle}>Delete</td>
+            <td style={deleteStyle}>
+                <button onClick={_onDeletePress}>
+                    { deleting ? 'Are you sure?' : 'Delete'}
+                </button>
+            </td>
         </tr>
     )
 });
