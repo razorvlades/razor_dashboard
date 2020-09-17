@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import { useStores } from './stores';
 import {
@@ -10,9 +10,25 @@ import {
 import Settings from './Settings';
 import './index.css';
 
-const App = () => {
+const App = observer(() => {
+
+  const { globalStore } = useStores();
+
+  const [configLoading, setConfigLoading] = useState(true);
+
+  useEffect(() => {
+   fetch('/getConfig').then(async (res) => {
+    const config = await res.json();
+    globalStore.setApps(config.apps);
+    globalStore.setTitle(config.title);
+    globalStore.setTheme(config.theme);
+    setConfigLoading(false);
+    console.log(config);
+  });
+  }, []);
 
   return (
+    !configLoading && 
     <Router>
       <div className="page">
         <div className="header">
@@ -27,7 +43,7 @@ const App = () => {
       </div>
     </Router>
   );
-}
+})
 
 const Header = observer(() => {
 
@@ -75,7 +91,8 @@ const Card = (props) => {
   const {
     name,
     icon,
-    url
+    url,
+    color
   } = props.item;
 
   const imageStyle = {
@@ -83,7 +100,7 @@ const Card = (props) => {
   }
 
   return (
-    <a className="card" href={url} target="_blank" >
+    <a style={{ backgroundColor: color }} className="card" href={url} target="_blank" >
       <div style={imageStyle}>
         <img src={require(`${icon}`)} alt={url}></img>
       </div>

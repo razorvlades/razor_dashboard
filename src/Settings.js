@@ -110,6 +110,7 @@ const SettingsAppItem = observer((props) => {
     const [editing, setEditing] = useState(app.editing ? app.editing : false);
     const [deleting, setDeleting] = useState(false);
     const [selectedIcon, setSelectedIcon] = useState(app.icon);
+    const [selectedColor, setSelectedColor] = useState(app.color);
 
     const [hover, setHover] = useState(false);
 
@@ -188,11 +189,12 @@ const SettingsAppItem = observer((props) => {
         newApps[index] = {
             name: name.current,
             url: url.current,
-            icon: selectedIcon
+            icon: selectedIcon,
+            color: selectedColor
         }
         globalStore.setApps(newApps);
 
-        await fetch('/updateConfig', {
+        let res = await fetch('/updateConfig', {
             method: 'POST',
             headers: {
               'Accept': 'application/json',
@@ -204,20 +206,15 @@ const SettingsAppItem = observer((props) => {
                 title: globalStore.title
             })
         });
-        //   const content = await res.json();
-    }
-
-    const _chooseColor = () => {
-
+        const content = await res.json();
     }
 
     const _chooseIcon = async (e) => {
         setSelectedIcon(e.target.value);
-        const newApp = {...app, icon: e.target.value};
+    }
 
-        // let newApps = globalStore.apps;
-        // newApps[index] = newApp;
-        // globalStore.setApps(newApps);
+    const _chooseColor = async (e) => {
+        setSelectedColor(e.target.value);
     }
 
     return (
@@ -232,24 +229,19 @@ const SettingsAppItem = observer((props) => {
                 <select
                     value={selectedIcon} 
                     onChange={_chooseIcon} 
+                    defaultValue={selectedIcon}
                 >
                     {
                         Icons.icons.map((item, index) => {
-                            const isSelected = item.icon === selectedIcon;
                             return (
-                                isSelected ? 
-                                <option value={item.icon} selected>{item.name}</option>
-                                :
-                                <option value={item.icon}>{item.name}</option>
+                                <option key={item.icon} value={item.icon}>{item.name}</option>
                             )
                         })
                     }
                 </select>
             </td>
             <td style={columnStyle}>
-                <button onClick={_chooseColor}>
-                    Choose Color
-                </button>
+                <input disabled={!editing} onChange={_chooseColor} value={selectedColor} id="bgcolor" type="color"/>
             </td>
             <td style={columnStyle}>
                 <button onClick={_toggleEditing}>

@@ -4,9 +4,10 @@ const fs = require('fs');
 
 app.use(express.json());
 
-const config = require('../src/config/config.json');
-
-app.get('/getConfig', (req, res) => res.send(config));
+app.get('/getConfig', (req, res) => {
+    const config = fs.readFileSync(__dirname + '/../src/config/config.json');
+    res.send(config);
+});
 
 app.post('/updateConfig', (req, res) => {
     const config = req.body;
