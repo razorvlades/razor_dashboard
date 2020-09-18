@@ -2,43 +2,43 @@
     "icons": [
         {
             "name": "Tautulli",
-            "icon": "./assets/icons/tautulli.png"
+            "icon": "tautulli.png"
         },
         {
             "name": "Netdata",
-            "icon": "./assets/icons/netdata.png"
+            "icon": "netdata.png"
         },
         {
             "name": "Jellyfin",
-            "icon": "./assets/icons/jellyfin.png"
+            "icon": "jellyfin.png"
         },
         {
             "name": "Plex",
-            "icon": "./assets/icons/plex.png"
+            "icon": "plex.png"
         },
         {
             "name": "Nextcloud",
-            "icon": "./assets/icons/nextcloud.png"
+            "icon": "nextcloud.png"
         },
         {
             "name": "Portainer",
-            "icon": "./assets/icons/portainer.png"
+            "icon": "portainer.png"
         },
         {
             "name": "qBittorrent",
-            "icon": "./assets/icons/qbittorrent.png"
+            "icon": "qbittorrent.png"
         },
         {
             "name": "ruTorrent",
-            "icon": "./assets/icons/rutorrent.png"
+            "icon": "rutorrent.png"
         },
         {
             "name": "Shoko",
-            "icon": "./assets/icons/shoko.png"
+            "icon": "shoko.png"
         },
         {
             "name": "Traefik",
-            "icon": "./assets/icons/traefik.png"
+            "icon": "traefik.png"
         }
     ]
 }

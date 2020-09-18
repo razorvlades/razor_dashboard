@@ -9,6 +9,9 @@ import {
 } from "react-router-dom";
 import Settings from './Settings';
 import './index.css';
+import Card from './Card';
+
+global.iconPath = __dirname + 'src/assets/icons/';
 
 const App = observer(() => {
 
@@ -84,30 +87,5 @@ const Home = observer(() => {
     </div>
   )
 })
-
-const Card = (props) => {
-
-  const {
-    name,
-    icon,
-    url,
-    color
-  } = props.item;
-
-  const imageStyle = {
-    marginBottom: 25,
-  }
-
-  return (
-    <a style={{ backgroundColor: color }} className="card" href={url} target="_blank" >
-      <div style={imageStyle}>
-        <img src={require(`${icon}`)} alt={url}></img>
-      </div>
-      <div>
-        {name}
-      </div>
-    </a>
-  )
-}
 
 export default App;
