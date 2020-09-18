@@ -39,6 +39,14 @@
         {
             "name": "Traefik",
             "icon": "traefik.png"
+        },
+        {
+            "name": "Radarr",
+            "icon": "radarr.png"
+        },
+        {
+            "name": "Heimdall",
+            "icon": "heimdall.png"
         }
     ]
 }

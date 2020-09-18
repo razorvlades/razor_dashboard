@@ -2,10 +2,15 @@ const express = require('express');
 const app = express();
 const fs = require('fs');
 const multer = require('multer');
-const ImageRouter = express.Router();
 
 app.use(express.static('assets'));
 app.use(express.json());
+
+const path = require('path')
+app.use(express.static(path.join(__dirname, '../build')))
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../build', 'index.html'))
+});
 
 app.get('/getConfig', (req, res) => {
     const config = fs.readFileSync(__dirname + '/../src/config/config.json');
@@ -46,4 +51,8 @@ app.post("/upload-image", upload.single('imageData'), (req, res, next) => {
     res.send({ ok: true })
 });
 
-app.listen(9078);
+const PORT = 9078;
+const HOST = '0.0.0.0';
+
+app.listen(PORT, HOST);
+console.log(`Running on http://${HOST}:${PORT}`);
