@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useStores } from './stores';
 import { observer } from 'mobx-react';
-import ContentEditable from 'react-contenteditable';
 import Icons from './config/icons.json';
 
 const Settings = observer((props) => {
@@ -12,8 +11,8 @@ const Settings = observer((props) => {
     const settingsContainerStyle = {
         alignContent: 'center',
         marginTop: 25,
-        marginLeft: 200,
-        marginRight: 200,
+        marginLeft: 150,
+        marginRight: 150,
         borderRadius: 10,
         backgroundColor: 'white',
         justifyContent: 'center',
@@ -63,7 +62,8 @@ const Settings = observer((props) => {
             name: 'Application Name',
             url: 'https://example.com',
             icon: './assets/icons/plex.png',
-            editing: true
+            editing: true,
+            color: '#FFFFFF'
         }
         const newApps = [...globalStore.apps, newApp];
         globalStore.setApps(newApps);
@@ -105,12 +105,12 @@ const SettingsAppItem = observer((props) => {
         index
     } = props;
 
-    const name = useRef(app.name);
-    const url = useRef(app.url);
     const [editing, setEditing] = useState(app.editing ? app.editing : false);
     const [deleting, setDeleting] = useState(false);
     const [selectedIcon, setSelectedIcon] = useState(app.icon);
     const [selectedColor, setSelectedColor] = useState(app.color);
+    const [url, setUrl] = useState(app.url);
+    const [name, setName] = useState(app.name);
 
     const [hover, setHover] = useState(false);
 
@@ -128,22 +128,6 @@ const SettingsAppItem = observer((props) => {
         paddingLeft: 15,
         overflow:'wrap',
     }
-
-    const handleChange = evt => {
-        name.current = evt.target.value;
-    };
-    
-    const handleBlur = () => {
-        console.log(name.current);
-    };
-
-    const _handleURLChange = evt => {
-        url.current = evt.target.value;
-    };
-    
-    const _handleURLBlur = () => {
-        console.log(url.current);
-    };
 
     const _toggleEditing = () => {
         if (editing) {
@@ -187,14 +171,14 @@ const SettingsAppItem = observer((props) => {
     const saveApps = async () => {
         let newApps = [...globalStore.apps];
         newApps[index] = {
-            name: name.current,
-            url: url.current,
+            name: name,
+            url: url,
             icon: selectedIcon,
             color: selectedColor
         }
         globalStore.setApps(newApps);
 
-        let res = await fetch('/updateConfig', {
+        await fetch('/updateConfig', {
             method: 'POST',
             headers: {
               'Accept': 'application/json',
@@ -206,7 +190,6 @@ const SettingsAppItem = observer((props) => {
                 title: globalStore.title
             })
         });
-        const content = await res.json();
     }
 
     const _chooseIcon = async (e) => {
@@ -217,19 +200,28 @@ const SettingsAppItem = observer((props) => {
         setSelectedColor(e.target.value);
     }
 
+    const _changeUrl = async (e) => {
+        setUrl(e.target.value);
+    }
+
+    const _changeName = async (e) => {
+        setName(e.target.value);
+    }
+
     return (
         <tr onMouseEnter={_toggleHover} onMouseLeave={_toggleHover} style={itemStyle}>
             <td style={columnStyle}>
-                <ContentEditable disabled={!editing} html={name.current} onBlur={handleBlur} onChange={handleChange} />
+                <input disabled={!editing} onChange={_changeName} value={name} id="nameText" type="text"/>
             </td>
             <td style={columnStyle}>
-                <ContentEditable disabled={!editing} html={url.current} onBlur={_handleURLBlur} onChange={_handleURLChange} />
+                <input disabled={!editing} onChange={_changeUrl} value={url} id="urlText" type="text"/>
             </td>
             <td style={columnStyle}>
                 <select
                     value={selectedIcon} 
                     onChange={_chooseIcon} 
                     defaultValue={selectedIcon}
+                    disabled={!editing}
                 >
                     {
                         Icons.icons.map((item, index) => {
