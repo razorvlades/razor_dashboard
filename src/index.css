@@ -13,13 +13,14 @@ code {
 }
 
 html {
-  background: url('./assets/background.png');
+  background: url('/background/background.png');
   background-position: center;
   background-repeat: no-repeat;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  margin-left: calc(100vw - 100%);
 }
 
 .header {
@@ -74,7 +75,7 @@ html {
   display: grid;
   grid-template-columns: repeat(3, 350px);
   /* grid-template-columns: repeat(auto-fill, minmax(350px, 350px)); */
-  grid-gap: 50px;
+  grid-gap: 40px;
   justify-content: center;
   align-content: center;
   padding-top: 25px;

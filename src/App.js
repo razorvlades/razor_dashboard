@@ -53,7 +53,6 @@ const Header = observer(() => {
   const { globalStore } = useStores();
   
   const _toggleView = () => {
-    console.log('here')
     if (globalStore.view === 'card') {
       globalStore.setView('smallcard');
     }
@@ -85,10 +84,6 @@ const Home = observer((props) => {
   const { globalStore } = useStores();
   const appList = globalStore.apps;
   const view = globalStore.view;
-
-  useEffect(() => {
-    console.log(globalStore.view);
-  }, [globalStore.view]);
 
   return (
     <div className="card_container">
