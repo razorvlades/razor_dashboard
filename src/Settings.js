@@ -245,7 +245,8 @@ const SettingsAppItem = observer((props) => {
 
         let data = new FormData();
 
-        data.append("imageName", 'icon-' + Date.now());
+        const imageName = Date.now() + '-' + file.name;
+        data.append("imageName", imageName);
         data.append("imageData", file);
 
         await fetch('/upload-image', {
@@ -254,7 +255,7 @@ const SettingsAppItem = observer((props) => {
         });
         setCustomIcon(true);
         setSelectedIconValue('custom');
-        setSelectedIcon(file.name);
+        setSelectedIcon(imageName);
     }
 
     React.useEffect(() => {
@@ -302,7 +303,7 @@ const SettingsAppItem = observer((props) => {
                                     )
                                 })
                             }
-                            <option key={'Custom'} value={'custom'}>{selectedIcon}</option>
+                            <option key={'Custom'} value={'custom'}>Custom</option>
                             </>
                         }
                     </select>

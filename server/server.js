@@ -23,7 +23,7 @@ const storage = multer.diskStorage({
         cb(null, __dirname + '/../assets/icons/');
     },
     filename: (req, file, cb) => {
-        cb(null, file.originalname);
+        cb(null, req.body.imageName);
     }
 });
 
@@ -42,7 +42,7 @@ const upload = multer({
 });
     
 app.post("/upload-image", upload.single('imageData'), (req, res, next) => {
-    console.log(req.body);
+    console.log(req.body.imageName);
     res.send({ ok: true })
 });
 
