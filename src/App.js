@@ -10,6 +10,7 @@ import {
 import Settings from './Settings';
 import './index.css';
 import Card from './Card';
+import SmallCard from './SmallCard';
 
 global.iconPath = __dirname + 'src/assets/icons/';
 
@@ -50,6 +51,16 @@ const App = observer(() => {
 const Header = observer(() => {
 
   const { globalStore } = useStores();
+  
+  const _toggleView = () => {
+    console.log('here')
+    if (globalStore.view === 'card') {
+      globalStore.setView('smallcard');
+    }
+    else {
+      globalStore.setView('card');
+    }
+  }
 
   return (
     <div className="hd">
@@ -62,26 +73,31 @@ const Header = observer(() => {
             <a href='https://gitlab.com/razorvlades' className="menu_button">
                 {'Programming'}
             </a>
-            <a href='./about.html' className="menu_button">
-                {'About Me'}
-            </a>
+            <a onClick={_toggleView} style={{ cursor: 'pointer' }} className="menu_button">{'Change View'}</a>
             <Link className="menu_button" to="/settings">Settings</Link>
         </div>
     </div>
     );
 });
 
-const Home = observer(() => {
+const Home = observer((props) => {
 
   const { globalStore } = useStores();
-
   const appList = globalStore.apps;
+  const view = globalStore.view;
+
+  useEffect(() => {
+    console.log(globalStore.view);
+  }, [globalStore.view]);
 
   return (
     <div className="card_container">
       {
         appList.map((app, index) => (
-          <Card key={app.url + index} item={app}/>
+          view === 'card' ? 
+            <Card key={app.url + index} item={app}/>
+          :
+            <SmallCard key={app.url + index} item={app}/>
         ))
       }
     </div>

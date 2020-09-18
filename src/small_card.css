@@ -1,0 +1,67 @@
+.card_body {
+    font: 20px "Century Gothic", Futura, sans-serif;
+  }
+  
+  .smallcard:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    cursor: pointer;
+    color:  rgb(68, 67, 67);
+    top: -7px;
+  
+  }
+  
+  .card_container {
+    display: grid;
+    grid-template-columns: repeat(3, 350px);
+    /* grid-template-columns: repeat(auto-fill, minmax(350px, 350px)); */
+    grid-gap: 40px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+  }
+  
+  .card_column {
+    display: inline-block;
+    width: 20%;
+    padding: 0 25px;
+  }
+  
+  .smallcard {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+    transition: 0.3s;
+    padding: 16px;
+    color: black;
+    border-radius: 10px;
+    height: 90px;
+  
+    -webkit-transition-duration: 0.2s; /* Safari */
+    transition-duration: 0.2s;
+    text-decoration: none;
+  
+    position: relative;
+    top: 0;
+    transition: top ease 0.5s;
+    display: flex;
+    padding-left: 20px;
+  }
+  
+  @media screen and (max-width: 1200px) {
+    .card_container {
+        grid-template-columns: repeat(auto-fill, minmax(350px, 350px));
+    }
+  }
+  
+  .smallcard img {
+    height: 75px;
+  }
+
+  .smallcard_name_container {
+    flex: 5;
+    text-align: center;
+    align-self: center;
+  }
+
+  .smallcard_icon_container {
+    justify-self: center;
+    align-self: center;
+    flex: 1;
+  }

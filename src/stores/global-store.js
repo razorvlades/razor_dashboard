@@ -9,6 +9,9 @@ export default class GlobalStore {
   
     theme = '';
     setTheme = theme => this.theme = theme;
+
+    view = 'card';
+    setView = view => this.view = view;
 }
 
 decorate(GlobalStore, {
@@ -17,5 +20,7 @@ decorate(GlobalStore, {
   apps: observable,
   setApps: action,
   theme: observable,
-  setTheme: action
+  setTheme: action,
+  view: observable,
+  setView: action,
 })
