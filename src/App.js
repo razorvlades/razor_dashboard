@@ -23,7 +23,6 @@ const App = observer(() => {
     globalStore.setTitle(config.title);
     globalStore.setTheme(config.theme);
     setConfigLoading(false);
-    console.log(config);
   });
   }, []);
 
