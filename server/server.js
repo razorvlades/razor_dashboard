@@ -6,8 +6,11 @@ const multer = require('multer');
 const path = require('path');
 const dir = __dirname + '/';
 
+if (!fs.existsSync(dir + '../config')) {
+    fs.mkdirSync(dir + '../config', { recursive: true });
+}
+
 if (!fs.existsSync(dir + '../config/assets/icons') || !fs.existsSync(dir + '../config/assets/background')) {
-    fs.mkdirSync(dir + '../config/assets', { recursive: true });
     fs.renameSync(dir + '../defaults/assets', dir + '../config/assets');
     console.log('assets directory created')
 }
