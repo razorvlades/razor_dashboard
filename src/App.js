@@ -21,13 +21,20 @@ const App = observer(() => {
   const [configLoading, setConfigLoading] = useState(true);
 
   useEffect(() => {
-   fetch('/getConfig').then(async (res) => {
+
+  fetch('/getConfig').then(async (res) => {
     const config = await res.json();
     globalStore.setApps(config.apps);
     globalStore.setTitle(config.title);
     globalStore.setTheme(config.theme);
     setConfigLoading(false);
   });
+
+  fetch('/getIcons').then(async (res) => {
+    const icons = await res.json();
+    globalStore.setIcons(icons.icons);
+  });
+
   }, []);
 
   return (

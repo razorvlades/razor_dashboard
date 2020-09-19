@@ -6,26 +6,40 @@ const multer = require('multer');
 app.use(express.static('assets'));
 app.use(express.json());
 
+const dir = __dirname + '/'
+
 const path = require('path')
-app.use(express.static(path.join(__dirname, '../build')))
+app.use(express.static(path.join(dir, '../build')))
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../build', 'index.html'))
+    res.sendFile(path.join(dir, '../build', 'index.html'))
+});
+
+app.get('/getIcons', (req, res) => {
+    if (!fs.existsSync(dir + '../config/icons.json')) {
+        fs.copyFileSync(dir + '../defaults/default_icons.json', dir + '../config/icons.json');
+    }
+
+    const icons = fs.readFileSync(dir + '../config/icons.json');
+    res.send(icons);
 });
 
 app.get('/getConfig', (req, res) => {
-    const config = fs.readFileSync(__dirname + '/../src/config/config.json');
+    if (!fs.existsSync(dir + '../config/config.json')) {
+        fs.copyFileSync(dir + '../defaults/default_config.json', dir + '../config/config.json');
+    }
+    const config = fs.readFileSync(dir + '../config/config.json');
     res.send(config);
 });
 
 app.post('/updateConfig', (req, res) => {
     const config = req.body;
-    fs.writeFileSync(__dirname + '/../src/config/config.json', JSON.stringify(config));
+    fs.writeFileSync(dir + '../config/config.json', JSON.stringify(config));
     res.send({ ok: true, config: config })
 });
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, __dirname + '/../assets/icons/');
+        cb(null, dir + '../assets/icons/');
     },
     filename: (req, file, cb) => {
         cb(null, req.body.imageName);
@@ -47,7 +61,6 @@ const upload = multer({
 });
     
 app.post("/upload-image", upload.single('imageData'), (req, res, next) => {
-    console.log(req.body.imageName);
     res.send({ ok: true })
 });
 

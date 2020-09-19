@@ -1,7 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useStores } from './stores';
 import { observer } from 'mobx-react';
-import Icons from './config/icons.json';
 import './settings.css';
 import Card from './Card';
 
@@ -297,7 +296,7 @@ const SettingsAppItem = observer((props) => {
                         {
                             <>
                             {
-                                Icons.icons.map((item, index) => {
+                                globalStore.icons.map((item, index) => {
                                     return (
                                         <option key={item.icon} value={item.icon}>{item.name}</option>
                                     )

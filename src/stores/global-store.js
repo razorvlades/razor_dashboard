@@ -12,6 +12,9 @@ export default class GlobalStore {
 
     view = 'card';
     setView = view => this.view = view;
+
+    icons = [];
+    setIcons = icons => this.icons = icons;
 }
 
 decorate(GlobalStore, {
@@ -23,4 +26,6 @@ decorate(GlobalStore, {
   setTheme: action,
   view: observable,
   setView: action,
+  icons: observable,
+  setIcons: action
 })
