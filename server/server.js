@@ -3,30 +3,37 @@ const app = express();
 const fs = require('fs');
 const multer = require('multer');
 
-app.use(express.static('assets'));
+const path = require('path');
+const dir = __dirname + '/';
+
+if (!fs.existsSync(dir + '../config/assets/icons') || !fs.existsSync(dir + '../config/assets/background')) {
+    fs.mkdirSync(dir + '../config/assets', { recursive: true });
+    fs.renameSync(dir + '../defaults/assets', dir + '../config/assets');
+    console.log('assets directory created')
+}
+
+if (!fs.existsSync(dir + '../config/icons.json')) {
+    fs.copyFileSync(dir + '../defaults/default_icons.json', dir + '../config/icons.json');
+}
+
+if (!fs.existsSync(dir + '../config/config.json')) {
+    fs.copyFileSync(dir + '../defaults/default_config.json', dir + '../config/config.json');
+}
+
+app.use(express.static('config/assets'));
 app.use(express.json());
 
-const dir = __dirname + '/'
-
-const path = require('path')
 app.use(express.static(path.join(dir, '../build')))
 app.get('/', (req, res) => {
     res.sendFile(path.join(dir, '../build', 'index.html'))
 });
 
 app.get('/getIcons', (req, res) => {
-    if (!fs.existsSync(dir + '../config/icons.json')) {
-        fs.copyFileSync(dir + '../defaults/default_icons.json', dir + '../config/icons.json');
-    }
-
     const icons = fs.readFileSync(dir + '../config/icons.json');
     res.send(icons);
 });
 
 app.get('/getConfig', (req, res) => {
-    if (!fs.existsSync(dir + '../config/config.json')) {
-        fs.copyFileSync(dir + '../defaults/default_config.json', dir + '../config/config.json');
-    }
     const config = fs.readFileSync(dir + '../config/config.json');
     res.send(config);
 });
@@ -39,7 +46,7 @@ app.post('/updateConfig', (req, res) => {
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, dir + '../assets/icons/');
+        cb(null, dir + '../config/assets/icons/');
     },
     filename: (req, file, cb) => {
         cb(null, req.body.imageName);
