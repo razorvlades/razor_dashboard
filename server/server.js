@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const fs = require('fs');
+const fs_extra = require('fs-extra')
 const multer = require('multer');
 
 const path = require('path');
@@ -11,7 +12,7 @@ if (!fs.existsSync(dir + '../config')) {
 }
 
 if (!fs.existsSync(dir + '../config/assets/icons') || !fs.existsSync(dir + '../config/assets/background')) {
-    fs.renameSync(dir + '../defaults/assets', dir + '../config/assets');
+    fs_extra.copy(dir + '../defaults/assets', dir + '../config/assets');
     console.log('assets directory created')
 }
 
