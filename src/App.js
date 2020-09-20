@@ -61,22 +61,12 @@ const App = observer(() => {
 const Header = observer(() => {
 
   const { globalStore } = useStores();
-  
-  const _toggleView = () => {
-    if (globalStore.view === 'card') {
-      globalStore.setView('smallcard');
-    }
-    else {
-      globalStore.setView('card');
-    }
-  }
 
   return (
     <div className="hd">
         {globalStore.title}
         <div className="menu">
             <Link className="menu_button" to="/">Home</Link>
-            <a onClick={_toggleView} style={{ cursor: 'pointer' }} className="menu_button">{'Change View'}</a>
             <Link className="menu_button" to="/appsettings">Edit Apps</Link>
             <Link className="menu_button" to="/settings">Settings</Link>
         </div>

@@ -20,7 +20,13 @@ html {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  overflow-y: scroll; 
+}
+
+@media screen and (min-width: 960px) {
+  html {
+    width:100vw;
+    overflow-x:hidden;
+  }
 }
 
 .header {
