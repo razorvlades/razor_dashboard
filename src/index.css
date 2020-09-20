@@ -20,7 +20,7 @@ html {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  margin-left: calc(100vw - 100%);
+  overflow-y: scroll; 
 }
 
 .header {

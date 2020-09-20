@@ -7,6 +7,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import AppSettings from './EditApps';
 import Settings from './Settings';
 import './index.css';
 import Card from './Card';
@@ -47,6 +48,7 @@ const App = observer(() => {
 
         <Switch>
           <Route exact path="/" component={Home}/>
+          <Route path="/appsettings" component={AppSettings}/>
           <Route path="/settings" component={Settings}/>
         </Switch>
 
@@ -73,14 +75,9 @@ const Header = observer(() => {
         {globalStore.title}
         <div className="menu">
             <Link className="menu_button" to="/">Home</Link>
-            <a href='https://myanimelist.net/animelist/razorvlades' className="menu_button">
-                {'Anime'}
-            </a>
-            <a href='https://gitlab.com/razorvlades' className="menu_button">
-                {'Programming'}
-            </a>
-            <a onClick={_toggleView} style={{ cursor: 'pointer' }} className="menu_button">{'Change View'}</a>
             <Link className="menu_button" to="/settings">Settings</Link>
+            <a onClick={_toggleView} style={{ cursor: 'pointer' }} className="menu_button">{'Change View'}</a>
+            <Link className="menu_button" to="/appsettings">Edit Apps</Link>
         </div>
     </div>
     );

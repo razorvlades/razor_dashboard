@@ -13,7 +13,7 @@ if (!fs.existsSync(dir + '../config')) {
 
 if (!fs.existsSync(dir + '../config/assets/icons') || !fs.existsSync(dir + '../config/assets/background')) {
     fs_extra.copy(dir + '../defaults/assets', dir + '../config/assets');
-    console.log('assets directory created')
+    console.log('assets directory created');
 }
 
 if (!fs.existsSync(dir + '../config/icons.json')) {
