@@ -28,6 +28,7 @@ const App = observer(() => {
     globalStore.setApps(config.apps);
     globalStore.setTitle(config.title);
     globalStore.setTheme(config.theme);
+    globalStore.setView(config.view);
     setConfigLoading(false);
   });
 
@@ -75,9 +76,9 @@ const Header = observer(() => {
         {globalStore.title}
         <div className="menu">
             <Link className="menu_button" to="/">Home</Link>
-            <Link className="menu_button" to="/settings">Settings</Link>
             <a onClick={_toggleView} style={{ cursor: 'pointer' }} className="menu_button">{'Change View'}</a>
             <Link className="menu_button" to="/appsettings">Edit Apps</Link>
+            <Link className="menu_button" to="/settings">Settings</Link>
         </div>
     </div>
     );
@@ -86,14 +87,17 @@ const Header = observer(() => {
 const Home = observer((props) => {
 
   const { globalStore } = useStores();
-  const appList = globalStore.apps;
-  const view = globalStore.view;
+
+  const {
+    apps: appList,
+    view
+  } = globalStore;
 
   return (
     <div className="card_container">
       {
         appList.map((app, index) => (
-          view === 'card' ? 
+          view === 'grid' ? 
             <Card key={app.url + index} item={app}/>
           :
             <SmallCard key={app.url + index} item={app}/>

@@ -189,7 +189,8 @@ const SettingsAppItem = observer((props) => {
             body: JSON.stringify({
                 apps: newApps,
                 theme: globalStore.theme,
-                title: globalStore.title
+                title: globalStore.title,
+                view: globalStore.view,
             })
         });
     }
@@ -216,13 +217,13 @@ const SettingsAppItem = observer((props) => {
             body: JSON.stringify({
                 apps: newApps,
                 theme: globalStore.theme,
-                title: globalStore.title
+                title: globalStore.title,
+                view: globalStore.view
             })
         });
     }
 
     const _chooseIcon = async (e) => {
-        console.log('here')
         setSelectedIcon(e.target.value);
         setSelectedIconValue(e.target.value);
         setCustomIcon(false);

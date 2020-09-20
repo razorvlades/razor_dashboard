@@ -10,7 +10,7 @@ export default class GlobalStore {
     theme = '';
     setTheme = theme => this.theme = theme;
 
-    view = 'card';
+    view = 'grid';
     setView = view => this.view = view;
 
     icons = [];

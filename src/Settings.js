@@ -1,7 +1,22 @@
 import React, { useState } from 'react';
+import { useStores } from './stores';
+import { observer } from 'mobx-react';
 import './settings.css';
 
-const Settings = (props) => {
+const views = [
+    {
+        name: 'Grid',
+        value: 'grid'
+    },
+    {
+        name: 'Small Grid',
+        value: 'small_grid'
+    }
+];
+
+const Settings = observer((props) => {
+
+    const { globalStore } = useStores();
 
     const settingsContainerStyle = {
         alignContent: 'center',
@@ -40,12 +55,31 @@ const Settings = (props) => {
         width: "100%"
     }
 
+    const _saveSettings = async () => {
+        await fetch('/updateConfig', {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                apps: globalStore.apps,
+                theme: globalStore.theme,
+                title: globalStore.title,
+                view: globalStore.view
+            })
+        });
+    }
+
     return (
         <div style={settingsContainerStyle}>
             <table style={tableStyle}>
                 <thead style={tableHeaderContainerStyle}>
                     <tr style={itemStyle}>
                         <th style={tableHeaderStyle}>Settings</th>
+                        <th style={tableHeaderStyle}>
+                            <button onClick={_saveSettings}>Save</button>
+                        </th>
                     </tr>
                 </thead>
 
@@ -55,38 +89,54 @@ const Settings = (props) => {
             </table>
         </div>
     )
-}
+});
 
-const DefaultViewSettingsItem = props => {
+const DefaultViewSettingsItem = observer((props) => {
 
-    // const itemStyle = {
-    //     backgroundColor: hover ? '#F2F3F6' : 'white',
-    //     paddingTop: 10,
-    //     paddingBottom: 10,
-    //     //cursor: 'pointer',
-    //     height: 60
-    // }
+    const { globalStore } = useStores();
 
-    // const columnStyle = {
-    //     paddingLeft: 15,
-    //     overflow:'wrap',
-    // }
+    const [hover, setHover] = useState(false);
+    const _setHoverOn = () => setHover(true);
+    const _setHoverOff = () => setHover(false);
 
-    return null
+    const itemStyle = {
+        backgroundColor: hover ? '#F2F3F6' : 'white',
+        paddingTop: 10,
+        paddingBottom: 10,
+        //cursor: 'pointer',
+        height: 60
+    }
 
-    // return (
-    //     <tr onMouseEnter={_setHoverOn} onMouseLeave={_setHoverOff} style={itemStyle}>
-    //         <td style={columnStyle}>
-    //             <input className='textInput' onChange={_changeName} value={name} type="text"/>
-    //         </td>
-    //         <td style={columnStyle}>
-    //             <input className='textInput' onChange={_changeUrl} value={url} type="text"/>
-    //         </td>
-    //         <td style={columnStyle}>
-    //             <input className='colorPicker' onChange={_chooseColor} value={selectedColor} id="bgcolor" type="color"/>
-    //         </td>
-    //     </tr>
-    // )
-}
+    const columnStyle = {
+        paddingLeft: 15,
+        overflow:'wrap',
+    }
+
+    const _chooseView = async (e) => {
+        globalStore.setView(e.target.value);
+    }
+
+    return (
+        <tr onMouseEnter={_setHoverOn} onMouseLeave={_setHoverOff} style={itemStyle}>
+            <td style={columnStyle}>
+                <div className='settingsOptionTitle'>Default View</div>
+            </td>
+            <td style={columnStyle}>
+                <select
+                    value={globalStore.view} 
+                    onChange={_chooseView}
+                >
+                    {
+                        views.map((item, index) => {
+                            return (
+                                <option key={item.value} value={item.value}>{item.name}</option>
+                            )
+                        })
+                    }
+                </select>
+            </td>
+        </tr>
+    )
+});
 
 export default Settings;
