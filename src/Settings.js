@@ -84,7 +84,8 @@ const Settings = observer((props) => {
                 </thead>
 
                 <tbody>
-                    <DefaultViewSettingsItem></DefaultViewSettingsItem>
+                    <DefaultViewSettingsItem/>
+                    <TitleTextSettingsItem/>
                 </tbody>
             </table>
         </div>
@@ -103,7 +104,6 @@ const DefaultViewSettingsItem = observer((props) => {
         backgroundColor: hover ? '#F2F3F6' : 'white',
         paddingTop: 10,
         paddingBottom: 10,
-        //cursor: 'pointer',
         height: 60
     }
 
@@ -134,6 +134,42 @@ const DefaultViewSettingsItem = observer((props) => {
                         })
                     }
                 </select>
+            </td>
+        </tr>
+    )
+});
+
+const TitleTextSettingsItem = observer((props) => {
+
+    const { globalStore } = useStores();
+
+    const [hover, setHover] = useState(false);
+    const _setHoverOn = () => setHover(true);
+    const _setHoverOff = () => setHover(false);
+
+    const itemStyle = {
+        backgroundColor: hover ? '#F2F3F6' : 'white',
+        paddingTop: 10,
+        paddingBottom: 10,
+        height: 60
+    }
+
+    const columnStyle = {
+        paddingLeft: 15,
+        overflow:'wrap',
+    }
+
+    const _changeTitle = async (e) => {
+        globalStore.setTitle(e.target.value);
+    }
+
+    return (
+        <tr onMouseEnter={_setHoverOn} onMouseLeave={_setHoverOff} style={itemStyle}>
+            <td style={columnStyle}>
+                <div className='settingsOptionTitle'>Title</div>
+            </td>
+            <td style={columnStyle}>
+                <input className='textInput' onChange={_changeTitle} value={globalStore.title} type="text"/>
             </td>
         </tr>
     )
