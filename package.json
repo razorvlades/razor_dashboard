@@ -6,10 +6,12 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "fs-extra": "^9.0.1",
     "mobx": "^5.15.6",
     "mobx-react": "^6.3.0",
+    "mongodb": "^3.6.2",
     "multer": "^1.4.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -18,7 +20,8 @@
   },
   "scripts": {
     "start": "node ./server/server.js",
-    "start-dev": "react-scripts start",
+    "start-dev": "nodemon ./server/server.js",
+    "start-react": "react-scripts start",
     "server": "node ./server/server.js",
     "start-all": "node ./server/server.js & react-scripts start",
     "build": "react-scripts build",
@@ -40,6 +43,8 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
   "proxy": "http://localhost:9078"
 }
