@@ -71,7 +71,7 @@ const sessionOptions = {
     resave: false,
     saveUninitialized: false,
     secret: process.env.SESSION_SECRET
-}
+};
 app.use(session(sessionOptions));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -80,9 +80,12 @@ passport.use(UserDetails.createStrategy());
 passport.serializeUser(UserDetails.serializeUser());
 passport.deserializeUser(UserDetails.deserializeUser());
 
-app.use(express.static(path.join(dir, '../build')))
-app.get('/', (req, res) => {
-    res.sendFile(path.join(dir, '../build', 'index.html'))
+app.use(express.static(path.join(dir, '../build')));
+
+const content_routes = ['/', '/appsettings', '/settings', '/login', '/register'];
+
+app.get(content_routes, (req, res) => {
+    res.sendFile(path.join(dir, '../build', 'index.html'));
 });
 
 app.get('/getIcons', (req, res) => {
