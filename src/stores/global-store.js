@@ -15,6 +15,9 @@ export default class GlobalStore {
 
     icons = [];
     setIcons = icons => this.icons = icons;
+
+    loggedIn = false;
+    setLoggedIn = loggedIn => this.loggedIn = loggedIn;
 }
 
 decorate(GlobalStore, {
@@ -27,5 +30,7 @@ decorate(GlobalStore, {
   view: observable,
   setView: action,
   icons: observable,
-  setIcons: action
+  setIcons: action,
+  loggedIn: observable,
+  setLoggedIn: action
 })

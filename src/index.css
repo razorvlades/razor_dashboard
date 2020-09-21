@@ -63,6 +63,7 @@ html {
 
 .menu_button:hover {
   color: white;
+  cursor: pointer;
 }
 
 .card_body {
