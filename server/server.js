@@ -7,6 +7,9 @@ const multer = require('multer');
 const crypto = require('crypto');
 const passport = require('passport');
 const session = require('express-session');
+const mongoose = require('mongoose');
+const passportLocalMongoose = require('passport-local-mongoose');
+const MongoStore = require('connect-mongo')(session);
 
 // get current directory
 const path = require('path');
@@ -22,9 +25,6 @@ const DB_PASS = process.env.DB_PASS;
 const DB_HOST = process.env.DB_HOST;
 const DB_NAME = process.env.DB_NAME;
 const DB_URI = "mongodb://" + DB_HOST + '/' + DB_NAME;
-
-const mongoose = require('mongoose');
-const passportLocalMongoose = require('passport-local-mongoose');
 
 const CONNECTION_SETTINGS = {
     useNewUrlParser: true,
@@ -43,7 +43,7 @@ const UserDetail = new Schema({
   password: String
 });
 
-UserDetail.plugin(passportLocalMongoose);
+UserDetail.plugin(passportLocalMongoose, { usernameLowerCase: true });
 const UserDetails = mongoose.model('user', UserDetail, 'user');
 
 if (!fs.existsSync(dir + '../config')) {
@@ -70,7 +70,8 @@ app.use(express.urlencoded({ extended: true }));
 const sessionOptions = {
     resave: false,
     saveUninitialized: false,
-    secret: process.env.SESSION_SECRET
+    secret: process.env.SESSION_SECRET,
+    store: new MongoStore({ mongooseConnection: mongoose.connection })
 };
 app.use(session(sessionOptions));
 app.use(passport.initialize());
@@ -168,8 +169,12 @@ app.post('/create_user', async (req, res) => {
 
     console.log(req.body);
 
-    UserDetails.register({ username: username, active: false }, password);
-    res.send({ registered: true });
+    UserDetails.register({ username: username, active: false }, password, (err, account) => {
+        if (err)
+            res.send({ registered: false });
+        else
+            res.send({ registered: true });
+    });
 });
 
 app.get('/user', (req, res, next) => {

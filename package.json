@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "connect-mongo": "^3.2.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
@@ -25,7 +26,7 @@
   },
   "scripts": {
     "start": "node ./server/server.js",
-    "start-dev": "nodemon ./server/server.js",
+    "start-dev": "nodemon --watch server ./server/server.js",
     "start-react": "react-scripts start",
     "server": "node ./server/server.js",
     "start-all": "node ./server/server.js & react-scripts start",

@@ -19,8 +19,8 @@ const Login = observer((props) => {
     const settingsContainerStyle = {
         alignContent: 'center',
         marginTop: 25,
-        marginLeft: 500,
-        marginRight: 500,
+        marginLeft: '30%',
+        marginRight: '30%',
         borderRadius: 10,
         marginBottom: 25,
         backgroundColor: 'white',
