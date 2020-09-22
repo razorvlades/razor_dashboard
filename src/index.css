@@ -22,10 +22,14 @@ html {
   background-size: cover;
 }
 
+body, html {
+  min-height: 100%;
+}
+
 @media screen and (min-width: 960px) {
   html {
-    width:100vw;
-    overflow-x:hidden;
+    width: 100vw;
+    overflow-x: hidden;
   }
 }
 
@@ -123,4 +127,8 @@ html {
   display: block;
   margin: auto;
   height: 130px;
+}
+
+button:hover {
+  cursor: pointer;
 }

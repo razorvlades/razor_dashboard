@@ -4,9 +4,7 @@ import { useStores } from './stores';
 import {
     useHistory,
     useLocation,
-    Link
-  } from "react-router-dom";
-import './login.css';
+} from "react-router-dom";
 
 const Login = observer((props) => {
 
@@ -17,18 +15,6 @@ const Login = observer((props) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [remember, setRemember] = useState(false);
-
-    const settingsContainerStyle = {
-        alignContent: 'center',
-        marginTop: 25,
-        marginLeft: '30%',
-        marginRight: '30%',
-        borderRadius: 10,
-        marginBottom: 25,
-        backgroundColor: 'white',
-        justifyContent: 'center',
-        overflow: 'hidden',
-    }
 
     const _onLogin = async (e) => {
         e.preventDefault();
@@ -68,23 +54,35 @@ const Login = observer((props) => {
     }
 
     return (
-        <div className='loginContainer'>
-            <form onSubmit={_onLogin} className="loginForm">
-                <label htmlFor="uname"><b>Username</b></label>
-                <input id="uname" className='textInput' onChange={_onUsernameChange} value={username} type="text" required/>
-                <br></br>
-                
-                <label htmlFor="psw"><b>Password</b></label>
-                <input id="psw" className='textInput' onChange={_onPasswordChange} value={password} type="password" required/>
-                <br></br>
+        <div class="container-login">
+			<div class="wrap-login">
+				<form class="login-form" onSubmit={_onLogin}>
+					<span class="login-form-logo">
+                        <img src={require('./icons/icon.png')} width='100%' height='100%' style={{ overflow: 'hidden', borderRadius: 100 }}/>
+					</span>
 
-                <input type="checkbox" id="remember_me_checkbox" checked={remember} onChange={_onRememberChange}/>
-                <label htmlFor="remember_me_checkbox">Remember me</label>
-                <br></br>
+					<span class="login-form-title">Log in</span>
 
-                <button className='button' type="submit">Login</button>
-            </form>
-            <Link className="menu_button" to="/register">Click here to create a new user</Link>
+					<div class="wrap-input" data-validate = "Enter username">
+						<input class="input" type="text" name="username" placeholder="Username" onChange={_onUsernameChange} value={username} required/>
+                        <span class="focus-input"/>
+                    </div>
+
+					<div class="wrap-input" data-validate="Enter password">
+						<input class="input" type="password" name="pass" placeholder="Password" onChange={_onPasswordChange} value={password} required/>
+                        <span class="focus-input"/>
+                    </div>
+
+					<div class="contact-form-checkbox">
+						<input class="input-checkbox" id="remember_me" type="checkbox" name="remember-me" checked={remember} onChange={_onRememberChange}/>
+						<label class="label-checkbox" htmlFor="remember_me">Remember me</label>
+					</div>
+
+					<div class="container-login-form-btn">
+						<button type="submit" class="login-form-btn">Login</button>
+					</div>
+				</form>
+			</div>
         </div>
     )
 });

@@ -12,6 +12,7 @@ import {
 } from "react-router-dom";
 import AppSettings from './EditApps';
 import Settings from './Settings';
+import './login.css';
 import './index.css';
 import Card from './Card';
 import SmallCard from './SmallCard';
@@ -57,9 +58,11 @@ const App = observer(() => {
     !configLoading && !checkingLogin && 
     <Router>
       <div className="page">
-        <div className="header">
-            <Header />
-        </div>
+        { globalStore.loggedIn &&
+          <div className="header">
+              <Header />
+          </div>
+        }
 
         <Switch>
           <PrivateRoute loggedIn={globalStore.loggedIn} exact path="/">
