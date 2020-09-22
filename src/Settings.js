@@ -72,7 +72,7 @@ const Settings = observer((props) => {
     }
 
     return (
-        <div style={settingsContainerStyle}>
+        <div className='settingsContainer'>
             <table style={tableStyle}>
                 <thead style={tableHeaderContainerStyle}>
                     <tr style={itemStyle}>

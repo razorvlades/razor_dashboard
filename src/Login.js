@@ -6,6 +6,7 @@ import {
     useLocation,
     Link
   } from "react-router-dom";
+import './login.css';
 
 const Login = observer((props) => {
 
@@ -15,6 +16,7 @@ const Login = observer((props) => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [remember, setRemember] = useState(false);
 
     const settingsContainerStyle = {
         alignContent: 'center',
@@ -39,7 +41,8 @@ const Login = observer((props) => {
             },
             body: JSON.stringify({
                 username,
-                password
+                password,
+                remember_me: remember
             })
         });
 
@@ -60,16 +63,26 @@ const Login = observer((props) => {
         setUsername(e.target.value);
     }
 
+    const _onRememberChange = (e) => {
+        setRemember(!remember);
+    }
+
     return (
-        <div style={settingsContainerStyle}>
-            <form onSubmit={_onLogin}>
-                <label for="uname"><b>Username</b></label>
-                <input className='textInput' onChange={_onUsernameChange} value={username} type="text" required/>
+        <div className='loginContainer'>
+            <form onSubmit={_onLogin} className="loginForm">
+                <label htmlFor="uname"><b>Username</b></label>
+                <input id="uname" className='textInput' onChange={_onUsernameChange} value={username} type="text" required/>
+                <br></br>
+                
+                <label htmlFor="psw"><b>Password</b></label>
+                <input id="psw" className='textInput' onChange={_onPasswordChange} value={password} type="password" required/>
+                <br></br>
 
-                <label for="psw"><b>Password</b></label>
-                <input className='textInput' onChange={_onPasswordChange} value={password} type="password" required/>
+                <input type="checkbox" id="remember_me_checkbox" checked={remember} onChange={_onRememberChange}/>
+                <label htmlFor="remember_me_checkbox">Remember me</label>
+                <br></br>
 
-                <button type="submit">Login</button>
+                <button className='button' type="submit">Login</button>
             </form>
             <Link className="menu_button" to="/register">Click here to create a new user</Link>
         </div>

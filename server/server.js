@@ -136,22 +136,32 @@ app.post('/login', (req, res, next) => {
     passport.authenticate('local',
     (err, user, info) => {
         console.log(user);
-      if (err) {
-        return next(err);
-      }
-  
-      if (!user) {
-        return res.send({ loggedIn: false });
-      }
-  
-      req.logIn(user, function(err) {
         if (err) {
-          return next(err);
+            return next(err);
         }
-  
-        return res.send({ loggedIn: true });
-      });
-  
+    
+        if (!user) {
+            res.send({ loggedIn: false });
+            return next();
+        }
+
+        console.log("remember me: ", req.body.remember_me);
+        if (req.body.remember_me) {
+            req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000;
+        }
+        else {
+            req.session.cookie.expires = false;
+        }
+
+        req.logIn(user, (err) => {
+            if (err) {
+                res.send({ loggedIn: false });
+                return next(err);
+            }
+            res.send({ loggedIn: true });
+            return next();
+        });
+        
     })(req, res, next);
 });
 
@@ -171,9 +181,9 @@ app.post('/create_user', async (req, res) => {
 
     UserDetails.register({ username: username, active: false }, password, (err, account) => {
         if (err)
-            res.send({ registered: false });
+            return res.send({ registered: false });
         else
-            res.send({ registered: true });
+            return res.send({ registered: true });
     });
 });
 
@@ -181,9 +191,9 @@ app.get('/user', (req, res, next) => {
     console.log('===== user!!======')
     console.log(req.user)
     if (req.user) {
-        res.json({ user: req.user })
+        res.json({ user: req.user });
     } else {
-        res.json({ user: null })
+        res.json({ user: null });
     }
 });
 

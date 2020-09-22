@@ -46,7 +46,9 @@ const EditApps = observer((props) => {
     const tableStyle = {
         textAlign: "left",
         borderCollapse: "collapse",
-        width: "100%"
+        width: "100%",
+        borderRadius: 10,
+        overflow: 'hidden'
     }
 
     const [hover, setHover] = useState(false);
@@ -59,7 +61,8 @@ const EditApps = observer((props) => {
         width: '100%',
         display: 'flex',
         alignItems: 'center',
-        paddingLeft: 15
+        overflow: 'hidden',
+        borderRadius: 10
     }
 
     const addApplication = () => {
@@ -76,7 +79,7 @@ const EditApps = observer((props) => {
     }
 
     return (
-        <div style={settingsContainerStyle}>
+        <div className='editAppsContainer'>
             {/* <Preview/> */}
             <table style={tableStyle}>
                 <thead style={tableHeaderContainerStyle}>
@@ -107,7 +110,7 @@ const EditApps = observer((props) => {
                 </tbody>
             </table>
                 <div onClick={addApplication} onMouseEnter={_toggleHover} onMouseLeave={_toggleHover} style={addAppStyle}>
-                    <div>Add New Application</div>
+                    <div style={{ paddingLeft: 15 }}>Add New Application</div>
                 </div>
         </div>
     )
@@ -132,19 +135,6 @@ const SettingsAppItem = observer((props) => {
     const [url, setUrl] = useState(app.url);
     const [name, setName] = useState(app.name);
     const [customIcon, setCustomIcon] = useState(app.customIcon);
-
-    const [hover, setHover] = useState(false);
-
-    const _setHoverOn = () => setHover(true);
-    const _setHoverOff = () => setHover(false);
-
-    const itemStyle = {
-        backgroundColor: hover ? '#F2F3F6' : 'white',
-        paddingTop: 10,
-        paddingBottom: 10,
-        //cursor: 'pointer',
-        height: 60
-    }
 
     const columnStyle = {
         paddingLeft: 15,
@@ -279,7 +269,7 @@ const SettingsAppItem = observer((props) => {
     }
 
     return (
-        <tr onMouseEnter={_setHoverOn} onMouseLeave={_setHoverOff} style={itemStyle}>
+        <tr className='editAppItem'>
             <td style={columnStyle}>
                 <input className='textInput' disabled={!editing} onChange={_changeName} value={name} type="text"/>
             </td>

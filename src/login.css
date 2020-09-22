@@ -1,0 +1,25 @@
+.loginContainer {
+    overflow: hidden;
+    justify-content: center;
+    margin: auto;
+    margin-top: 25px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    background-color: white;
+    align-content: center;
+    width: 800px;
+}
+
+@media screen and (max-width: 800px) {
+    .loginContainer {
+        width: 100vw;
+    }
+}
+
+.loginForm {
+    padding: 20px;
+}
+
+.button {
+    cursor: pointer;
+}

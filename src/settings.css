@@ -55,3 +55,50 @@ select {
 .colorPicker {
     cursor: pointer
 }
+
+.editAppsContainer {
+    align-content: 'center';
+    margin: auto;
+    margin-top: 25px;
+    width: calc(1700px - (100vw - 100%));
+    border-radius: 10px;
+    margin-bottom: 25px;
+    background-color: white;
+    justify-content: 'center';
+    overflow: 'hidden';
+}
+
+@media screen and (max-width: 1700px) {
+    .editAppsContainer {
+        width: calc(100vw - (100vw - 100%));
+    }
+}
+
+.settingsContainer {
+    overflow: hidden;
+    justify-content: center;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    background-color: white;
+    align-content: center;
+    width: 800px;
+    margin: auto;
+    margin-top: 25px;
+}
+
+@media screen and (max-width: 800px) {
+    .settingsContainer {
+        width: 100vw;
+    }
+}
+
+.editAppItem {
+    background-color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    height: 60px;
+}
+
+.editAppItem:hover {
+    background-color: #F2F3F6;
+}
