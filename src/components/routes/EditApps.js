@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import { useStores } from './stores';
+import { useStores } from '../../stores';
 import { observer } from 'mobx-react';
-import './settings.css';
-import Card from './Card';
 
 const EditApps = observer((props) => {
 
@@ -41,7 +39,9 @@ const EditApps = observer((props) => {
             editing: true,
             color: '#FFFFFF',
             customIcon: false,
-            customColor: true
+            customColor: true,
+            type: 'none',
+            enhanced: false
         }
         const newApps = [...globalStore.apps, newApp];
         globalStore.setApps(newApps);
@@ -105,6 +105,8 @@ const SettingsAppItem = observer((props) => {
     const [name, setName] = useState(app.name);
     const [customIcon, setCustomIcon] = useState(app.customIcon);
     const [customColor, setCustomColor] = useState(app.customColor);
+    const [type, setType] = useState(app.type);
+    const [enhanced, setEnhanced] = useState(app.enhanced);
 
     const columnStyle = {
         paddingLeft: 15,
@@ -165,7 +167,9 @@ const SettingsAppItem = observer((props) => {
             icon: selectedIcon,
             color: selectedColor,
             customIcon: customIcon,
-            customColor: customColor
+            customColor: customColor,
+            type: type,
+            enhanced: enhanced
         }
         globalStore.setApps(newApps);
 
@@ -188,6 +192,9 @@ const SettingsAppItem = observer((props) => {
         setSelectedIcon(e.target.value);
         setSelectedIconValue(e.target.value);
         setCustomIcon(false);
+        const data = globalStore.appsData.find(a => a.icon === e.target.value);
+        setType(data.type);
+        setEnhanced(data.enhanced);
     }
 
     const _chooseColor = async (e) => {
@@ -219,10 +226,6 @@ const SettingsAppItem = observer((props) => {
         setSelectedIconValue('custom');
         setSelectedIcon(imageName);
     }
-
-    React.useEffect(() => {
-        console.log(selectedIcon);
-    }, [selectedIcon]);
 
     const iconColumnStyle = {
         flex: 1,
@@ -263,7 +266,7 @@ const SettingsAppItem = observer((props) => {
                         {
                             <>
                             {
-                                globalStore.icons.map((item, index) => {
+                                globalStore.appsData.map((item, index) => {
                                     return (
                                         <option key={item.icon} value={item.icon}>{item.name}</option>
                                     )
@@ -296,17 +299,17 @@ const SettingsAppItem = observer((props) => {
     )
 });
 
-const Preview = (props) => {
-    const {
-        app
-    } = props;
+// const Preview = (props) => {
+//     const {
+//         app
+//     } = props;
 
-    return (
-        <div>
-            <Card item={app}/>
-        </div>
-    )
-}
+//     return (
+//         <div>
+//             <Card item={app}/>
+//         </div>
+//     )
+// }
 
 const uploadImage = async (image) => {
     let data = new FormData();

@@ -57,10 +57,6 @@
             "icon": "sonarr.png"
         },
         {
-            "name": "qBittorrent",
-            "icon": "qbittorrent.png"
-        },
-        {
             "name": "Pi-hole",
             "icon": "pihole.png"
         },

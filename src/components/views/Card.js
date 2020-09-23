@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { observer } from 'mobx-react';
-import { useStores } from './stores';
-import { lightTheme, darkTheme } from './themes';
+import { useStores } from '../../stores';
+import { lightTheme, darkTheme } from '../../themes';
 
 const Card = observer((props) => {
     const {

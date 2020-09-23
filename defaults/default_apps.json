@@ -1,0 +1,154 @@
+{
+    "apps": [
+        {
+            "name": "Tautulli",
+            "type": "tautulli",
+            "icon": "tautulli.png",
+            "enhanced": true
+        },
+        {
+            "name": "Netdata",
+            "type": "netdata",
+            "icon": "netdata.png",
+            "enhanced": false
+        },
+        {
+            "name": "Jellyfin",
+            "type": "jellyfin",
+            "icon": "jellyfin.png",
+            "enhanced": false
+        },
+        {
+            "name": "Plex",
+            "type": "plex",
+            "icon": "plex.png",
+            "enhanced": false
+        },
+        {
+            "name": "Nextcloud",
+            "type": "nextcloud",
+            "icon": "nextcloud.png",
+            "enhanced": false
+        },
+        {
+            "name": "Portainer",
+            "type": "portainer",
+            "icon": "portainer.png",
+            "enhanced": false
+        },
+        {
+            "name": "qBittorrent",
+            "type": "qbittorrent",
+            "icon": "qbittorrent.png",
+            "enhanced": false
+        },
+        {
+            "name": "ruTorrent",
+            "type": "rutorrent",
+            "icon": "rutorrent.png",
+            "enhanced": false
+        },
+        {
+            "name": "Shoko",
+            "type": "shoko",
+            "icon": "shoko.png",
+            "enhanced": false
+        },
+        {
+            "name": "Traefik",
+            "type": "traefik",
+            "icon": "traefik.png",
+            "enhanced": false
+        },
+        {
+            "name": "Radarr",
+            "type": "radarr",
+            "icon": "radarr.png",
+            "enhanced": false
+        },
+        {
+            "name": "Heimdall",
+            "type": "heimdall",
+            "icon": "heimdall.png",
+            "enhanced": false
+        },
+        {
+            "name": "Transmission",
+            "type": "transmission",
+            "icon": "transmission.png",
+            "enhanced": false
+        },
+        {
+            "name": "Sonarr",
+            "type": "sonarr",
+            "icon": "sonarr.png",
+            "enhanced": false
+        },
+        {
+            "name": "Pi-hole",
+            "type": "pihole",
+            "icon": "pihole.png",
+            "enhanced": false
+        },
+        {
+            "name": "Nginx Proxy Manager",
+            "type": "nginx",
+            "icon": "nginx.png",
+            "enhanced": false
+        },
+        {
+            "name": "Komga",
+            "type": "komga",
+            "icon": "komga.svg",
+            "enhanced": false
+        },
+        {
+            "name": "Kodi",
+            "type": "kodi",
+            "icon": "kodi.png",
+            "enhanced": false
+        },
+        {
+            "name": "Jackett",
+            "type": "jackett",
+            "icon": "jackett.png",
+            "enhanced": false
+        },
+        {
+            "name": "Emby",
+            "type": "emby",
+            "icon": "emby.png",
+            "enhanced": false
+        },
+        {
+            "name": "Deluge",
+            "type": "deluge",
+            "icon": "deluge.png",
+            "enhanced": false
+        },
+        {
+            "name": "Confluence",
+            "type": "confluence",
+            "icon": "confluence.png",
+            "enhanced": false
+        },
+        {
+            "name": "Bookstack",
+            "type": "bookstack",
+            "icon": "bookstack.png",
+            "enhanced": false
+        },
+        {
+            "name": "Bitwarden",
+            "type": "bitwarden",
+            "icon": "bitwarden.png",
+            "enhanced": false
+        },
+        {
+            "name": "Bazarr",
+            "type": "bazarr",
+            "icon": "bazarr.png",
+            "enhanced": false
+        }
+    ]
+}

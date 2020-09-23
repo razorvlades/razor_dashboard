@@ -10,6 +10,7 @@ const session = require('express-session');
 const mongoose = require('mongoose');
 const passportLocalMongoose = require('passport-local-mongoose');
 const MongoStore = require('connect-mongo')(session);
+const api_router = require('./routers/api');
 
 // get current directory
 const path = require('path');
@@ -63,18 +64,29 @@ if (!fs.existsSync(dir + '../config/config.json')) {
     fs.copyFileSync(dir + '../defaults/default_config.json', dir + '../config/config.json');
 }
 
+if (!fs.existsSync(dir + '../config/apps.json')) {
+    fs.copyFileSync(dir + '../defaults/default_apps.json', dir + '../config/apps.json');
+}
+
 const oldFile = fs.readFileSync(dir + '../defaults/default_icons.json');
-const newFile = fs.readFileSync( dir + '../config/icons.json');
+const newFile = fs.readFileSync(dir + '../config/icons.json');
 
 if (!oldFile.equals(newFile)) {
-    console.log('here');
     fs.copyFileSync(dir + '../defaults/default_icons.json', dir + '../config/icons.json');
     fs_extra.copy(dir + '../defaults/assets/icons', dir + '../config/assets/icons');
+}
+
+const oldFile1 = fs.readFileSync(dir + '../defaults/default_apps.json');
+const newFile1 = fs.readFileSync(dir + '../config/apps.json');
+
+if (!oldFile1.equals(newFile1)) {
+    fs.copyFileSync(dir + '../defaults/default_apps.json', dir + '../config/apps.json');
 }
 
 app.use(express.static('config/assets'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/api', api_router);
 
 const sessionOptions = {
     resave: false,
@@ -101,6 +113,11 @@ app.get(content_routes, (req, res) => {
 app.get('/getIcons', (req, res) => {
     const icons = fs.readFileSync(dir + '../config/icons.json');
     res.send(icons);
+});
+
+app.get('/getApps', (req, res) => {
+    const apps = fs.readFileSync(dir + '../config/apps.json');
+    res.send(apps);
 });
 
 app.get('/getConfig', (req, res) => {

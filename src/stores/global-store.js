@@ -13,11 +13,11 @@ export default class GlobalStore {
     view = 'grid';
     setView = view => this.view = view;
 
-    icons = [];
-    setIcons = icons => this.icons = icons;
-
     loggedIn = false;
     setLoggedIn = loggedIn => this.loggedIn = loggedIn;
+
+    appsData = [];
+    setAppsData = appsData => this.appsData = appsData;
 }
 
 decorate(GlobalStore, {
@@ -29,8 +29,8 @@ decorate(GlobalStore, {
   setTheme: action,
   view: observable,
   setView: action,
-  icons: observable,
-  setIcons: action,
   loggedIn: observable,
-  setLoggedIn: action
+  setLoggedIn: action,
+  appsData: observable,
+  setAppsData: action
 })

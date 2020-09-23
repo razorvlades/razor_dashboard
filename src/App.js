@@ -11,17 +11,16 @@ import {
 import { ThemeProvider } from "styled-components";
 import { GlobalStyles } from "./components/globalStyles";
 import { lightTheme, darkTheme } from "./themes";
-import AppSettings from './EditApps';
-import Settings from './Settings';
-import './login.css';
-import './index.css';
-import Cards from './Card';
-import SmallCards from './SmallCard';
+import AppSettings from './components/routes/EditApps';
+import Settings from './components/routes/Settings';
+import './css/login.css';
+import './css/index.css';
+import './css/settings.css';
+import Cards from './components/views/Card';
+import SmallCards from './components/views/SmallCard';
 import CompactCards from './components/views/CompactCard';
-import Login from './Login';
-import Signup from './Signup';
-
-global.iconPath = __dirname + 'src/assets/icons/';
+import Login from './components/routes/Login';
+import Signup from './components/routes/Signup';
 
 const App = observer(() => {
 
@@ -41,9 +40,9 @@ const App = observer(() => {
       setConfigLoading(false);
     });
 
-    fetch('/getIcons').then(async (res) => {
-      const icons = await res.json();
-      globalStore.setIcons(icons.icons);
+    fetch('/getApps').then(async (res) => {
+      const appsData = await res.json();
+      globalStore.setAppsData(appsData.apps);
     });
 
     fetch('/user/').then(async (res) => {
