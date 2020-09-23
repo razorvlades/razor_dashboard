@@ -46,7 +46,7 @@
             "name": "ruTorrent",
             "type": "rutorrent",
             "icon": "rutorrent.png",
-            "enhanced": false
+            "enhanced": true
         },
         {
             "name": "Shoko",

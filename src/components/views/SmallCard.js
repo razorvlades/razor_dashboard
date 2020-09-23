@@ -3,6 +3,7 @@ import '../../css/small_card.css';
 import { observer } from 'mobx-react';
 import { useStores } from '../../util/stores';
 import { lightTheme, darkTheme } from '../../util/themes';
+import { retrieveApiData } from '../../util/enhancedAppsController';
 
 const SmallCard = observer((props) => {
 
@@ -29,27 +30,25 @@ const SmallCard = observer((props) => {
   }, [globalStore.theme]);
   
   useEffect(() => {
-    const getTautulliStats = async () => {
-      const res = await fetch('/api/tautulli?url=' + url);
-      const json = await res.json();
-      const data_left = {
-        title: json[0].section_name,
-        content: json[0].count
-      }
-      const data_right = {
-        title: json[1].section_name,
-        content: json[1].count
-      }
+    const getApiData = async () => {
+      const {
+        data_left,
+        data_right
+      } = await retrieveApiData(type, url);
       setDataLeft(data_left);
       setDataRight(data_right);
     }
-    
-    if (type === 'tautulli') {
-      getTautulliStats();
+
+    let getApiDataInterval;
+    if (enhanced) {
+      getApiData();
+      getApiDataInterval = setInterval(getApiData, 5000);
+    }
+
+    return () => {
+      clearInterval(getApiDataInterval);
     }
   }, []);
-
-  
 
   return (
     <a style={{ backgroundColor: customColor ? color : theme.body }} className="smallcard" href={url} target="_blank" >
