@@ -17,7 +17,7 @@ textarea:focus:-moz-placeholder { color:transparent; }
 textarea:focus::-moz-placeholder { color:transparent; }
 textarea:focus:-ms-input-placeholder { color:transparent; }
   
-input::-webkit-input-placeholder { color: #fff;}
+/* input::-webkit-input-placeholder { color: #fff;}
 input:-moz-placeholder { color: #fff;}
 input::-moz-placeholder { color: #fff;}
 input:-ms-input-placeholder { color: #fff;}
@@ -25,7 +25,7 @@ input:-ms-input-placeholder { color: #fff;}
 textarea::-webkit-input-placeholder { color: #fff;}
 textarea:-moz-placeholder { color: #fff;}
 textarea::-moz-placeholder { color: #fff;}
-textarea:-ms-input-placeholder { color: #fff;}
+textarea:-ms-input-placeholder { color: #fff;} */
   
 .container-login {
     width: 100%;  
@@ -63,7 +63,6 @@ textarea:-ms-input-placeholder { color: #fff;}
     border-radius: 10px;
     overflow: hidden;
     padding: 55px;
-    background: #ae7ffa;
 }
   
 .login-form {
@@ -90,7 +89,6 @@ textarea:-ms-input-placeholder { color: #fff;}
   
 .login-form-title {
     font-size: 30px;
-    color: #fff;
     line-height: 1.2;
     text-align: center;
     text-transform: uppercase;
@@ -102,13 +100,11 @@ textarea:-ms-input-placeholder { color: #fff;}
 .wrap-input {
     width: 100%;
     position: relative;
-    border-bottom: 2px solid rgba(255,255,255,0.24);
     margin-bottom: 30px;
 }
   
 .input {
     font-size: 16px;
-    color: #fff;
     line-height: 1.2;
     display: block;
     width: 100%;
@@ -139,12 +135,12 @@ textarea:-ms-input-placeholder { color: #fff;}
     -o-transition: background-color 0.4s ease;
     -moz-transition: background-color 0.4s ease;
     transition: background-color 0.4s ease;
-    background: #fff;
+    /* background: #fff; */
 }
   
 .focus-input::after {
     font-size: 22px;
-    color: #fff;
+    /* color: #fff; */
   
     content: attr(data-placeholder);
     display: block;
@@ -207,7 +203,6 @@ textarea:-ms-input-placeholder { color: #fff;}
   
 .label-checkbox {
     font-size: 13px;
-    color: #fff;
     display: inline-block;
     position: absolute;
     padding-left: 10px;
@@ -225,7 +220,7 @@ textarea:-ms-input-placeholder { color: #fff;}
     outline: none !important;
     border: none; 
     font-size: 16px;
-    color: #555555;
+    
     line-height: 1.2;
 
     display: flex;
@@ -235,8 +230,6 @@ textarea:-ms-input-placeholder { color: #fff;}
     min-width: 120px;
     height: 50px;
     border-radius: 25px;
-  
-    background: #9152f8;
     position: relative;
     z-index: 1;
   
@@ -263,10 +256,6 @@ textarea:-ms-input-placeholder { color: #fff;}
     -o-transition: all 0.4s;
     -moz-transition: all 0.4s;
     transition: all 0.4s;
-}
-  
-.login-form-btn:hover {
-    color: #fff;
 }
   
 .login-form-btn:hover:before {

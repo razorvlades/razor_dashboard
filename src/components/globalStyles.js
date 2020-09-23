@@ -57,4 +57,57 @@ export const GlobalStyles = createGlobalStyle`
     .addAppStyle:hover {
         background-color: ${({ theme }) => theme.hover};
     }
+
+    .wrap-login {
+        background: ${({ theme }) => theme.body};
+    }
+
+    .login-form-btn {
+        background: ${({ theme }) => theme.button_hover};
+        color: ${({ theme }) => theme.body};
+    }
+
+    .login-form-btn::before {
+        background-color: ${({ theme }) => theme.button};
+        color: ${({ theme }) => theme.body};
+    }
+
+    .login-form-btn:hover {
+        background: ${({ theme }) => theme.button_hover};
+        color: ${({ theme }) => theme.accent};
+    }
+
+    .login-form-title {
+        color: ${({ theme }) => theme.accent};
+    }
+
+    .input {
+        color: ${({ theme }) => theme.accent};
+    }
+
+    .focus-input::before {
+        background: ${({ theme }) => theme.accent};
+    }
+
+    .focus-input::after {
+        color: ${({ theme }) => theme.accent};
+    }
+
+    input::-webkit-input-placeholder { color: ${({ theme }) => theme.accent}; }
+    input:-moz-placeholder { color: ${({ theme }) => theme.accent}; }
+    input::-moz-placeholder { color: ${({ theme }) => theme.accent}; }
+    input:-ms-input-placeholder { color: ${({ theme }) => theme.accent}; }
+
+    textarea::-webkit-input-placeholder { color: ${({ theme }) => theme.accent}; }
+    textarea:-moz-placeholder { color: ${({ theme }) => theme.accent}; }
+    textarea::-moz-placeholder { color: ${({ theme }) => theme.accent}; }
+    textarea:-ms-input-placeholder { color: ${({ theme }) => theme.accent}; }
+
+    .wrap-input {
+        border-bottom: 2px solid ${({ theme }) => theme.text_input_underline};;
+    }
+
+    .label-checkbox {
+        color: ${({ theme }) => theme.accent}
+    }
   `
