@@ -63,7 +63,6 @@ select {
     width: calc(1700px - (100vw - 100%));
     border-radius: 10px;
     margin-bottom: 25px;
-    background-color: white;
     justify-content: 'center';
     overflow: 'hidden';
 }
@@ -79,7 +78,6 @@ select {
     justify-content: center;
     border-radius: 10px;
     margin-bottom: 25px;
-    background-color: white;
     align-content: center;
     width: 800px;
     margin: auto;
@@ -92,13 +90,14 @@ select {
     }
 }
 
-.editAppItem {
-    background-color: white;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    height: 60px;
-}
-
-.editAppItem:hover {
-    background-color: #F2F3F6;
+.addAppStyle {
+    cursor: pointer;
+    height: 40px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 10px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
 }

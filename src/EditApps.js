@@ -12,31 +12,11 @@ const EditApps = observer((props) => {
     const [currentApp, setCurrentApp] = useState({});
     const [editLock, setEditLock] = useState(false);
 
-    const settingsContainerStyle = {
-        alignContent: 'center',
-        marginTop: 25,
-        marginLeft: 150,
-        marginRight: 150,
-        borderRadius: 10,
-        marginBottom: 25,
-        backgroundColor: 'white',
-        justifyContent: 'center',
-        overflow: 'hidden',
-    }
-
-    const itemStyle = {
-        backgroundColor: '#F2F3F6',
-        paddingTop: 10,
-        paddingBottom: 10,
-        height: 40,
-    }
-
     const tableHeaderStyle = {
         paddingTop: 12,
         paddingBottom: 12,
         paddingLeft: 15,
         textAlign: 'left',
-        backgroundColor: '#F2F3F6',
     }
 
     const tableHeaderContainerStyle = {
@@ -48,21 +28,9 @@ const EditApps = observer((props) => {
         borderCollapse: "collapse",
         width: "100%",
         borderRadius: 10,
-        overflow: 'hidden'
-    }
-
-    const [hover, setHover] = useState(false);
-    const _toggleHover = () => setHover(!hover);
-
-    const addAppStyle = {
-        backgroundColor: hover ? '#F2F3F6' : 'white',
-        cursor: 'pointer',
-        height: 40,
-        width: '100%',
-        display: 'flex',
-        alignItems: 'center',
         overflow: 'hidden',
-        borderRadius: 10
+        borderBottomRightRadius: 0,
+        borderBottomLeftRadius: 0
     }
 
     const addApplication = () => {
@@ -72,7 +40,8 @@ const EditApps = observer((props) => {
             icon: 'plex.png',
             editing: true,
             color: '#FFFFFF',
-            customIcon: false
+            customIcon: false,
+            customColor: true
         }
         const newApps = [...globalStore.apps, newApp];
         globalStore.setApps(newApps);
@@ -83,7 +52,7 @@ const EditApps = observer((props) => {
             {/* <Preview/> */}
             <table style={tableStyle}>
                 <thead style={tableHeaderContainerStyle}>
-                    <tr style={itemStyle}>
+                    <tr className="settingsTableHeader">
                         <th style={tableHeaderStyle}>Name</th>
                         <th style={tableHeaderStyle}>URL</th>
                         <th style={tableHeaderStyle}>Icon</th>
@@ -109,7 +78,7 @@ const EditApps = observer((props) => {
                     }
                 </tbody>
             </table>
-                <div onClick={addApplication} onMouseEnter={_toggleHover} onMouseLeave={_toggleHover} style={addAppStyle}>
+                <div onClick={addApplication} className="addAppStyle">
                     <div style={{ paddingLeft: 15 }}>Add New Application</div>
                 </div>
         </div>
@@ -135,6 +104,7 @@ const SettingsAppItem = observer((props) => {
     const [url, setUrl] = useState(app.url);
     const [name, setName] = useState(app.name);
     const [customIcon, setCustomIcon] = useState(app.customIcon);
+    const [customColor, setCustomColor] = useState(app.customColor);
 
     const columnStyle = {
         paddingLeft: 15,
@@ -194,7 +164,8 @@ const SettingsAppItem = observer((props) => {
             url: url,
             icon: selectedIcon,
             color: selectedColor,
-            customIcon: customIcon
+            customIcon: customIcon,
+            customColor: customColor
         }
         globalStore.setApps(newApps);
 
@@ -268,8 +239,12 @@ const SettingsAppItem = observer((props) => {
         alignSelf: 'center'
     }
 
+    const _toggleCustomColor = (e) => {
+        setCustomColor(!customColor);
+    }
+
     return (
-        <tr className='editAppItem'>
+        <tr className='settingsItem'>
             <td style={columnStyle}>
                 <input className='textInput' disabled={!editing} onChange={_changeName} value={name} type="text"/>
             </td>
@@ -302,6 +277,10 @@ const SettingsAppItem = observer((props) => {
             </td>
             <td style={columnStyle}>
                 <input className='colorPicker' disabled={!editing} onChange={_chooseColor} value={selectedColor} id="bgcolor" type="color"/>
+                <div style={{ paddingTop: 5 }}>
+                    <input disabled={!editing} id="customColor" type="checkbox" name="customColor" checked={customColor} onChange={_toggleCustomColor}/>
+                    <label htmlFor="customColor">Custom</label>
+                </div>
             </td>
             <td style={columnStyle}>
                 <button onClick={_toggleEditing}>

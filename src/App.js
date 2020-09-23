@@ -7,9 +7,10 @@ import {
   Route,
   Link,
   Redirect,
-  useHistory,
-  useLocation
 } from "react-router-dom";
+import { ThemeProvider } from "styled-components";
+import { GlobalStyles } from "./components/globalStyles";
+import { lightTheme, darkTheme } from "./themes";
 import AppSettings from './EditApps';
 import Settings from './Settings';
 import './login.css';
@@ -55,35 +56,40 @@ const App = observer(() => {
   }, []);
 
   return (
-    !configLoading && !checkingLogin && 
-    <Router>
-      <div className="page">
-        { globalStore.loggedIn &&
-          <div className="header">
-              <Header />
+    <ThemeProvider theme={globalStore.theme === 'light' ? lightTheme : darkTheme}>
+      <GlobalStyles/>
+      {
+        !configLoading && !checkingLogin && 
+        <Router>
+          <div className="page">
+            { globalStore.loggedIn &&
+              <div className="header">
+                  <Header />
+              </div>
+            }
+
+            <Switch>
+              <PrivateRoute loggedIn={globalStore.loggedIn} exact path="/">
+                <Home/>
+              </PrivateRoute>
+              <PrivateRoute loggedIn={globalStore.loggedIn} path="/appsettings">
+                <AppSettings/>
+              </PrivateRoute>
+              <PrivateRoute loggedIn={globalStore.loggedIn} path="/settings">
+                <Settings/>
+              </PrivateRoute>
+              <Route path="/login">
+                <Login/>
+              </Route>
+              <Route path="/register">
+                <Signup/>
+              </Route>
+            </Switch>
+
           </div>
-        }
-
-        <Switch>
-          <PrivateRoute loggedIn={globalStore.loggedIn} exact path="/">
-            <Home/>
-          </PrivateRoute>
-          <PrivateRoute loggedIn={globalStore.loggedIn} path="/appsettings">
-            <AppSettings/>
-          </PrivateRoute>
-          <PrivateRoute loggedIn={globalStore.loggedIn} path="/settings">
-            <Settings/>
-          </PrivateRoute>
-          <Route path="/login">
-            <Login/>
-          </Route>
-          <Route path="/register">
-            <Signup/>
-          </Route>
-        </Switch>
-
-      </div>
-    </Router>
+        </Router>
+      }
+    </ThemeProvider>
   );
 })
 
@@ -94,11 +100,10 @@ const Header = observer(() => {
   const _onLogout = async () => {
     globalStore.setLoggedIn(false);
     const res = await fetch('/logout');
-    const json = await res.json();
   }
 
   return (
-    <div className="hd">
+    <div className='globalTitle'>
         {globalStore.title}
         <div className="menu">
             <Link className="menu_button" to="/">Home</Link>
