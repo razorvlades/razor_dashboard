@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { observer } from 'mobx-react';
-import { useStores } from '../../stores';
+import { useStores } from '../../util/stores';
 import {
     useHistory,
     useLocation

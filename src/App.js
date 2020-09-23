@@ -1,26 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
-import { useStores } from './stores';
+import { useStores } from './util/stores';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
   Redirect,
 } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
-import { GlobalStyles } from "./components/globalStyles";
-import { lightTheme, darkTheme } from "./themes";
-import AppSettings from './components/routes/EditApps';
-import Settings from './components/routes/Settings';
+import { GlobalStyles } from "./util/globalStyles";
+import { lightTheme, darkTheme } from "./util/themes";
 import './css/login.css';
 import './css/index.css';
 import './css/settings.css';
-import Cards from './components/views/Card';
-import SmallCards from './components/views/SmallCard';
-import CompactCards from './components/views/CompactCard';
 import Login from './components/routes/Login';
 import Signup from './components/routes/Signup';
+import Header from './components/Header';
+import Home from './components/routes/Home';
+import AppSettings from './components/routes/EditApps';
+import Settings from './components/routes/Settings';
 
 const App = observer(() => {
 
@@ -92,45 +90,6 @@ const App = observer(() => {
     </ThemeProvider>
   );
 })
-
-const Header = observer(() => {
-
-  const { globalStore } = useStores();
-
-  const _onLogout = async () => {
-    globalStore.setLoggedIn(false);
-    const res = await fetch('/logout');
-  }
-
-  return (
-    <div className='globalTitle'>
-        {globalStore.title}
-        <div className="menu">
-            <Link className="menu_button" to="/">Home</Link>
-            <Link className="menu_button" to="/appsettings">Edit Apps</Link>
-            <Link className="menu_button" to="/settings">Settings</Link>
-            <a className="menu_button" onClick={_onLogout} >{'Logout'}</a>
-        </div>
-    </div>
-    );
-});
-
-const Home = observer((props) => {
-
-  const { globalStore } = useStores();
-
-  const {
-    view
-  } = globalStore;
-
-  return (
-      view === 'grid' ? 
-        <Cards/>
-      : view === 'small_grid' ?
-        <SmallCards/>
-      : <CompactCards/>
-    )
-});
 
 const PrivateRoute = ({ loggedIn, children, ...rest }) => {
 

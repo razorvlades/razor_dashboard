@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import '../../css/small_card.css';
 import { observer } from 'mobx-react';
-import { useStores } from '../../stores';
-import { lightTheme, darkTheme } from '../../themes';
+import { useStores } from '../../util/stores';
+import { lightTheme, darkTheme } from '../../util/themes';
 
 const SmallCard = observer((props) => {
 

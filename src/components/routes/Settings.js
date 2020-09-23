@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useStores } from '../../stores';
+import { useStores } from '../../util/stores';
 import { observer } from 'mobx-react';
 
 const views = [
