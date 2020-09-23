@@ -28,7 +28,7 @@ export const GlobalStyles = createGlobalStyle`
     }
 
     .menu_button:hover {
-        color: ${({ theme }) => theme.dark ? "black" : "white"};
+        color: ${({ theme }) => theme.dark ? "white" : "black"};
         cursor: pointer;
     }
 
