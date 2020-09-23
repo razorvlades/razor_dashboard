@@ -11,6 +11,10 @@ const views = [
     {
         name: 'Small Grid',
         value: 'small_grid'
+    },
+    {
+        name: 'Compact Grid',
+        value: 'compact_grid'
     }
 ];
 

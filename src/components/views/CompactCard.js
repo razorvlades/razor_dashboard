@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import './small_card.css';
+import '../../css/compact_card.css';
 import { observer } from 'mobx-react';
-import { useStores } from './stores';
-import { lightTheme, darkTheme } from './themes';
+import { useStores } from '../../stores';
+import { lightTheme, darkTheme } from '../../themes';
 
-const SmallCard = observer((props) => {
+const CompactCard = observer((props) => {
 
   const {
     name,
@@ -25,19 +25,18 @@ const SmallCard = observer((props) => {
   }, [globalStore.theme]);
 
   return (
-    <a style={{ backgroundColor: customColor ? color : theme.body }} className="smallcard" href={url} target="_blank" >
-      <div style={{ color: customColor ? 'white' : theme.text }} className="smallcard_icon_container">
+    <a style={{ backgroundColor: customColor ? color : theme.body }} className="compact_card" href={url} target="_blank" >
+      <div style={{ color: customColor ? 'white' : theme.text }} className="compact_card_icon_container">
           <img src={'/icons/' + icon} alt={url}></img>
       </div>
-      <div className="smallcard_name_container">
+      <div className="compact_card_name_container">
         {name}
       </div>
     </a>
   )
 });
 
-
-const SmallCards = observer((props) => {
+const CompactCards = observer((props) => {
   const { globalStore } = useStores();
 
   const {
@@ -45,14 +44,14 @@ const SmallCards = observer((props) => {
   } = globalStore;
 
   return (
-    <div className="card_container">
+    <div className="compact_card_container">
       {
         appList.map((app, index) => (
-         <SmallCard key={app.url + index} item={app}/>
+         <CompactCard key={app.url + index} item={app}/>
         ))
       }
     </div>
   )
 });
 
-export default SmallCards;
+export default CompactCards;

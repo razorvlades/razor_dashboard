@@ -47,6 +47,62 @@
         {
             "name": "Heimdall",
             "icon": "heimdall.png"
+        },
+        {
+            "name": "Transmission",
+            "icon": "transmission.png"
+        },
+        {
+            "name": "Sonarr",
+            "icon": "sonarr.png"
+        },
+        {
+            "name": "qBittorrent",
+            "icon": "qbittorrent.png"
+        },
+        {
+            "name": "Pi-hole",
+            "icon": "pihole.png"
+        },
+        {
+            "name": "Nginx Proxy Manager",
+            "icon": "nginx.png"
+        },
+        {
+            "name": "Komga",
+            "icon": "komga.svg"
+        },
+        {
+            "name": "Kodi",
+            "icon": "kodi.png"
+        },
+        {
+            "name": "Jackett",
+            "icon": "jackett.png"
+        },
+        {
+            "name": "Emby",
+            "icon": "emby.png"
+        },
+        {
+            "name": "Deluge",
+            "icon": "deluge.png"
+        },
+        {
+            "name": "Confluence",
+            "icon": "confluence.png"
+        },
+        {
+            "name": "Bookstack",
+            "icon": "bookstack.png"
+        },
+        {
+            "name": "Bitwarden",
+            "icon": "bitwarden.png"
+        },
+        {
+            "name": "Bazarr",
+            "icon": "bazarr.png"
         }
     ]
 }

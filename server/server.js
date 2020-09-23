@@ -63,6 +63,15 @@ if (!fs.existsSync(dir + '../config/config.json')) {
     fs.copyFileSync(dir + '../defaults/default_config.json', dir + '../config/config.json');
 }
 
+const oldFile = fs.readFileSync(dir + '../defaults/default_icons.json');
+const newFile = fs.readFileSync( dir + '../config/icons.json');
+
+if (!oldFile.equals(newFile)) {
+    console.log('here');
+    fs.copyFileSync(dir + '../defaults/default_icons.json', dir + '../config/icons.json');
+    fs_extra.copy(dir + '../defaults/assets/icons', dir + '../config/assets/icons');
+}
+
 app.use(express.static('config/assets'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

@@ -1,0 +1,62 @@
+.compact_card_container {
+    display: grid;
+    grid-template-columns: repeat(4, 350px);
+    /* grid-template-columns: repeat(auto-fill, minmax(350px, 350px)); */
+    grid-gap: 20px;
+    justify-content: center;
+    align-content: center;
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+@media screen and (max-width: 1500px) {
+    .compact_card_container {
+        grid-template-columns: repeat(auto-fill, minmax(350px, 350px));
+    }
+  }
+
+.compact_card_body {
+    font: 20px "Century Gothic", Futura, sans-serif;
+}
+    
+.compact_card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    cursor: pointer;
+    color:  rgb(68, 67, 67);
+    top: -7px;
+}
+    
+.compact_card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+    transition: 0.3s;
+    padding: 16px;
+    color: black;
+    border-radius: 10px;
+    height: 60px;
+  
+    -webkit-transition-duration: 0.2s; /* Safari */
+    transition-duration: 0.2s;
+    text-decoration: none;
+  
+    position: relative;
+    top: 0;
+    transition: top ease 0.5s;
+    display: flex;
+    padding-left: 20px;
+}
+    
+.compact_card img {
+    height: 50px;
+}
+  
+.compact_card_name_container {
+    flex: 5;
+    text-align: center;
+    align-self: center;
+}
+  
+.compact_card_icon_container {
+    justify-self: center;
+    align-self: center;
+    flex: 1;
+}

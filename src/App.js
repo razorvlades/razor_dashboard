@@ -15,8 +15,9 @@ import AppSettings from './EditApps';
 import Settings from './Settings';
 import './login.css';
 import './index.css';
-import Card from './Card';
-import SmallCard from './SmallCard';
+import Cards from './Card';
+import SmallCards from './SmallCard';
+import CompactCards from './components/views/CompactCard';
 import Login from './Login';
 import Signup from './Signup';
 
@@ -120,22 +121,16 @@ const Home = observer((props) => {
   const { globalStore } = useStores();
 
   const {
-    apps: appList,
     view
   } = globalStore;
 
   return (
-    <div className="card_container">
-      {
-        appList.map((app, index) => (
-          view === 'grid' ? 
-            <Card key={app.url + index} item={app}/>
-          :
-            <SmallCard key={app.url + index} item={app}/>
-        ))
-      }
-    </div>
-  )
+      view === 'grid' ? 
+        <Cards/>
+      : view === 'small_grid' ?
+        <SmallCards/>
+      : <CompactCards/>
+    )
 });
 
 const PrivateRoute = ({ loggedIn, children, ...rest }) => {

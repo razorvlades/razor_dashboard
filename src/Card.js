@@ -38,4 +38,22 @@ const Card = observer((props) => {
     )
 });
 
-export default Card;
+const Cards = observer((props) => {
+  const { globalStore } = useStores();
+
+  const {
+    apps: appList,
+  } = globalStore;
+
+  return (
+    <div className="card_container">
+      {
+        appList.map((app, index) => (
+         <Card key={app.url + index} item={app}/>
+        ))
+      }
+    </div>
+  )
+});
+
+export default Cards;
