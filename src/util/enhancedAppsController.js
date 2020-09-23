@@ -38,12 +38,12 @@ const getRuTorrentStats = async (url) => {
     
     const data_left = {
         title: "DL Speed",
-        content: json.data_left.toFixed(2) + ' mbps'
+        content: json.data_left.toFixed(2) + ' MB/s'
     };
   
     const data_right = {
         title: "UL Speed",
-        content: json.data_right.toFixed(2) + ' mbps'
+        content: json.data_right.toFixed(2) + ' MB/s'
     };
 
     return { data_left, data_right };
