@@ -54,4 +54,44 @@ router.get('/rutorrent', async (req, res) => {
     });
 });
 
+router.get('/radarr', async (req, res) => {
+    const url = req.query.url;
+    const api_key = process.env.RADARR_API_KEY;
+
+    let fetch_url = `${url}/api/queue?apiKey=${api_key}`;
+    let result = await fetch(fetch_url);
+    let json = await result.json();
+    
+    const queue_length = json.length;
+
+    fetch_url = `${url}/api/movie?apiKey=${api_key}`;
+    result = await fetch(fetch_url);
+    json = await result.json();
+   
+    let missing_count = 0;
+    for (let movie of json) {
+        if (!movie.hasFile)
+            missing_count++;
+    }
+
+    res.send({ missing_count, queue_length });
+});
+
+router.get('/jellyfin', async (req, res) => {
+    const url = req.query.url;
+    const api_key = process.env.JELLYFIN_API_KEY;
+
+    const fetch_url = `${url}/emby/Items/Counts`;
+    const result = await fetch(fetch_url, {
+        headers: {
+            'X-MediaBrowser-Token': api_key
+        }
+    });
+
+    const json = await result.json();
+
+    res.send(json);
+});
+
+
 module.exports = router;

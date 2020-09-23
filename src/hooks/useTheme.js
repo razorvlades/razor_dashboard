@@ -7,7 +7,6 @@ const useTheme = (store) => {
 
     useEffect(() => {
         setThemeName(store.theme);
-        console.log(store.themeName);
     }, []);
 
     const theme = themeName === 'light' ? lightTheme :

@@ -16,7 +16,7 @@
             "name": "Jellyfin",
             "type": "jellyfin",
             "icon": "jellyfin.png",
-            "enhanced": false
+            "enhanced": true
         },
         {
             "name": "Plex",
@@ -64,7 +64,7 @@
             "name": "Radarr",
             "type": "radarr",
             "icon": "radarr.png",
-            "enhanced": false
+            "enhanced": true
         },
         {
             "name": "Heimdall",
