@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import { useStores } from '../../util/stores';
 import { lightTheme, darkTheme } from '../../util/themes';
 
-const CompactCard = observer((props) => {
+export const CompactCard = observer((props) => {
 
   const {
     name,

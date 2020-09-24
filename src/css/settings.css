@@ -130,6 +130,30 @@ select {
     height: 40px;
 }
 
+.settings_item_title_container {
+    padding-left: 15px;
+    overflow: wrap;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.settingsOptionTitle {
+    flex: 1;
+}
+
+.settings_item_select {
+   width: 75%;
+}
+
+.settings_item_input_container {
+    padding-left: 15px;
+    overflow: wrap;
+    flex: 1;
+    display: flex;
+}
+
 .settings_item_name_container {
     overflow: wrap;
     display: flex;
@@ -164,36 +188,33 @@ select {
 }
 
 .table_header_name {
-    padding-top: 12;
-    padding-bottom: 12;
-    padding-left: 15;
-    text-align: center;
     flex: 3;
     font-weight: bold;
+    align-self: center;
+    justify-self: center;
+    text-align: center;
 }
 
 .table_header_url {
-    padding-top: 12;
-    padding-bottom: 12;
-    padding-left: 15;
+    align-self: center;
+    justify-self: center;
+    text-align: center;
     text-align: center;
     flex: 3;
     font-weight: bold;
 }
 
 .table_header_edit {
-    padding-top: 12;
-    padding-bottom: 12;
-    padding-left: 15;
+    align-self: center;
+    justify-self: center;
     text-align: center;
     flex: 1;
     font-weight: bold;
 }
 
 .table_header_delete {
-    padding-top: 12;
-    padding-bottom: 12;
-    padding-left: 15;
+    align-self: center;
+    justify-self: center;
     text-align: center;
     flex: 1;
     font-weight: bold;
@@ -206,10 +227,15 @@ select {
 }
 
 .edit_page_link {
+    display: flex;
     flex: 1;
     align-self: center;
     text-align: center;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
     color: white;
+    height: 100%;
     text-decoration: none;
 }
 

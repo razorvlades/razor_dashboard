@@ -104,7 +104,7 @@ passport.deserializeUser(UserDetails.deserializeUser());
 
 app.use(express.static(path.join(dir, '../build')));
 
-const content_routes = ['/', '/appsettings', '/settings', '/login', '/register'];
+const content_routes = ['/', '/editapps', '/settings', '/login', '/register'];
 
 app.get(content_routes, (req, res) => {
     res.sendFile(path.join(dir, '../build', 'index.html'));

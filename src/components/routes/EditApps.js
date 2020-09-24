@@ -5,7 +5,9 @@ import {
     Switch,
     Route,
     Link,
-    useRouteMatch
+    useRouteMatch,
+    useHistory,
+    useLocation,
   } from "react-router-dom";
 
 import { EditApplication } from './EditApplication';
@@ -29,7 +31,8 @@ const EditApps = props => {
 const EditAppsComponent = observer((props) => {
 
     const { globalStore } = useStores();
-    const appList = globalStore.apps;
+    const history = useHistory();
+    const location = useLocation();
 
     const [editLock, setEditLock] = useState(false);
     const [editing, setEditing] = useState(false);
@@ -38,7 +41,7 @@ const EditAppsComponent = observer((props) => {
     const _toggleEditing = () => {
         if (!editLock || editing) {
             if (editing) {
-                saveApps();
+                saveApps(appsCopy);
                 setEditLock(false);
             }
             else {
@@ -48,8 +51,8 @@ const EditAppsComponent = observer((props) => {
         }
     }
 
-    const saveApps = async () => {
-        globalStore.setApps(appsCopy);
+    const saveApps = async (newApps) => {
+        globalStore.setApps(newApps);
 
         await fetch('/updateConfig', {
             method: 'POST',
@@ -58,7 +61,7 @@ const EditAppsComponent = observer((props) => {
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                apps: appsCopy,
+                apps: newApps,
                 theme: globalStore.theme,
                 title: globalStore.title,
                 view: globalStore.view
@@ -66,7 +69,7 @@ const EditAppsComponent = observer((props) => {
         });
     }
 
-    const addApplication = () => {
+    const addApplication = async () => {
         const newApp = {
             id: uuidv4(),
             name: 'Application Name',
@@ -80,12 +83,14 @@ const EditAppsComponent = observer((props) => {
             api_key: '',
             api_password: '',
             api_username: '',
-            api_url: ''
+            api_url: '',
+            new: true,
         }
         const newApps = [...appsCopy, newApp];
-        globalStore.setApps(newApps);
         setAppsCopy(newApps);
-        setEditing(true);
+        globalStore.setApps(newApps);
+        const { from } = location.state || { from: { pathname: "/editapps/" + newApp.id } };
+        history.replace(from);
     }
 
     return (
@@ -105,7 +110,6 @@ const EditAppsComponent = observer((props) => {
                         appsCopy.map((app, index) => (
                             <SettingsAppItem
                                 key={app.name + index}
-                                index={index}
                                 app={app}
                                 editing={editing}
                                 appsCopy={appsCopy}
@@ -125,11 +129,9 @@ const EditAppsComponent = observer((props) => {
 const SettingsAppItem = observer((props) => {
 
     let { url: route_url } = useRouteMatch();
-    const { globalStore } = useStores();
 
     const {
         app,
-        index,
         editing,
         appsCopy,
         setAppsCopy
@@ -184,7 +186,7 @@ const SettingsAppItem = observer((props) => {
                 <input className='settings_item_name_input settings_item_textinput' disabled={!editing} onChange={_changeUrl} value={url} type="text"/>
             </div>
             <div class='edit_apps_edit_button_container'>
-                <Link className='edit_page_link' to={`${route_url}/${app.id}`}>Edit Page</Link>
+                <Link className='edit_page_link' to={`${route_url}/${app.id}`}>Edit App</Link>
             </div>
             <div class='edit_apps_delete_button_container'>
                 <button disabled={!editing} onClick={_onDeletePress}>

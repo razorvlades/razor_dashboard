@@ -3,18 +3,33 @@ import { useStores } from '../../util/stores';
 import { observer } from 'mobx-react';
 import {
     useParams,
+    useHistory,
+    useLocation,
   } from "react-router-dom";
 import '../../css/edit_app.css';
+import { SmallCard } from '../views/SmallCard';
+import { ChromePicker } from 'react-color';
 
 export const EditApplication = observer((props) => {
 
     const { globalStore } = useStores();
     let { id } = useParams();
 
+    const history = useHistory();
+    const location = useLocation();
+
     const [app, setApp] = useState({});
     const [loading, setLoading] = useState(true);
     const [deleting, setDeleting] = useState(false);
-    
+
+    const [colorPickerVisible, setColorPickerVisible] = useState(false);
+
+    const _showColorPicker = () => setColorPickerVisible(true);
+    const _hideColorPicker = () => setColorPickerVisible(false);
+    const _setColorPickerVisible = () => {
+        setColorPickerVisible(!colorPickerVisible);
+    }
+
     useEffect(() => {
         if (loading) {
             setApp(globalStore.apps.find(a => a.id === id));
@@ -28,7 +43,8 @@ export const EditApplication = observer((props) => {
         const index = newApps.findIndex(a => a.id === id);
 
         newApps[index] = {
-            ...app
+            ...app,
+            new: false
         }
 
         globalStore.setApps(newApps);
@@ -46,6 +62,9 @@ export const EditApplication = observer((props) => {
                 view: globalStore.view
             })
         });
+
+        const { from } = location.state || { from: { pathname: "/editapps" } };
+        history.replace(from);
     }
 
     const _deleteApp = async () => {
@@ -72,6 +91,9 @@ export const EditApplication = observer((props) => {
                 view: globalStore.view,
             })
         });
+
+        const { from } = location.state || { from: { pathname: "/editapps" } };
+        history.replace(from);
     }
     
     const _changeName = async (e) => {
@@ -112,8 +134,7 @@ export const EditApplication = observer((props) => {
         });
     }
 
-    const _changeColor = async (e) => {
-        const color = e.target.value;
+    const _changeColor = async (color) => {
         setApp({
             ...app,
             color
@@ -186,7 +207,7 @@ export const EditApplication = observer((props) => {
     return (
         !loading &&
         <div className='edit_app_container'>
-            <Header _saveApp={_saveApp} _deleteApp={_deleteApp} deleting={deleting} />
+            <Header app={app} _saveApp={_saveApp} _deleteApp={_deleteApp} deleting={deleting} />
             <Body
                 app={app}
                 _changeName={_changeName}
@@ -200,6 +221,10 @@ export const EditApplication = observer((props) => {
                 _changeApiKey={_changeApiKey}
                 _changeApiPassword={_changeApiPassword}
                 _changeApiUrl={_changeApiUrl}
+                _setColorPickerVisible={_setColorPickerVisible}
+                colorPickerVisible={colorPickerVisible}
+                _showColorPicker={_showColorPicker}
+                _hideColorPicker={_hideColorPicker}
             />
         </div>
     )
@@ -219,10 +244,43 @@ const Body = observer(props => {
         _changeApiUsername,
         _changeApiKey,
         _changeApiPassword,
-        _changeApiUrl
+        _changeApiUrl,
+        _setColorPickerVisible,
+        colorPickerVisible,
+        _showColorPicker,
+        _hideColorPicker
     } = props;
 
     const { globalStore } = useStores();
+
+    const [color, setColor] = useState(app.color);
+
+    const _handleColorChange = (c, event) => {
+        setColor(c.hex);
+        _changeColor(c.hex);
+    }
+
+    const _handleColorChangeComplete = (c, event) => {
+        setColor(c.hex);
+        _changeColor(c.hex);
+    }
+
+    const _updateColor = async (e) => {
+        setColor(e.target.value);
+        _changeColor(e.target.value);
+    }
+
+    const popover = {
+        position: 'absolute',
+        zIndex: '2',
+    }
+    const cover = {
+        position: 'fixed',
+        top: '0px',
+        right: '0px',
+        bottom: '0px',
+        left: '0px',
+    }
 
     return (
         <div className='edit_app_body'>
@@ -273,36 +331,45 @@ const Body = observer(props => {
 
                 <div className='edit_app_body_item_container'>
                     <div className='edit_body_app_item'>
-                        <label className='edit_app_body_input_label' htmlFor="bgColor">Color</label>
-                        <input className='colorPicker' onChange={_changeColor} value={app.color || ''} id="bgColor" type="color"/>
-                        <div style={{ flexDirection: 'row', paddingTop: 5 }}>
-                            <input id="customColor" type="checkbox" checked={app.customColor || false} onChange={_changeCustomColor}/>
-                            <label htmlFor="customColor">Custom</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div className='edit_app_body_item_container'>
-                    <div className='edit_body_app_item'>
                         <label className='edit_app_body_input_label' htmlFor="app_icon">Icon</label>
-                        <img alt={`App icon: ${app.icon}`} height={30} width={30} src={'/icons/' + app.icon}/>
+                        <img style={{ paddingBottom: 30 }} alt={`App icon: ${app.icon}`} height={100} width={100} src={'/icons/' + app.icon}/>
                         <input id="app_icon" type="file" className="uploadImageBtn" onChange={_uploadImage}/>
                     </div>
                 </div>
 
                 <div className='edit_app_body_item_container'>
                     <div className='edit_body_app_item'>
-                        <label htmlFor="app_enhanced">Enhanced</label>
-                        <input id="app_enhanced" type="checkbox" checked={app.enhanced  || false} onChange={_changeEnhanced}/>
-
-                        <label className='edit_app_body_input_label' htmlFor="app_api_url">API URL (if different from app URL)</label>
-                        <input id='app_api_url' className='textInput' onChange={_changeApiUrl} value={app.api_url || ''} type="text"/>
+                        <label className='edit_app_body_input_label' htmlFor="bgColor">Color</label>
+                        <div>
+                            <input id='app_color' style={{ border: 0 }} className='textInput' onClick={ _setColorPickerVisible } onChange={_updateColor} value={color} type="text"/>
+                            { colorPickerVisible ? <div style={ popover }>
+                            <div style={ cover } onClick={ _hideColorPicker }/>
+                            <ChromePicker onChangeComplete={_handleColorChangeComplete} onChange={_handleColorChange} color={color} />
+                            </div> : null }
+                        </div>
+                        <div style={{ flexDirection: 'row', paddingTop: 5 }}>
+                            <input id="customColor" type="checkbox" checked={app.customColor || false} onChange={_changeCustomColor}/>
+                            <label htmlFor="customColor">Enabled</label>
+                        </div>
                     </div>
+                </div>
+
+                <div className='edit_app_body_item_container'>
+                    <Preview app={app} />
                 </div>
 
             </div>
 
+            <SubHeader _changeEnhanced={_changeEnhanced} app={app} />
+
             <div className='edit_app_body_row_3'>
+
+                <div className='edit_app_body_item_container'>
+                    <div className='edit_body_app_item'>
+                        <label className='edit_app_body_input_label' htmlFor="app_api_url">API URL (if different from above)</label>
+                        <input id='app_api_url' className='textInput' onChange={_changeApiUrl} value={app.api_url || ''} type="text"/>
+                    </div>
+                </div>
 
                 <div className='edit_app_body_item_container'>
                     <div className='edit_body_app_item'>
@@ -331,12 +398,27 @@ const Body = observer(props => {
     )
 });
 
-const Header = (props) => {
+const Header = observer((props) => {
     const {
         _saveApp,
         _deleteApp,
-        deleting
+        deleting,
+        app
     } = props;
+
+    const history = useHistory();
+    const location = useLocation();
+
+    const { globalStore } = useStores();
+
+    const _onCancel = () => {
+        if (app.new) {
+            const newApps = globalStore.apps.filter(a => a.id !== app.id);
+            globalStore.setApps(newApps);
+        }
+        const { from } = location.state || { from: { pathname: "/editapps" } };
+        history.replace(from);
+    }
 
     return (
         <div className='edit_app_header'>
@@ -353,18 +435,46 @@ const Header = (props) => {
                     { deleting ? 'Are you sure?' : 'Delete'}
                 </button>
             </div>
+            <div className='edit_app_header_delete_button'>
+                <button onClick={_onCancel}>
+                    { 'Cancel' }
+                </button>
+            </div>
+        </div>
+    )
+});
+
+const SubHeader = (props) => {
+
+    const {
+        app,
+        _changeEnhanced
+    } = props;
+
+    return (
+        <div className='edit_app_header'>
+            <div className='edit_app_header_title'>
+                { 'Enhanced Application Settings' }
+            </div>
+            <div className='enhanced_checkbox_div'>
+                <div>
+                    <label style={{paddingRight: 10}} htmlFor="app_enhanced">Enhanced</label>
+                    <input id="app_enhanced" type="checkbox" checked={app.enhanced  || false} onChange={_changeEnhanced}/>
+                </div>
+            </div>
         </div>
     )
 }
 
-// const Preview = (props) => {
-//     const {
-//         app
-//     } = props;
+const Preview = (props) => {
+    const {
+        app
+    } = props;
 
-//     return (
-//         <div>
-//             <Card item={app}/>
-//         </div>
-//     )
-// }
+    return (
+        <div className="edit_app_preview">
+            <div className='edit_app_body_input_label'>{'Preview'}</div>
+            <SmallCard item={app}/>
+        </div>
+    )
+}

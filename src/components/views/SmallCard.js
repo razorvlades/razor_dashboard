@@ -5,7 +5,7 @@ import { useStores } from '../../util/stores';
 import { lightTheme, darkTheme } from '../../util/themes';
 import { retrieveApiData } from '../../util/enhancedAppsController';
 
-const SmallCard = observer((props) => {
+export const SmallCard = observer((props) => {
 
   const {
     name,

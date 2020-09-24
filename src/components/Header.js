@@ -17,7 +17,7 @@ const Header = observer(() => {
           {globalStore.title}
           <div className="menu">
               <Link className="menu_button" to="/">Home</Link>
-              <Link className="menu_button" to="/appsettings">Edit Apps</Link>
+              <Link className="menu_button" to="/editapps">Edit Apps</Link>
               <Link className="menu_button" to="/settings">Settings</Link>
               <a className="menu_button" onClick={_onLogout} >{'Logout'}</a>
           </div>

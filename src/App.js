@@ -93,7 +93,7 @@ const App = observer(() => {
               <PrivateRoute loggedIn={globalStore.loggedIn} exact path="/">
                 <Home/>
               </PrivateRoute>
-              <PrivateRoute loggedIn={globalStore.loggedIn} path="/appsettings">
+              <PrivateRoute loggedIn={globalStore.loggedIn} path="/editapps">
                 <AppSettings/>
               </PrivateRoute>
               <PrivateRoute loggedIn={globalStore.loggedIn} path="/settings">

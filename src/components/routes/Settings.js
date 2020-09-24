@@ -33,14 +33,24 @@ const Settings = observer((props) => {
     const { globalStore } = useStores();
 
     const tableHeaderStyle = {
-        paddingTop: 12,
-        paddingBottom: 12,
-        paddingLeft: 15,
+        alignSelf: 'center',
+        justifySelf: 'center',
         textAlign: 'left',
+        flex: 1,
+        paddingLeft: 20,
+        fontWeight: 'bold'
+    }
+
+    const saveButtonStyle = {
+        textAlign: 'right',
+        flex: 1,
+        paddingRight: 20,
+        alignSelf: 'center',
+        justifySelf: 'center'
     }
 
     const tableHeaderContainerStyle = {
-        width: '100%',
+        width: '100%'
     }
 
     const tableStyle = {
@@ -67,59 +77,55 @@ const Settings = observer((props) => {
 
     return (
         <div className='settingsContainer'>
-            <table style={tableStyle}>
-                <thead style={tableHeaderContainerStyle}>
-                    <tr className="settingsTableHeader">
-                        <th style={tableHeaderStyle}>Settings</th>
-                        <th style={tableHeaderStyle}>
+            <div style={tableStyle}>
+                <div style={tableHeaderContainerStyle}>
+                    <div className="settingsTableHeader">
+                        <div style={tableHeaderStyle}>Settings</div>
+                        <div style={saveButtonStyle}>
                             <button onClick={_saveSettings}>Save</button>
-                        </th>
-                    </tr>
-                </thead>
+                        </div>
+                    </div>
+                </div>
 
-                <tbody>
+                <div>
                     <DefaultViewSettingsItem/>
                     <TitleTextSettingsItem/>
                     <ThemeSettingsItem/>
-                </tbody>
-            </table>
+                </div>
+            </div>
         </div>
     )
 });
 
-const DefaultViewSettingsItem = observer((props) => {
+const DefaultViewSettingsItem = observer(() => {
 
     const { globalStore } = useStores();
-
-    const columnStyle = {
-        paddingLeft: 15,
-        overflow:'wrap',
-    }
 
     const _chooseView = async (e) => {
         globalStore.setView(e.target.value);
     }
 
     return (
-        <tr className="settingsItem">
-            <td style={columnStyle}>
+        <div className="settingsItem">
+            <div className="settings_item_title_container">
                 <div className='settingsOptionTitle'>Default View</div>
-            </td>
-            <td style={columnStyle}>
+            </div>
+            <div className='settings_item_input_container'>
                 <select
                     value={globalStore.view} 
                     onChange={_chooseView}
+                    className='settings_item_select'
                 >
                     {
-                        views.map((item, index) => {
+                        views.map((item) => {
                             return (
                                 <option key={item.value} value={item.value}>{item.name}</option>
                             )
                         })
                     }
                 </select>
-            </td>
-        </tr>
+            </div>
+        </div>
     )
 });
 
@@ -127,24 +133,19 @@ const TitleTextSettingsItem = observer((props) => {
 
     const { globalStore } = useStores();
 
-    const columnStyle = {
-        paddingLeft: 15,
-        overflow:'wrap',
-    }
-
     const _changeTitle = async (e) => {
         globalStore.setTitle(e.target.value);
     }
 
     return (
-        <tr className="settingsItem">
-            <td style={columnStyle}>
+        <div className="settingsItem">
+            <div className="settings_item_title_container">
                 <div className='settingsOptionTitle'>Title</div>
-            </td>
-            <td style={columnStyle}>
-                <input className='textInput' onChange={_changeTitle} value={globalStore.title} type="text"/>
-            </td>
-        </tr>
+            </div>
+            <div className='settings_item_input_container'>
+                <input style={{ width: '69%'}} className='textInput' onChange={_changeTitle} value={globalStore.title} type="text"/>
+            </div>
+        </div>
     )
 });
 
@@ -152,24 +153,20 @@ const ThemeSettingsItem = observer((props) => {
 
     const { globalStore } = useStores();
 
-    const columnStyle = {
-        paddingLeft: 15,
-        overflow:'wrap',
-    }
-
     const _chooseTheme = async (e) => {
         globalStore.setTheme(e.target.value);
     }
 
     return (
-        <tr className="settingsItem">
-            <td style={columnStyle}>
+        <div className="settingsItem">
+            <div className="settings_item_title_container">
                 <div className='settingsOptionTitle'>App Theme</div>
-            </td>
-            <td style={columnStyle}>
+            </div>
+            <div className='settings_item_input_container'>
                 <select
                     value={globalStore.theme} 
                     onChange={_chooseTheme}
+                    className='settings_item_select'
                 >
                     {
                         themes.map((item, index) => {
@@ -179,8 +176,8 @@ const ThemeSettingsItem = observer((props) => {
                         })
                     }
                 </select>
-            </td>
-        </tr>
+            </div>
+        </div>
     )
 });
 

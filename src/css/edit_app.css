@@ -48,24 +48,35 @@
 }
 
 .edit_app_body_row_1 {
-    flex: 1;
+    height: 160px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .edit_app_body_row_2 {
-    flex: 1;
+    height: 260px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .edit_app_body_row_3 {
-    flex: 1;
+    height: 150px;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.edit_app_preview {
+    width: 350px;
+    align-self: center;
+    padding-bottom: 10px;
+}
+
+.edit_app_preview_title {
+    text-align: center;
+    padding-bottom: 10px;
 }
 
 .edit_app_body_item_container {
@@ -82,7 +93,6 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-
     flex-direction: column;
 }
 
@@ -97,6 +107,15 @@
     flex: 1;
     display: flex;
     flex-direction: row;
+}
+
+.enhanced_checkbox_div {
+    display: flex;
+    flex: 10;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 10px;
+    font-size: 18px;
 }
 
 .edit_app_select {
@@ -147,4 +166,8 @@
     border-radius: 6px;
     cursor: pointer;
     border: none;
+}
+
+.color-input {
+    
 }
