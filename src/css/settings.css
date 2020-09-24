@@ -56,11 +56,21 @@ select {
     cursor: pointer
 }
 
+.editAppsTable {
+    text-align: left;
+    border-collapse: collapse;
+    width: 100%;
+    border-radius: 10px;
+    overflow: 'hidden';
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
 .editAppsContainer {
     align-content: 'center';
     margin: auto;
     margin-top: 25px;
-    width: calc(1700px - (100vw - 100%));
+    width: calc(1100px - (100vw - 100%));
     border-radius: 10px;
     margin-bottom: 25px;
     justify-content: 'center';
@@ -92,7 +102,7 @@ select {
 
 .addAppStyle {
     cursor: pointer;
-    height: 40px;
+    height: 50px;
     width: 100%;
     display: flex;
     align-items: center;
@@ -100,4 +110,128 @@ select {
     border-radius: 10px;
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
+}
+
+.settingsTableHeader {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    height: 30px;
+    display: flex;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+.settingsItem {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    height: 40px;
+}
+
+.settings_item_name_container {
+    overflow: wrap;
+    display: flex;
+    flex: 3;
+}
+
+.settings_item_url_container {
+    overflow: wrap;
+    display: flex;
+    flex: 3;
+}
+
+.settings_item_icon {
+    width: 40px;
+    height: 40px;
+    align-self: center;
+    margin-left: 10px;
+}
+
+.edit_apps_edit_button_container {
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.edit_apps_delete_button_container {
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.table_header_name {
+    padding-top: 12;
+    padding-bottom: 12;
+    padding-left: 15;
+    text-align: center;
+    flex: 3;
+    font-weight: bold;
+}
+
+.table_header_url {
+    padding-top: 12;
+    padding-bottom: 12;
+    padding-left: 15;
+    text-align: center;
+    flex: 3;
+    font-weight: bold;
+}
+
+.table_header_edit {
+    padding-top: 12;
+    padding-bottom: 12;
+    padding-left: 15;
+    text-align: center;
+    flex: 1;
+    font-weight: bold;
+}
+
+.table_header_delete {
+    padding-top: 12;
+    padding-bottom: 12;
+    padding-left: 15;
+    text-align: center;
+    flex: 1;
+    font-weight: bold;
+}
+
+.settings_item_name_input {
+    flex: 1;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.edit_page_link {
+    flex: 1;
+    align-self: center;
+    text-align: center;
+    color: white;
+    text-decoration: none;
+}
+
+.settings_item_textinput {
+    -webkit-writing-mode: horizontal-tb !important;
+    text-rendering: auto;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: start;
+    appearance: textfield;
+    -webkit-rtl-ordering: logical;
+    cursor: text;
+    font: 400 13.3333px Arial;
+    padding: 1px 2px;
+    border-width: 2px;
+    border-style: inset;
+    border-image: initial;
+    border: 1px solid #dedfe2;
+    padding: 10px;
+    border-radius: 6px;
 }

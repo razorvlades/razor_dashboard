@@ -36,14 +36,15 @@ export const GlobalStyles = createGlobalStyle`
         background-color: ${({ theme }) => theme.body};
     }
 
+    .editAppsTable {
+        background: ${({ theme }) => theme.body};
+    }
+
     .edit_app_header {
         background-color: ${({ theme }) => theme.hover};
     }
 
     .settingsItem {
-        padding-top: 10px;
-        padding-bottom: 10px;
-        height: 60px;
         background-color: ${({ theme }) => theme.body};
     }
 
@@ -52,9 +53,6 @@ export const GlobalStyles = createGlobalStyle`
     }
 
     .settingsTableHeader {
-        padding-top: 10px;
-        padding-bottom: 10px;
-        height: 40px;
         background-color: ${({ theme }) => theme.hover};
     }
 
@@ -118,4 +116,12 @@ export const GlobalStyles = createGlobalStyle`
     .label-checkbox {
         color: ${({ theme }) => theme.accent}
     }
+
+    .edit_page_link:hover {
+        color: ${({ theme }) => theme.body};
+    }
+
+    .edit_page_link {
+        color: ${({ theme }) => theme.text};
+}
   `
