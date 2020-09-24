@@ -25,7 +25,7 @@ const CompactCard = observer((props) => {
   }, [globalStore.theme]);
 
   return (
-    <a style={{ backgroundColor: customColor ? color : theme.body }} className="compact_card" href={url} target="_blank" >
+    <a style={{ backgroundColor: customColor ? color : theme.body }} className="compact_card" href={url} rel="noopener noreferrer" target="_blank" >
       <div style={{ color: customColor ? 'white' : theme.text }} className="compact_card_icon_container">
           <img src={'/icons/' + icon} alt={url}></img>
       </div>

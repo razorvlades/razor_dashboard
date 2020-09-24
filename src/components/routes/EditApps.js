@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useStores } from '../../util/stores';
 import { observer } from 'mobx-react';
 import {
-    BrowserRouter as Router,
     Switch,
     Route,
     Link,
@@ -13,7 +12,7 @@ import { EditApplication } from './EditApplication';
 import { v4 as uuidv4 } from 'uuid';
 
 const EditApps = props => {
-    let { path, url } = useRouteMatch();
+    let { path } = useRouteMatch();
 
     return (
         <Switch>
@@ -70,7 +69,8 @@ const EditAppsComponent = observer((props) => {
             enhanced: false,
             api_key: '',
             api_password: '',
-            api_username: ''
+            api_username: '',
+            api_url: ''
         }
         const newApps = [...globalStore.apps, newApp];
         globalStore.setApps(newApps);
@@ -116,15 +116,13 @@ const EditAppsComponent = observer((props) => {
 
 const SettingsAppItem = observer((props) => {
 
-    let { path, url: route_url } = useRouteMatch();
+    let { url: route_url } = useRouteMatch();
 
     const {
         app,
         index,
         editLock,
         setEditLock,
-        currentApp,
-        setCurrentApp
     } = props;
 
     const [editing, setEditing] = useState(app.editing ? app.editing : false);
@@ -194,7 +192,6 @@ const SettingsAppItem = observer((props) => {
         let newApps = [...globalStore.apps];
         newApps[index] = {
             ...app,
-            id: app.id,
             name: name,
             url: url,
             icon: selectedIcon,
@@ -289,7 +286,7 @@ const SettingsAppItem = observer((props) => {
             </td>
             <td style={columnStyle}>
                 <div style={iconColumnStyle}>
-                    <img style={iconStyle} height={30} width={30} src={'/icons/' + selectedIcon}></img>
+                    <img alt={`App icon: ${selectedIcon}`} style={iconStyle} height={30} width={30} src={'/icons/' + selectedIcon}></img>
                     <input style={uploadBtnStyle} disabled={!editing} type="file" className="uploadImageBtn" onChange={_uploadImage}/>
                     <select
                         value={selectedIconValue} 
@@ -332,19 +329,5 @@ const SettingsAppItem = observer((props) => {
         </tr>
     )
 });
-
-const uploadImage = async (image) => {
-    let data = new FormData();
-
-    data.append("imageName", 'icon-' + Date.now());
-    data.append("imageData", image);
-
-    await fetch('/upload-image', {
-        method: 'POST',
-        body: data
-    });
-
-    return;
-}
 
 export default EditApps;

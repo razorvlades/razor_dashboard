@@ -12,11 +12,15 @@ export const EditApplication = observer((props) => {
     let { id } = useParams();
 
     const [app, setApp] = useState({});
+    const [loading, setLoading] = useState(true);
     const [deleting, setDeleting] = useState(false);
     
     useEffect(() => {
-        setApp(globalStore.apps.find(a => a.id === id));
-    }, []);
+        if (loading) {
+            setApp(globalStore.apps.find(a => a.id === id));
+            setLoading(false);
+        }
+    }, [globalStore, id, loading]);
 
     const _saveApp = async () => {
         let newApps = [...globalStore.apps];
@@ -151,6 +155,13 @@ export const EditApplication = observer((props) => {
         });
     }
 
+    const _changeApiUrl = async e => {
+        setApp({
+            ...app,
+            api_url: e.target.value
+        })
+    }
+
     const _uploadImage = async (e) => {
         const file = e.target.files[0];
 
@@ -173,6 +184,7 @@ export const EditApplication = observer((props) => {
     }
     
     return (
+        !loading &&
         <div className='edit_app_container'>
             <Header _saveApp={_saveApp} _deleteApp={_deleteApp} deleting={deleting} />
             <Body
@@ -187,6 +199,7 @@ export const EditApplication = observer((props) => {
                 _changeApiUsername={_changeApiUsername}
                 _changeApiKey={_changeApiKey}
                 _changeApiPassword={_changeApiPassword}
+                _changeApiUrl={_changeApiUrl}
             />
         </div>
     )
@@ -206,6 +219,7 @@ const Body = observer(props => {
         _changeApiUsername,
         _changeApiKey,
         _changeApiPassword,
+        _changeApiUrl
     } = props;
 
     const { globalStore } = useStores();
@@ -218,7 +232,7 @@ const Body = observer(props => {
                 <div className='edit_app_body_item_container'>
                     <div className='edit_body_app_item'>
                         <label className='edit_app_body_input_label' htmlFor="app_name">Application Name</label>
-                        <input id='app_name' className='textInput' onChange={_changeName} value={app.name} type="text"/>
+                        <input id='app_name' className='textInput' onChange={_changeName} value={app.name || ''} type="text"/>
                     </div>
                 </div>
 
@@ -249,7 +263,7 @@ const Body = observer(props => {
                 <div className='edit_app_body_item_container'>
                     <div className='edit_body_app_item'>
                         <label className='edit_app_body_input_label' htmlFor="app_url">URL</label>
-                        <input id='app_url' className='textInput' onChange={_changeURL} value={app.url} type="text"/>
+                        <input id='app_url' className='textInput' onChange={_changeURL} value={app.url || ''} type="text"/>
                     </div>
                 </div>
 
@@ -260,9 +274,9 @@ const Body = observer(props => {
                 <div className='edit_app_body_item_container'>
                     <div className='edit_body_app_item'>
                         <label className='edit_app_body_input_label' htmlFor="bgColor">Color</label>
-                        <input className='colorPicker' onChange={_changeColor} value={app.color} id="bgColor" type="color"/>
+                        <input className='colorPicker' onChange={_changeColor} value={app.color || ''} id="bgColor" type="color"/>
                         <div style={{ flexDirection: 'row', paddingTop: 5 }}>
-                            <input id="customColor" type="checkbox" checked={app.customColor} onChange={_changeCustomColor}/>
+                            <input id="customColor" type="checkbox" checked={app.customColor || false} onChange={_changeCustomColor}/>
                             <label htmlFor="customColor">Custom</label>
                         </div>
                     </div>
@@ -271,15 +285,18 @@ const Body = observer(props => {
                 <div className='edit_app_body_item_container'>
                     <div className='edit_body_app_item'>
                         <label className='edit_app_body_input_label' htmlFor="app_icon">Icon</label>
-                        <img height={30} width={30} src={'/icons/' + app.icon}/>
+                        <img alt={`App icon: ${app.icon}`} height={30} width={30} src={'/icons/' + app.icon}/>
                         <input id="app_icon" type="file" className="uploadImageBtn" onChange={_uploadImage}/>
                     </div>
                 </div>
 
                 <div className='edit_app_body_item_container'>
                     <div className='edit_body_app_item'>
-                    <label className='edit_app_body_input_label' htmlFor="app_enhanced">Enhanced</label>
-                        <input id="app_enhanced" type="checkbox" checked={app.enhanced} onChange={_changeEnhanced}/>
+                        <label htmlFor="app_enhanced">Enhanced</label>
+                        <input id="app_enhanced" type="checkbox" checked={app.enhanced  || false} onChange={_changeEnhanced}/>
+
+                        <label className='edit_app_body_input_label' htmlFor="app_api_url">API URL (if different from app URL)</label>
+                        <input id='app_api_url' className='textInput' onChange={_changeApiUrl} value={app.api_url || ''} type="text"/>
                     </div>
                 </div>
 
@@ -290,21 +307,21 @@ const Body = observer(props => {
                 <div className='edit_app_body_item_container'>
                     <div className='edit_body_app_item'>
                         <label className='edit_app_body_input_label' htmlFor="app_api_key">API_KEY</label>
-                        <input id='app_api_key' className='textInput' onChange={_changeApiKey} value={app.api_key} type="text"/>
+                        <input id='app_api_key' className='textInput' onChange={_changeApiKey} value={app.api_key || ''} type="text"/>
                     </div>
                 </div>
 
                 <div className='edit_app_body_item_container'>
                     <div className='edit_body_app_item'>
                         <label className='edit_app_body_input_label' htmlFor="app_api_username">Username</label>
-                        <input id='app_api_username' className='textInput' onChange={_changeApiUsername} value={app.api_username} type="text"/>
+                        <input id='app_api_username' className='textInput' onChange={_changeApiUsername} value={app.api_username || ''} type="text"/>
                     </div>
                 </div>
 
                 <div className='edit_app_body_item_container'>
                     <div className='edit_body_app_item'>
                         <label className='edit_app_body_input_label' htmlFor="app_api_password">Password</label>
-                        <input id='app_api_password' className='textInput' onChange={_changeApiPassword} value={app.api_password} type="password"/>
+                        <input id='app_api_password' className='textInput' onChange={_changeApiPassword} value={app.api_password || ''} type="password"/>
                     </div>
                 </div>
 

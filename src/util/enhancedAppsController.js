@@ -1,15 +1,16 @@
 export const retrieveApiData = (type, app) => {
     let data = { data_left: {}, data_right: {} };
-
+    const url = app.api_url === '' ? app.url : app.api_url;
+    
     switch (type) {
         case 'tautulli':
-            return getTautulliStats(app.url, app.api_key);
+            return getTautulliStats(url, app.api_key);
         case 'rutorrent':
-            return getRuTorrentStats(app.url, app.api_username, app.api_password);
+            return getRuTorrentStats(url, app.api_username, app.api_password);
         case 'radarr':
-            return getRadarrStats(app.url, app.api_key);
+            return getRadarrStats(url, app.api_key);
         case 'jellyfin':
-            return getJellyfinStats(app.url, app.api_key);
+            return getJellyfinStats(url, app.api_key);
         default:
           return data;
     }

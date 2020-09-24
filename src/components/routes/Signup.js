@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { observer } from 'mobx-react';
-import { useStores } from '../../util/stores';
 import {
     useHistory,
     useLocation
@@ -8,7 +7,6 @@ import {
 
 const Signup = observer((props) => {
 
-    const { globalStore } = useStores();
     const history = useHistory();
     const location = useLocation();
 

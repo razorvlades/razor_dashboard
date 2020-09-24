@@ -27,7 +27,7 @@ const Card = observer((props) => {
     }, [globalStore.theme]);
   
     return (
-      <a style={{ backgroundColor: customColor ? color : theme.body }} className="card" href={url} target="_blank" >
+      <a style={{ backgroundColor: customColor ? color : theme.body }} className="card" href={url} rel="noopener noreferrer" target="_blank" >
         <div style={imageStyle}>
           <img src={'/icons/' + icon} alt={url}></img>
         </div>

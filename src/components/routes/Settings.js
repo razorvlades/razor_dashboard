@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useStores } from '../../util/stores';
 import { observer } from 'mobx-react';
 

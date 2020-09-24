@@ -29,26 +29,31 @@ const App = observer(() => {
   const [checkingLogin, setCheckingLogin] = useState(true);
 
   useEffect(() => {
-
     fetch('/getConfig').then(async (res) => {
       const config = await res.json();
       globalStore.setApps(config.apps);
       globalStore.setTitle(config.title);
       globalStore.setTheme(config.theme);
       globalStore.setView(config.view);
+
+      const apps = config.apps;
       
       const new_apps = [];
-      for (let i = 0; i < globalStore.apps.length; i++) {
-        if (!globalStore.apps[i].id) {
+      for (let i = 0; i < apps.length; i++) {
+        if (!apps[i].id) {
           const id = uuidv4();
           const new_app = {
-            ...globalStore.apps[i],
-            id
+            ...apps[i],
+            id,
+            api_url: apps[i].api_url ? apps[i].api_url : ''
           }
           new_apps.push(new_app);
         }
         else {
-          new_apps.push(globalStore.apps[i]);
+          new_apps.push({
+            ...apps[i],
+            api_url: apps[i].api_url ? apps[i].api_url : ''
+          });
         }
       }
       globalStore.setApps(new_apps);

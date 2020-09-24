@@ -58,7 +58,7 @@ const Login = observer((props) => {
 			<div class="wrap-login">
 				<form class="login-form" onSubmit={_onLogin}>
 					<span class="login-form-logo">
-                        <img src={require('../../icons/icon.png')} width='100%' height='100%' style={{ overflow: 'hidden', borderRadius: 100 }}/>
+                        <img alt='RazorDash logo' src={require('../../icons/icon.png')} width='100%' height='100%' style={{ overflow: 'hidden', borderRadius: 100 }}/>
 					</span>
 
 					<span class="login-form-title">Log in</span>

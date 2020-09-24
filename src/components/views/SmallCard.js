@@ -51,7 +51,7 @@ const SmallCard = observer((props) => {
   }, []);
 
   return (
-    <a style={{ backgroundColor: customColor ? color : theme.body }} className="smallcard" href={url} target="_blank" >
+    <a style={{ backgroundColor: customColor ? color : theme.body }} className="smallcard" href={url} rel="noopener noreferrer" target="_blank" >
       <div style={{ color: customColor ? 'white' : theme.text }} className="smallcard_icon_container">
           <img src={'/icons/' + icon} alt={url}></img>
       </div>
