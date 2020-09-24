@@ -34,7 +34,7 @@ const SmallCard = observer((props) => {
       const {
         data_left,
         data_right
-      } = await retrieveApiData(type, url);
+      } = await retrieveApiData(type, props.item);
       setDataLeft(data_left);
       setDataRight(data_right);
     }

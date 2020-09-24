@@ -8,7 +8,8 @@ router.use(express.urlencoded({ extended: true }));
 
 router.get('/tautulli', async (req, res) => {
     const url = req.query.url;
-    const api_key = process.env.TAUTULLI_API_KEY;
+    const api_key = req.query.api_key;
+    //const api_key = process.env.TAUTULLI_API_KEY;
     const fetch_url = `${url}/api/v2?apikey=${api_key}&cmd=get_libraries`;
     const response = await fetch(fetch_url);
     const json = await response.json();
@@ -26,8 +27,10 @@ router.get('/rutorrent', async (req, res) => {
     const ssl = url.includes('https');
     const ip = url.split('/')[2].split(':')[0];
     const port = url.split('/')[2].split(':')[1];
-    const username = process.env.RUTORRENT_USERNAME;
-    const password = process.env.RUTORRENT_PASSWORD;
+    const username = req.query.username;
+    const password = req.query.password;
+    // const username = process.env.RUTORRENT_USERNAME;
+    // const password = process.env.RUTORRENT_PASSWORD;
 
     const options = {
         host: ip,
@@ -48,15 +51,20 @@ router.get('/rutorrent', async (req, res) => {
 
     const client = ssl ? xmlrpc.createSecureClient(options) : xmlrpc.createClient(options);
     client.methodCall('throttle.global_down.rate', [], (error, dl_value) => {
+        if (error)
+            res.send({ ok: false });
         client.methodCall('throttle.global_up.rate', [], (error, ul_value) => {
-            res.send({ data_left: dl_value / 1000000.0, data_right: ul_value / 1000000.0 })
+            if (error)
+                res.send({ ok: false });
+            res.send({ ok: true, data_left: dl_value / 1000000.0, data_right: ul_value / 1000000.0 })
         });
     });
 });
 
 router.get('/radarr', async (req, res) => {
     const url = req.query.url;
-    const api_key = process.env.RADARR_API_KEY;
+    const api_key = req.query.api_key;
+    //const api_key = process.env.RADARR_API_KEY;
 
     let fetch_url = `${url}/api/queue?apiKey=${api_key}`;
     let result = await fetch(fetch_url);
@@ -79,7 +87,8 @@ router.get('/radarr', async (req, res) => {
 
 router.get('/jellyfin', async (req, res) => {
     const url = req.query.url;
-    const api_key = process.env.JELLYFIN_API_KEY;
+    const api_key = req.query.api_key;
+    // const api_key = process.env.JELLYFIN_API_KEY;
 
     const fetch_url = `${url}/emby/Items/Counts`;
     const result = await fetch(fetch_url, {

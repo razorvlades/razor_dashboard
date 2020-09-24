@@ -1,0 +1,150 @@
+.edit_app_container {
+    overflow: hidden;
+    justify-content: center;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    align-content: center;
+    width: 1100px;
+    height: 700px;
+    margin: auto;
+    margin-top: 25px;
+}
+
+.edit_app_header {
+    height: 30px;
+    padding: 10px;
+    display: flex;
+}
+
+.edit_app_header_title {
+    display: flex;
+    flex: 10;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 10px;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.edit_app_header_save_button {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit_app_header_delete_button {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit_app_body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+}
+
+.edit_app_body_row_1 {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit_app_body_row_2 {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit_app_body_row_3 {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit_app_body_item_container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.edit_body_app_item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+
+    flex-direction: column;
+}
+
+.edit_app_body_input_label {
+    font-size: 12px;
+    width: 75%;
+    padding: 10px;
+    margin-left: -10px;
+}
+
+.edit_app_body_icon_style {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+}
+
+.edit_app_select {
+    -webkit-writing-mode: horizontal-tb !important;
+    text-rendering: auto;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: start;
+    appearance: textfield;
+    -webkit-rtl-ordering: logical;
+    margin: 0em;
+    font: 400 13.3333px Arial;
+    padding: 1px 2px;
+    border-width: 2px;
+    border-style: inset;
+    border-image: initial;
+    width: 75%;
+    border: 1px solid #dedfe2;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.edit_app_color_input {
+    text-rendering: auto;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: start;
+    appearance: textfield;
+    -webkit-rtl-ordering: logical;
+    margin: 0em;
+    font: 400 13.3333px Arial;
+    padding: 1px 2px;
+    border-width: 2px;
+    border-style: inset;
+    border-image: initial;
+    width: 75%;
+    border: 1px solid #dedfe2;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+}

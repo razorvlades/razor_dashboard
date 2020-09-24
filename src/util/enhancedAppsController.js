@@ -1,22 +1,22 @@
-export const retrieveApiData = (type, url) => {
+export const retrieveApiData = (type, app) => {
     let data = { data_left: {}, data_right: {} };
 
     switch (type) {
         case 'tautulli':
-            return getTautulliStats(url);
+            return getTautulliStats(app.url, app.api_key);
         case 'rutorrent':
-            return getRuTorrentStats(url);
+            return getRuTorrentStats(app.url, app.api_username, app.api_password);
         case 'radarr':
-            return getRadarrStats(url);
+            return getRadarrStats(app.url, app.api_key);
         case 'jellyfin':
-            return getJellyfinStats(url);
+            return getJellyfinStats(app.url, app.api_key);
         default:
           return data;
-      }
+    }
 }
 
-const getTautulliStats = async (url) => {
-    const res = await fetch('/api/tautulli?url=' + url);
+const getTautulliStats = async (url, api_key) => {
+    const res = await fetch('/api/tautulli?url=' + url + '&api_key=' + api_key);
     const json = await res.json();
 
     const data_left = {
@@ -32,25 +32,34 @@ const getTautulliStats = async (url) => {
     return { data_left, data_right };
 }
 
-const getRuTorrentStats = async (url) => {
-    const res = await fetch('/api/rutorrent?url=' + url);
+const getRuTorrentStats = async (url, username, password) => {
+    const res = await fetch('/api/rutorrent?url=' + url + '&username=' + username + '&password=' + password);
     const json = await res.json();
-    
-    const data_left = {
-        title: "DL Speed",
-        content: json.data_left.toFixed(2) + ' MB/s'
-    };
-  
-    const data_right = {
-        title: "UL Speed",
-        content: json.data_right.toFixed(2) + ' MB/s'
-    };
 
-    return { data_left, data_right };
+    if (json.ok) {
+        const data_left = {
+            title: "DL Speed",
+            content: json.data_left.toFixed(2) + ' MB/s'
+        };
+      
+        const data_right = {
+            title: "UL Speed",
+            content: json.data_right.toFixed(2) + ' MB/s'
+        };
+
+        return { data_left, data_right };
+    }
+    else {
+        return { data_left: {}, data_right: {} };
+    }
 }
+    
 
-const getRadarrStats = async (url) => {
-    const res = await fetch('/api/radarr?url=' + url);
+
+    
+
+const getRadarrStats = async (url, api_key) => {
+    const res = await fetch('/api/radarr?url=' + url + '&api_key=' + api_key);
     const json = await res.json();
     
     const data_left = {
@@ -66,8 +75,8 @@ const getRadarrStats = async (url) => {
     return { data_left, data_right };
 }
 
-const getJellyfinStats = async (url) => {
-    const res = await fetch('/api/jellyfin?url=' + url);
+const getJellyfinStats = async (url, api_key) => {
+    const res = await fetch('/api/jellyfin?url=' + url + '&api_key=' + api_key);
     const json = await res.json();
     
     const data_left = {

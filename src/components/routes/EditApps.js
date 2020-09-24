@@ -1,8 +1,33 @@
 import React, { useState } from 'react';
 import { useStores } from '../../util/stores';
 import { observer } from 'mobx-react';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    useRouteMatch
+  } from "react-router-dom";
 
-const EditApps = observer((props) => {
+import { EditApplication } from './EditApplication';
+import { v4 as uuidv4 } from 'uuid';
+
+const EditApps = props => {
+    let { path, url } = useRouteMatch();
+
+    return (
+        <Switch>
+            <Route exact path={path}>
+                <EditAppsComponent { ...props } />
+            </Route>
+            <Route path={`${path}/:id`}>
+                <EditApplication />
+            </Route>
+        </Switch>
+    )
+}
+
+const EditAppsComponent = observer((props) => {
 
     const { globalStore } = useStores();
     const appList = globalStore.apps;
@@ -33,15 +58,19 @@ const EditApps = observer((props) => {
 
     const addApplication = () => {
         const newApp = {
+            id: uuidv4(),
             name: 'Application Name',
             url: 'https://example.com',
             icon: 'plex.png',
             editing: true,
             color: '#FFFFFF',
             customIcon: false,
-            customColor: true,
+            customColor: false,
             type: 'none',
-            enhanced: false
+            enhanced: false,
+            api_key: '',
+            api_password: '',
+            api_username: ''
         }
         const newApps = [...globalStore.apps, newApp];
         globalStore.setApps(newApps);
@@ -86,6 +115,8 @@ const EditApps = observer((props) => {
 });
 
 const SettingsAppItem = observer((props) => {
+
+    let { path, url: route_url } = useRouteMatch();
 
     const {
         app,
@@ -162,6 +193,8 @@ const SettingsAppItem = observer((props) => {
     const saveApps = async () => {
         let newApps = [...globalStore.apps];
         newApps[index] = {
+            ...app,
+            id: app.id,
             name: name,
             url: url,
             icon: selectedIcon,
@@ -289,6 +322,7 @@ const SettingsAppItem = observer((props) => {
                 <button onClick={_toggleEditing}>
                     { !editing ? 'Edit' : 'Save'}
                 </button>
+                <Link to={`${route_url}/${app.id}`}>Edit Page</Link>
             </td>
             <td style={columnStyle}>
                 <button onClick={_onDeletePress}>
@@ -298,18 +332,6 @@ const SettingsAppItem = observer((props) => {
         </tr>
     )
 });
-
-// const Preview = (props) => {
-//     const {
-//         app
-//     } = props;
-
-//     return (
-//         <div>
-//             <Card item={app}/>
-//         </div>
-//     )
-// }
 
 const uploadImage = async (image) => {
     let data = new FormData();

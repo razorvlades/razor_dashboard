@@ -19,6 +19,7 @@ import Header from './components/Header';
 import Home from './components/routes/Home';
 import AppSettings from './components/routes/EditApps';
 import Settings from './components/routes/Settings';
+import { v4 as uuidv4 } from 'uuid';
 
 const App = observer(() => {
 
@@ -35,6 +36,23 @@ const App = observer(() => {
       globalStore.setTitle(config.title);
       globalStore.setTheme(config.theme);
       globalStore.setView(config.view);
+      
+      const new_apps = [];
+      for (let i = 0; i < globalStore.apps.length; i++) {
+        if (!globalStore.apps[i].id) {
+          const id = uuidv4();
+          const new_app = {
+            ...globalStore.apps[i],
+            id
+          }
+          new_apps.push(new_app);
+        }
+        else {
+          new_apps.push(globalStore.apps[i]);
+        }
+      }
+      globalStore.setApps(new_apps);
+      
       setConfigLoading(false);
     });
 

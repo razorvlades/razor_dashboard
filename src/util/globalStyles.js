@@ -32,6 +32,14 @@ export const GlobalStyles = createGlobalStyle`
         cursor: pointer;
     }
 
+    .edit_app_container {
+        background-color: ${({ theme }) => theme.body};
+    }
+
+    .edit_app_header {
+        background-color: ${({ theme }) => theme.hover};
+    }
+
     .settingsItem {
         padding-top: 10px;
         padding-bottom: 10px;
