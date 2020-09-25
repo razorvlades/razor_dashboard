@@ -205,7 +205,7 @@ app.post('/create_user', async (req, res) => {
 
     console.log(req.body);
 
-    UserDetails.register({ username: username, active: false }, password, (err, account) => {
+    UserDetails.register( new UserDetails({ username: username, active: false }), password, (err, account) => {
         if (err)
             return res.send({ registered: false });
         else
@@ -240,14 +240,35 @@ app.get('/user/delete', (req, res, next) => {
     });
 });
 
-app.post('/user/update', (req, res, next) => {
+app.post('/user/update', async (req, res, next) => {
     const user = req.body.user;
     console.log(user);
 
-    UserDetails.findOneAndUpdate({ username: user.current_username }, { $set: { username: user.username, password: user.password } }, {}, (err, doc) => {
-        if (err)
-            return res.send({ ok: false });
-        return res.send({ ok: true });
+    const new_password = user.password;
+    const current_password = user.current_password;
+    const new_username = user.username;
+    const current_username = user.current_username;
+
+    UserDetails.findOne({ username: current_username }, async (err, doc) => {
+        if (err) {
+            res.send({ ok: false });
+        }
+        if (new_password) {
+            const user_obj = new UserDetails(doc);
+            await user_obj.setPassword(new_password);
+            await user_obj.save();
+        }
+        if (new_username) {
+            UserDetails.findOneAndUpdate({ username: current_username }, { $set: { username: new_username } }, {}, (err, doc) => {
+                if (err) {
+                    res.send({ ok: false });
+                }
+                return res.send({ ok: true });
+            });
+        }
+        else {
+            res.send({ ok: true });
+        }
     });
 });
 

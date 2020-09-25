@@ -3,6 +3,8 @@ import { useStores } from '../../util/stores';
 import { observer } from 'mobx-react';
 import {
     useHistory,
+    Link,
+    useRouteMatch
 } from "react-router-dom";
 
 export const Accounts = observer(() => {
@@ -91,54 +93,19 @@ export const Accounts = observer(() => {
 const AccountSettingsItem = observer((props) => {
 
     const {
-        account,
-        accounts,
-        setAccounts
+        account
     } = props;
 
-    const _deleteAccount = async () => {
-        const result = await fetch('/user/delete?username=' + account.username);
-        const json = await result.json();
-        if (json.ok) {
-            const newAccounts = accounts.filter(a => a.username !== account.username);
-            setAccounts(newAccounts);
-        }
-    }
-
-    const _updateAccount = async () => {
-        const user = {
-            current_username: account.username,
-            username: 'test',
-            password: 'test'
-        }
-
-        const result = await fetch('/user/update', {
-            method: 'POST',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                user: user
-            })
-        });
-    }
-
-    const buttonStyle = {
-        marginRight: 10
-    }
+    let { url: route_url } = useRouteMatch();
 
     return (
         <div className="settingsItem">
-            <div className="settings_item_title_container">
+            <div style={{ flex: 5 }} className="settings_item_title_container">
                 <div className='settingsOptionTitle'>{account.username}</div>
             </div>
-            <div style={{ display: 'flex', flex: 1, alignItems: 'center', justifyContent: 'flex-end' }}>
-                <button style={buttonStyle} onClick={_deleteAccount}>Delete</button>
+            <div style={{ display: 'flex', flex: 1, alignItems: 'flex-end', justifyContent: 'flex-end' }}>
+                <Link className='edit_page_link' to={`${route_url}/${account.username}`}>Edit Account</Link>
             </div>
-            {/* <div style={{ display: 'flex', flex: 1, alignItems: 'center', justifyContent: 'flex-end' }}>
-                <button style={buttonStyle} onClick={_updateAccount}>update</button>
-            </div> */}
         </div>
     )
 });

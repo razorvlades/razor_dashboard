@@ -2,9 +2,15 @@ import React from 'react';
 import { useStores } from '../../util/stores';
 import { observer } from 'mobx-react';
 import {
+    Switch,
+    Route,
+    Link,
+    useRouteMatch,
     useHistory,
-} from "react-router-dom";
+    useLocation,
+  } from "react-router-dom";
 import { Accounts } from '../settings/Accounts';
+import { EditUser } from '../settings/EditUser';
 
 const views = [
     {
@@ -32,7 +38,23 @@ const themes = [
     }
 ];
 
-const Settings = observer(() => {
+const Settings = (props) => {
+
+    let { path } = useRouteMatch();
+
+    return (
+        <Switch>
+            <Route exact path={path}>
+                <SettingsComponent { ...props } />
+            </Route>
+            <Route path={`${path}/:username`}>
+                <EditUser />
+            </Route>
+        </Switch>
+    )
+}
+
+const SettingsComponent = observer(() => {
 
     const { globalStore } = useStores();
     const history = useHistory();
