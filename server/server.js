@@ -242,7 +242,6 @@ app.get('/user/delete', (req, res, next) => {
 
 app.post('/user/update', async (req, res, next) => {
     const user = req.body.user;
-    console.log(user);
 
     const new_password = user.password;
     const current_password = user.current_password;

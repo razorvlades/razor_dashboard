@@ -10,7 +10,7 @@
             "name": "Netdata",
             "type": "netdata",
             "icon": "netdata.png",
-            "enhanced": false
+            "enhanced": true
         },
         {
             "name": "Jellyfin",
@@ -22,7 +22,7 @@
             "name": "Plex",
             "type": "plex",
             "icon": "plex.png",
-            "enhanced": false
+            "enhanced": true
         },
         {
             "name": "Nextcloud",
@@ -34,7 +34,7 @@
             "name": "Portainer",
             "type": "portainer",
             "icon": "portainer.png",
-            "enhanced": false
+            "enhanced": true
         },
         {
             "name": "qBittorrent",
@@ -52,7 +52,7 @@
             "name": "Shoko",
             "type": "shoko",
             "icon": "shoko.png",
-            "enhanced": false
+            "enhanced": true
         },
         {
             "name": "Traefik",

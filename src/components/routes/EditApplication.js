@@ -21,6 +21,7 @@ export const EditApplication = observer((props) => {
     const [app, setApp] = useState({});
     const [loading, setLoading] = useState(true);
     const [deleting, setDeleting] = useState(false);
+    const [enhanced, setEnhanced] = useState(false);
 
     const [colorPickerVisible, setColorPickerVisible] = useState(false);
 
@@ -32,10 +33,24 @@ export const EditApplication = observer((props) => {
 
     useEffect(() => {
         if (loading) {
-            setApp(globalStore.apps.find(a => a.id === id));
+            const foundApp = globalStore.apps.find(a => a.id === id)
+            setApp(foundApp);
+
             setLoading(false);
         }
     }, [globalStore, id, loading]);
+
+    useEffect(() => {
+        if (!loading) {
+            const appInfo = globalStore.appsData.find(a => a.type === app.type);
+
+            if (appInfo && appInfo.enhanced) {
+                setEnhanced(true);
+            } else {
+                setEnhanced(false);
+            }
+        }
+    }, [app, loading]);
 
     const _saveApp = async () => {
         let newApps = [...globalStore.apps];
@@ -225,6 +240,7 @@ export const EditApplication = observer((props) => {
                 colorPickerVisible={colorPickerVisible}
                 _showColorPicker={_showColorPicker}
                 _hideColorPicker={_hideColorPicker}
+                enhancedEnabled={enhanced}
             />
         </div>
     )
@@ -248,7 +264,8 @@ const Body = observer(props => {
         _setColorPickerVisible,
         colorPickerVisible,
         _showColorPicker,
-        _hideColorPicker
+        _hideColorPicker,
+        enhancedEnabled
     } = props;
 
     const { globalStore } = useStores();
@@ -276,10 +293,10 @@ const Body = observer(props => {
     }
     const cover = {
         position: 'fixed',
-        top: '0px',
-        right: '0px',
-        bottom: '0px',
-        left: '0px',
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
     }
 
     return (
@@ -360,35 +377,35 @@ const Body = observer(props => {
 
             </div>
 
-            <SubHeader _changeEnhanced={_changeEnhanced} app={app} />
+            <SubHeader enhancedEnabled={enhancedEnabled} _changeEnhanced={_changeEnhanced} app={app} />
 
             <div className='edit_app_body_row_3'>
 
                 <div className='edit_app_body_item_container'>
                     <div className='edit_body_app_item'>
                         <label className='edit_app_body_input_label' htmlFor="app_api_url">API URL (if different from above)</label>
-                        <input id='app_api_url' className='textInput' onChange={_changeApiUrl} value={app.api_url || ''} type="text"/>
+                        <input id='app_api_url' className='textInput' disabled={!enhancedEnabled} onChange={_changeApiUrl} value={app.api_url || ''} type="text"/>
                     </div>
                 </div>
 
                 <div className='edit_app_body_item_container'>
                     <div className='edit_body_app_item'>
                         <label className='edit_app_body_input_label' htmlFor="app_api_key">API_KEY</label>
-                        <input id='app_api_key' className='textInput' onChange={_changeApiKey} value={app.api_key || ''} type="text"/>
+                        <input id='app_api_key' className='textInput' disabled={!enhancedEnabled} onChange={_changeApiKey} value={app.api_key || ''} type="text"/>
                     </div>
                 </div>
 
                 <div className='edit_app_body_item_container'>
                     <div className='edit_body_app_item'>
                         <label className='edit_app_body_input_label' htmlFor="app_api_username">Username</label>
-                        <input id='app_api_username' className='textInput' onChange={_changeApiUsername} value={app.api_username || ''} type="text"/>
+                        <input id='app_api_username' className='textInput' disabled={!enhancedEnabled} onChange={_changeApiUsername} value={app.api_username || ''} type="text"/>
                     </div>
                 </div>
 
                 <div className='edit_app_body_item_container'>
                     <div className='edit_body_app_item'>
                         <label className='edit_app_body_input_label' htmlFor="app_api_password">Password</label>
-                        <input id='app_api_password' className='textInput' onChange={_changeApiPassword} value={app.api_password || ''} type="password"/>
+                        <input id='app_api_password' className='textInput' disabled={!enhancedEnabled} onChange={_changeApiPassword} value={app.api_password || ''} type="password"/>
                     </div>
                 </div>
 
@@ -448,7 +465,8 @@ const SubHeader = (props) => {
 
     const {
         app,
-        _changeEnhanced
+        _changeEnhanced,
+        enhancedEnabled
     } = props;
 
     return (
@@ -458,8 +476,8 @@ const SubHeader = (props) => {
             </div>
             <div className='enhanced_checkbox_div'>
                 <div>
-                    <label style={{paddingRight: 10}} htmlFor="app_enhanced">Enhanced</label>
-                    <input id="app_enhanced" type="checkbox" checked={app.enhanced  || false} onChange={_changeEnhanced}/>
+                    <label style={{ paddingRight: 10 }} htmlFor="app_enhanced">Enhanced</label>
+                    <input disabled={!enhancedEnabled} id="app_enhanced" type="checkbox" checked={app.enhanced  || false} onChange={_changeEnhanced}/>
                 </div>
             </div>
         </div>
