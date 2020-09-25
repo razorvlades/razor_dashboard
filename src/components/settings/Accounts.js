@@ -105,6 +105,25 @@ const AccountSettingsItem = observer((props) => {
         }
     }
 
+    const _updateAccount = async () => {
+        const user = {
+            current_username: account.username,
+            username: 'test',
+            password: 'test'
+        }
+
+        const result = await fetch('/user/update', {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                user: user
+            })
+        });
+    }
+
     const buttonStyle = {
         marginRight: 10
     }
@@ -117,6 +136,9 @@ const AccountSettingsItem = observer((props) => {
             <div style={{ display: 'flex', flex: 1, alignItems: 'center', justifyContent: 'flex-end' }}>
                 <button style={buttonStyle} onClick={_deleteAccount}>Delete</button>
             </div>
+            {/* <div style={{ display: 'flex', flex: 1, alignItems: 'center', justifyContent: 'flex-end' }}>
+                <button style={buttonStyle} onClick={_updateAccount}>update</button>
+            </div> */}
         </div>
     )
 });

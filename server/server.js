@@ -240,5 +240,16 @@ app.get('/user/delete', (req, res, next) => {
     });
 });
 
+app.post('/user/update', (req, res, next) => {
+    const user = req.body.user;
+    console.log(user);
+
+    UserDetails.findOneAndUpdate({ username: user.current_username }, { $set: { username: user.username, password: user.password } }, {}, (err, doc) => {
+        if (err)
+            return res.send({ ok: false });
+        return res.send({ ok: true });
+    });
+});
+
 app.listen(PORT, HOST);
 console.log(`Running on http://${HOST}:${PORT}`);
