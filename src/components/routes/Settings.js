@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useStores } from '../../util/stores';
 import { observer } from 'mobx-react';
 import {
@@ -54,10 +54,12 @@ const Settings = (props) => {
     )
 }
 
-const SettingsComponent = observer(() => {
+const SettingsComponent = observer((props) => {
 
     const { globalStore } = useStores();
     const history = useHistory();
+
+    const [refreshInterval, setRefreshInterval] = useState(globalStore.refreshInterval);
 
     const tableHeaderStyle = {
         alignSelf: 'center',
@@ -87,6 +89,8 @@ const SettingsComponent = observer(() => {
     }
 
     const _saveSettings = async () => {
+        globalStore.setRefreshInterval(refreshInterval);
+        
         await fetch('/updateConfig', {
             method: 'POST',
             headers: {
@@ -97,7 +101,8 @@ const SettingsComponent = observer(() => {
                 apps: globalStore.apps,
                 theme: globalStore.theme,
                 title: globalStore.title,
-                view: globalStore.view
+                view: globalStore.view,
+                refreshInterval: refreshInterval
             })
         });
 
@@ -118,9 +123,10 @@ const SettingsComponent = observer(() => {
                     </div>
 
                     <div>
-                        <DefaultViewSettingsItem/>
-                        <TitleTextSettingsItem/>
-                        <ThemeSettingsItem/>
+                        <DefaultViewSettingsItem />
+                        <TitleTextSettingsItem />
+                        <ThemeSettingsItem />
+                        <RefreshIntervalSettingsItem refreshInterval={refreshInterval} setRefreshInterval={setRefreshInterval} />
                     </div>
                 </div>
             </div>
@@ -213,5 +219,28 @@ const ThemeSettingsItem = observer((props) => {
         </div>
     )
 });
+
+const RefreshIntervalSettingsItem = (props) => {
+
+   const {
+       refreshInterval,
+       setRefreshInterval
+   } = props;
+
+    const _changeRefreshInterval = async (e) => {
+        setRefreshInterval(e.target.value);
+    }
+
+    return (
+        <div className="settingsItem">
+            <div className="settings_item_title_container">
+                <div className='settingsOptionTitle'>API Refresh Interval (ms)</div>
+            </div>
+            <div className='settings_item_input_container'>
+                <input style={{ width: '69%'}} className='textInput' onChange={_changeRefreshInterval} value={refreshInterval} type="text"/>
+            </div>
+        </div>
+    )
+}
 
 export default Settings;

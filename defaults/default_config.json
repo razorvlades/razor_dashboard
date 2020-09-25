@@ -3,5 +3,6 @@
     ],
     "theme": "light",
     "title": "Welcome Home",
-    "view": "small_grid"
+    "view": "small_grid",
+    "refreshInterval": 5000
 }

@@ -340,8 +340,8 @@ const Body = observer(props => {
                 <div className='edit_app_body_item_container'>
                     <div className='edit_body_app_item'>
                         <label className='edit_app_body_input_label' htmlFor="bgColor">Color</label>
-                        <div>
-                            <input id='app_color' style={{ border: 0 }} className='textInput' onClick={ _setColorPickerVisible } onChange={_updateColor} value={color} type="text"/>
+                        <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                            <input id='app_color' className='textInput' onClick={ _setColorPickerVisible } onChange={_updateColor} value={color} type="text"/>
                             { colorPickerVisible ? <div style={ popover }>
                             <div style={ cover } onClick={ _hideColorPicker }/>
                             <ChromePicker onChangeComplete={_handleColorChangeComplete} onChange={_handleColorChange} color={color} />

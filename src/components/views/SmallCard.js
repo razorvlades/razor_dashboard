@@ -43,7 +43,7 @@ export const SmallCard = observer((props) => {
     let getApiDataInterval;
     if (enhanced) {
       getApiData();
-      getApiDataInterval = setInterval(getApiData, 5000);
+      getApiDataInterval = setInterval(getApiData, globalStore.refreshInterval);
     }
 
     return () => {

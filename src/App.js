@@ -31,10 +31,16 @@ const App = observer(() => {
   useEffect(() => {
     fetch('/getConfig').then(async (res) => {
       const config = await res.json();
-      globalStore.setApps(config.apps);
-      globalStore.setTitle(config.title);
-      globalStore.setTheme(config.theme);
-      globalStore.setView(config.view);
+      if (config.apps)
+        globalStore.setApps(config.apps);
+      if (config.title)
+        globalStore.setTitle(config.title);
+      if (config.theme)
+        globalStore.setTheme(config.theme);
+      if (config.view)
+        globalStore.setView(config.view);
+      if (config.refreshInterval)
+        globalStore.setRefreshInterval(config.refreshInterval);
 
       const apps = config.apps;
       

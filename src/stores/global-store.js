@@ -13,6 +13,9 @@ export default class GlobalStore {
     view = 'grid';
     setView = view => this.view = view;
 
+    refreshInterval = 5000;
+    setRefreshInterval = refreshInterval => this.refreshInterval = refreshInterval;
+
     loggedIn = false;
     setLoggedIn = loggedIn => this.loggedIn = loggedIn;
 
@@ -37,5 +40,7 @@ decorate(GlobalStore, {
   appsData: observable,
   setAppsData: action,
   headerVisible: observable,
-  setHeaderVisible: action
+  setHeaderVisible: action,
+  refreshInterval: observable,
+  setRefreshInterval: action
 });
