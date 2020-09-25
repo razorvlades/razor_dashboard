@@ -1,4 +1,4 @@
-export const retrieveApiData = (type, app) => {
+export const retrieveApiData = (type, app, i) => {
     let data = { data_left: {}, data_right: {} };
     const url = app.api_url === '' ? app.url : app.api_url;
     
@@ -15,6 +15,8 @@ export const retrieveApiData = (type, app) => {
             return getNetdataStats(url);
         case 'shoko':
             return getShokoStats(url, app.api_username, app.api_password);
+        case 'plex':
+            return getPlexStats(url, app.api_key, i);
         default:
           return data;
     }
@@ -135,6 +137,32 @@ const getShokoStats = async (url, username, password) => {
     const data_right = {
         title: 'Files',
         content: json.files_count
+    };
+
+    return { data_left, data_right };
+}
+
+const getPlexStats = async (url, api_key, i) => {
+    if (!api_key) {
+        return { data_left: {}, data_right: {} };
+    }
+
+    const res = await fetch('/api/plex?url=' + url + '&api_key=' + api_key);
+
+    const json = await res.json();
+    const libs = json.libraries;
+
+    const index_1 = i % libs.length;
+    const index_2 = (i + 1) % libs.length;
+
+    const data_left = {
+        title: libs[index_1].title,
+        content: libs[index_1].size
+    };
+
+    const data_right = {
+        title: libs[index_2].title,
+        content: libs[index_2].size
     };
 
     return { data_left, data_right };

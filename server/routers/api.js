@@ -2,6 +2,7 @@ const express = require('express');
 const fetch = require("node-fetch");
 const xmlrpc = require('xmlrpc');
 const router = express.Router();
+const xmlparser = require('fast-xml-parser');
 
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
@@ -154,6 +155,57 @@ router.get('/shoko', async (req, res) => {
     const files_count = files_json.count;
 
     res.send({ series_count, files_count });
+});
+
+router.get('/plex', async (req, res) => {
+    const url = req.query.url;
+    const api_key = req.query.api_key;
+
+    const fetch_url = `${url}/library/sections?X-Plex-Token=${api_key}`;
+    const result = await fetch(fetch_url);
+    const xml = await result.text();
+
+    const options = {
+        attributeNamePrefix : "__",
+        ignoreAttributes : false,
+        ignoreNameSpace : false,
+        allowBooleanAttributes : false,
+        parseNodeValue : true,
+        parseAttributeValue : false,
+        trimValues: true,
+        parseTrueNumberOnly: false,
+        arrayMode: false,
+    };
+
+    if (xmlparser.validate(xml) === true) { 
+        const libraries = [];
+        const json = xmlparser.parse(xml, options);
+
+        for (let lib of json.MediaContainer.Directory) {
+            libraries.push({ key: lib.__key, title: lib.__title });
+        }
+        
+        for (let i = 0; i < libraries.length; i++) {
+            const key = libraries[i].key;
+            const fetch_url = `${url}/library/sections/${key}/all?X-Plex-Token=${api_key}`;
+            const lib_result = await fetch(fetch_url);
+            const lib_xml = await lib_result.text();
+            if (xmlparser.validate(lib_xml) === true) { 
+                const lib_json = xmlparser.parse(lib_xml, options);
+                const size = lib_json.MediaContainer.__size
+                libraries[i].size = size;
+            }
+        }
+
+        const libs = libraries.sort((a, b) => {
+            return Number(b.size) - Number(a.size);
+        });
+
+        return res.send({ ok: true, libraries: libs });
+    }
+    else {
+        return res.send({ ok: false });
+    } 
 });
 
 module.exports = router;

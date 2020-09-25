@@ -30,11 +30,12 @@ export const SmallCard = observer((props) => {
   }, [globalStore.theme]);
   
   useEffect(() => {
+    let i = 0;
     const getApiData = async () => {
       const {
         data_left,
         data_right
-      } = await retrieveApiData(type, props.item);
+      } = await retrieveApiData(type, props.item, i++);
       setDataLeft(data_left);
       setDataRight(data_right);
     }
