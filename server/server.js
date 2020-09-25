@@ -223,5 +223,22 @@ app.get('/user', (req, res, next) => {
     }
 });
 
+app.get('/users', (req, res, next) => {
+    const query = UserDetails.find({});
+    query.exec((err, users) => {
+        console.log(users);
+        res.send({ users });
+    })
+});
+
+app.get('/user/delete', (req, res, next) => {
+    const username = req.query.username;
+    UserDetails.findOneAndDelete({ username: username }, {}, (err, doc) => {
+        if (err)
+            return res.send({ ok: false });
+        return res.send({ ok: true });
+    });
+});
+
 app.listen(PORT, HOST);
 console.log(`Running on http://${HOST}:${PORT}`);

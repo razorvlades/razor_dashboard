@@ -1,29 +1,17 @@
-import React, { useState } from 'react';
-import { observer } from 'mobx-react';
+import React, { useState, useEffect } from 'react';
 import {
     useHistory,
     useLocation
-  } from "react-router-dom";
+} from "react-router-dom";
+import '../../css/register.css';
 
-const Signup = observer((props) => {
+const Signup = (props) => {
 
     const history = useHistory();
     const location = useLocation();
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-
-    const settingsContainerStyle = {
-        alignContent: 'center',
-        marginTop: 25,
-        marginLeft: 500,
-        marginRight: 500,
-        borderRadius: 10,
-        marginBottom: 25,
-        backgroundColor: 'white',
-        justifyContent: 'center',
-        overflow: 'hidden',
-    }
 
     const _onSignup = async (e) => {
         e.preventDefault();
@@ -43,7 +31,7 @@ const Signup = observer((props) => {
         const registered = (await res.json()).registered;
         
         if (registered) {
-            const { from } = location.state || { from: { pathname: "/login" } };
+            const { from } = location.state || { from: { pathname: "/settings" } };
             history.replace(from);
         }
     }
@@ -57,18 +45,32 @@ const Signup = observer((props) => {
     }
 
     return (
-        <div style={settingsContainerStyle}>
-        <form onSubmit={_onSignup}>
-            <label for="uname"><b>Username</b></label>
-            <input className='textInput' onChange={_onUsernameChange} value={username} type="text" required/>
+        <div class="container-register">
+			<div class="wrap-login">
+				<form class="login-form" onSubmit={_onSignup}>
+					<span class="login-form-logo">
+                        <img alt='RazorDash logo' src={require('../../icons/icon.png')} width='100%' height='100%' style={{ overflow: 'hidden', borderRadius: 100 }}/>
+					</span>
 
-            <label for="psw"><b>Password</b></label>
-            <input className='textInput' onChange={_onPasswordChange} value={password} type="password" required/>
+					<span class="login-form-title">New Account</span>
 
-            <button type="submit">Sign Up</button>
-        </form>
-        </div>
+					<div class="wrap-input" data-validate = "Enter username">
+						<input class="input" type="text" name="username" placeholder="Username" onChange={_onUsernameChange} value={username} required/>
+                        <span class="focus-input"/>
+                    </div>
+
+					<div class="wrap-input" data-validate="Enter password">
+						<input class="input" type="password" name="pass" placeholder="Password" onChange={_onPasswordChange} value={password} required/>
+                        <span class="focus-input"/>
+                    </div>
+
+					<div class="container-login-form-btn">
+						<button type="submit" class="login-form-btn">Create Account</button>
+					</div>
+				</form>
+			</div>
+        </div>  
     )
-});
+}
 
 export default Signup;

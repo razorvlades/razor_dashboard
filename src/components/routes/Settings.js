@@ -1,6 +1,10 @@
 import React from 'react';
 import { useStores } from '../../util/stores';
 import { observer } from 'mobx-react';
+import {
+    useHistory,
+} from "react-router-dom";
+import { Accounts } from '../settings/Accounts';
 
 const views = [
     {
@@ -28,9 +32,10 @@ const themes = [
     }
 ];
 
-const Settings = observer((props) => {
+const Settings = observer(() => {
 
     const { globalStore } = useStores();
+    const history = useHistory();
 
     const tableHeaderStyle = {
         alignSelf: 'center',
@@ -73,27 +78,33 @@ const Settings = observer((props) => {
                 view: globalStore.view
             })
         });
+
+        history.replace({ pathname: "/" });
     }
 
     return (
-        <div className='settingsContainer'>
-            <div style={tableStyle}>
-                <div style={tableHeaderContainerStyle}>
-                    <div className="settingsTableHeader">
-                        <div style={tableHeaderStyle}>Settings</div>
-                        <div style={saveButtonStyle}>
-                            <button onClick={_saveSettings}>Save</button>
+        <>
+            <div className='settingsContainer'>
+                <div style={tableStyle}>
+                    <div style={tableHeaderContainerStyle}>
+                        <div className="settingsTableHeader">
+                            <div style={tableHeaderStyle}>Settings</div>
+                            <div style={saveButtonStyle}>
+                                <button onClick={_saveSettings}>Save</button>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div>
-                    <DefaultViewSettingsItem/>
-                    <TitleTextSettingsItem/>
-                    <ThemeSettingsItem/>
+                    <div>
+                        <DefaultViewSettingsItem/>
+                        <TitleTextSettingsItem/>
+                        <ThemeSettingsItem/>
+                    </div>
                 </div>
             </div>
-        </div>
+
+            <Accounts/>
+        </>
     )
 });
 

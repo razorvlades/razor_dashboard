@@ -2,5 +2,6 @@
     "apps": [
     ],
     "theme": "light",
-    "title": "Welcome Home"
+    "title": "Welcome Home",
+    "view": "small_grid"
 }

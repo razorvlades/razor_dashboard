@@ -6,7 +6,7 @@ import {
     useLocation,
 } from "react-router-dom";
 
-const Login = observer((props) => {
+const Login = observer(() => {
 
     const { globalStore } = useStores();
     const history = useHistory();
@@ -36,8 +36,7 @@ const Login = observer((props) => {
         
         if (loggedIn) {
             globalStore.setLoggedIn(true);
-            const { from } = location.state || { from: { pathname: "/" } };
-            history.replace(from);
+            history.replace({ pathname: "/" });
         }
     }
 

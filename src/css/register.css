@@ -1,0 +1,27 @@
+.container-register {
+    width: 100%;  
+    min-height: 70vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    position: relative;
+    z-index: 1;
+    margin: 0px; 
+    box-sizing: border-box;
+}
+  
+.container-register::before {
+    margin: 0px; 
+    padding: 0px; 
+    box-sizing: border-box;
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}

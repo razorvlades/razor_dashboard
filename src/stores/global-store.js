@@ -18,6 +18,9 @@ export default class GlobalStore {
 
     appsData = [];
     setAppsData = appsData => this.appsData = appsData;
+
+    headerVisible = true;
+    setHeaderVisible = headerVisible => this.headerVisible = headerVisible;
 }
 
 decorate(GlobalStore, {
@@ -32,5 +35,7 @@ decorate(GlobalStore, {
   loggedIn: observable,
   setLoggedIn: action,
   appsData: observable,
-  setAppsData: action
-})
+  setAppsData: action,
+  headerVisible: observable,
+  setHeaderVisible: action
+});

@@ -83,7 +83,7 @@ const App = observer(() => {
         !configLoading && !checkingLogin && 
         <Router>
           <div className="page">
-            { globalStore.loggedIn &&
+            { globalStore.loggedIn && globalStore.headerVisible &&
               <div className="header">
                   <Header />
               </div>
