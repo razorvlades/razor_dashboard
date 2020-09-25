@@ -112,4 +112,48 @@ router.get('/netdata', async (req, res) => {
     res.send(json);
 });
 
+router.get('/shoko', async (req, res) => {
+    const url = req.query.url;
+    const username = req.query.username;
+    const password = req.query.password;
+
+    const auth_url = req.query.url + '/api/auth';
+    const auth_result = await fetch(auth_url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "user": username,
+            "pass": password,
+            "device": "RazorDash"
+        })
+    });
+
+    const auth_json = await auth_result.json();
+    const api_key = auth_json.apikey;
+
+    const fetch_url = `${url}/api/serie/count`;
+    const result = await fetch(fetch_url, {
+        headers: {
+            'Content-Type': 'application/json',
+            'apikey': api_key
+        }
+    });
+    const json = await result.json();
+    const series_count = json.count;
+    
+    const files_url = `${url}/api/file/count`;
+    const files_result = await fetch(files_url, {
+        headers: {
+            'Content-Type': 'application/json',
+            'apikey': api_key
+        }
+    });
+    const files_json = await files_result.json();
+    const files_count = files_json.count;
+
+    res.send({ series_count, files_count });
+});
+
 module.exports = router;

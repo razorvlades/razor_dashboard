@@ -13,6 +13,8 @@ export const retrieveApiData = (type, app) => {
             return getJellyfinStats(url, app.api_key);
         case 'netdata':
             return getNetdataStats(url);
+        case 'shoko':
+            return getShokoStats(url, app.api_username, app.api_password);
         default:
           return data;
     }
@@ -36,6 +38,10 @@ const getTautulliStats = async (url, api_key) => {
 }
 
 const getRuTorrentStats = async (url, username, password) => {
+    if (!username || !password) {
+        return { data_left: {}, data_right: {} };
+    }
+
     const res = await fetch('/api/rutorrent?url=' + url + '&username=' + username + '&password=' + password);
     const json = await res.json();
 
@@ -108,6 +114,28 @@ const getNetdataStats = async (url) => {
         title: 'Critical',
         content: json.alarms.critical
     }
+
+    return { data_left, data_right };
+}
+
+const getShokoStats = async (url, username, password) => {
+    if (!username || !password) {
+        return { data_left: {}, data_right: {} };
+    }
+
+    const res = await fetch('/api/shoko?url=' + url + '&username=' + username + '&password=' + password);
+
+    const json = await res.json();
+
+    const data_left = {
+        title: "Series",
+        content: json.series_count
+    };
+
+    const data_right = {
+        title: 'Files',
+        content: json.files_count
+    };
 
     return { data_left, data_right };
 }

@@ -179,17 +179,17 @@ const SettingsAppItem = observer((props) => {
 
     return (
         <div className='settingsItem'>
-            <div class='settings_item_name_container'>
-                <img alt={`App icon: ${app.icon}`} class='settings_item_icon' height={40} width={40} src={'/icons/' + app.icon}/>
+            <div className='settings_item_name_container'>
+                <img alt={`App icon: ${app.icon}`} className='settings_item_icon' height={40} width={40} src={'/icons/' + app.icon}/>
                 <input className='settings_item_name_input settings_item_textinput' disabled={!editing} onChange={_changeName} value={name} type="text"/>
             </div>
-            <div class='settings_item_url_container'>
+            <div className='settings_item_url_container'>
                 <input className='settings_item_name_input settings_item_textinput' disabled={!editing} onChange={_changeUrl} value={url} type="text"/>
             </div>
-            <div class='edit_apps_edit_button_container'>
+            <div className='edit_apps_edit_button_container'>
                 <Link className='edit_page_link' to={`${route_url}/${app.id}`}>Edit App</Link>
             </div>
-            <div class='edit_apps_delete_button_container'>
+            <div className='edit_apps_delete_button_container'>
                 <button disabled={!editing} onClick={_onDeletePress}>
                     { deleting ? 'Are you sure?' : 'Delete'}
                 </button>
