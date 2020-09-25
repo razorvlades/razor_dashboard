@@ -11,6 +11,8 @@ export const retrieveApiData = (type, app) => {
             return getRadarrStats(url, app.api_key);
         case 'jellyfin':
             return getJellyfinStats(url, app.api_key);
+        case 'netdata':
+            return getNetdataStats(url);
         default:
           return data;
     }
@@ -89,6 +91,23 @@ const getJellyfinStats = async (url, api_key) => {
         title: "Movies",
         content: json.MovieCount
     };
+
+    return { data_left, data_right };
+}
+
+const getNetdataStats = async (url) => {
+    const res = await fetch('/api/netdata?url=' + url);
+    const json = await res.json();
+
+    const data_left = {
+        title: "Warning",
+        content: json.alarms.warning
+    };
+
+    const data_right = {
+        title: 'Critical',
+        content: json.alarms.critical
+    }
 
     return { data_left, data_right };
 }

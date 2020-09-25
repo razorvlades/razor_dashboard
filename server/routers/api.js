@@ -102,5 +102,14 @@ router.get('/jellyfin', async (req, res) => {
     res.send(json);
 });
 
+router.get('/netdata', async (req, res) => {
+    const url = req.query.url;
+
+    const fetch_url = `${url}/api/v1/info`;
+    const result = await fetch(fetch_url);
+    const json = await result.json();
+
+    res.send(json);
+});
 
 module.exports = router;
