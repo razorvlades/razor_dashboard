@@ -17,6 +17,8 @@ export const retrieveApiData = (type, app, i) => {
             return getShokoStats(url, app.api_username, app.api_password);
         case 'plex':
             return getPlexStats(url, app.api_key, i);
+        case 'portainer':
+            return getPortainerStats(url);
         default:
           return data;
     }
@@ -63,11 +65,7 @@ const getRuTorrentStats = async (url, username, password) => {
     else {
         return { data_left: {}, data_right: {} };
     }
-}
-    
-
-
-    
+}    
 
 const getRadarrStats = async (url, api_key) => {
     const res = await fetch('/api/radarr?url=' + url + '&api_key=' + api_key);
@@ -166,4 +164,12 @@ const getPlexStats = async (url, api_key, i) => {
     };
 
     return { data_left, data_right };
+}
+
+const getPortainerStats = async (url) => {
+    const res = await fetch('/api/portainer?url=' + url);
+
+    const json = await res.json();
+
+    return { data_left: json.data_left, data_right: json.data_right };
 }

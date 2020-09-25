@@ -208,4 +208,19 @@ router.get('/plex', async (req, res) => {
     } 
 });
 
+router.get('/portainer', async (req, res) => {
+    const url = req.query.url;
+
+    const fetch_url = req.query.url + '/api/status';
+    const result = await fetch(fetch_url);
+    const json = await result.json();
+
+    if (json.err) {
+        return res.send({ ok: true, data_left: { title: 'Status', content: 'Error' }, data_right: {} });
+    }
+    else {
+        return res.send({ ok: true, data_left: { title: 'Status', content: 'OK' }, data_right: { title: 'Version', content: json.Version } });
+    }
+});
+
 module.exports = router;
