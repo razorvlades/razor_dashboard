@@ -22,6 +22,7 @@ services:
       DB_USER: {db_user}
       DB_PASS: {db_password}
       SESSION_SECRET: {session_secret}
+      ENCRYPTION_KEY: {encryption_key}
     restart: always
     depends_on:
       - mongo
