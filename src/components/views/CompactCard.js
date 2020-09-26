@@ -4,6 +4,8 @@ import { observer } from 'mobx-react';
 import { useStores } from '../../util/stores';
 import { lightTheme, darkTheme } from '../../util/themes';
 import { retrieveApiData } from '../../util/enhancedAppsController';
+import { SortableContainer, SortableElement } from 'react-sortable-hoc';
+import arrayMove from 'array-move';
 
 export const CompactCard = observer((props) => {
 
@@ -61,7 +63,7 @@ export const CompactCard = observer((props) => {
   }, []);
 
   return (
-    <a style={{ backgroundColor: customColor ? color : theme.body }} className="compact_card" href={url} rel="noopener noreferrer" target="_blank" >
+    <a style={{ backgroundColor: customColor ? color : theme.body }} className={ props.isDragging ? "compact_card_dragging" : "compact_card"} href={url} rel="noopener noreferrer" target="_blank" >
       <div style={{ color: customColor ? 'white' : theme.text }} className="compact_card_icon_container">
           <img src={'/icons/' + icon} alt={url}></img>
       </div>
@@ -100,6 +102,20 @@ export const CompactCard = observer((props) => {
   )
 });
 
+const SortableItem = SortableElement(({ item, isDragging }) => <CompactCard item={item} isDragging={isDragging}/>);
+
+const SortableList = SortableContainer(({ items, isDragging }) => {
+  return (
+    <div className="compact_card_container">
+      {
+        items.map((app, index) => (
+          <SortableItem isDragging={isDragging} key={app.id} index={index} item={app}/>
+        ))
+      }
+    </div>
+  );
+});
+
 const CompactCards = observer((props) => {
   const { globalStore } = useStores();
 
@@ -107,14 +123,46 @@ const CompactCards = observer((props) => {
     apps: appList,
   } = globalStore;
 
+  const [isDragging, setIsDragging] = useState(false);
+
+  const saveApps = async (newApps) => {
+
+    await fetch('/updateConfig', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            apps: newApps,
+            theme: globalStore.theme,
+            title: globalStore.title,
+            view: globalStore.view,
+            refreshInterval: globalStore.refreshInterval
+        })
+    });
+  }
+
+  const onSortStart = () => {
+    setIsDragging(true);
+  }
+
+  const onSortEnd = ({ oldIndex, newIndex }) => {
+    setIsDragging(false);
+    const newApps = arrayMove(appList, oldIndex, newIndex);
+    globalStore.setApps(newApps);
+    saveApps(newApps);
+  };
+
   return (
-    <div className="compact_card_container">
-      {
-        appList.map((app, index) => (
-         <CompactCard key={app.url + index} item={app}/>
-        ))
-      }
-    </div>
+    <SortableList
+      items={appList}
+      onSortStart={onSortStart}
+      onSortEnd={onSortEnd}
+      axis='xy'
+      isDragging={isDragging}
+      useWindowAsScrollContainer={true}
+    />
   )
 });
 

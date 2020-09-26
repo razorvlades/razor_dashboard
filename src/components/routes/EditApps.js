@@ -74,7 +74,8 @@ const EditAppsComponent = observer((props) => {
                 apps: newApps,
                 theme: globalStore.theme,
                 title: globalStore.title,
-                view: globalStore.view
+                view: globalStore.view,
+                refreshInterval: globalStore.refreshInterval
             })
         });
     }

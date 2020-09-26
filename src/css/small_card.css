@@ -8,24 +8,48 @@
   color:  rgb(68, 67, 67);
   top: -7px;
 }
-  
+
 .smallcard {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
-  transition: 0.3s;
   padding: 16px;
   color: black;
   border-radius: 10px;
   height: 90px;
 
-  -webkit-transition-duration: 0.2s; /* Safari */
+  -webkit-transition-duration: 0.2s;
   transition-duration: 0.2s;
+  transition: top ease 0.5s;
   text-decoration: none;
 
   position: relative;
   top: 0;
-  transition: top ease 0.5s;
   display: flex;
   padding-left: 20px;
+}
+
+.smallcard_dragging {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+  padding: 16px;
+  color: black;
+  border-radius: 10px;
+  height: 90px;
+
+  text-decoration: none;
+
+  position: relative;
+  top: 0;
+  display: flex;
+  padding-left: 20px;
+}
+
+.smallcard_dragging:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  cursor: pointer;
+  color:  rgb(68, 67, 67);
+}
+
+.smallcard_dragging img {
+  height: 75px;
 }
   
 .smallcard img {

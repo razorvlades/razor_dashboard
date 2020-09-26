@@ -107,9 +107,6 @@ router.get('/tautulli', async (req, res) => {
     const url = req.query.url;
     const api_key = req.query.api_key;
 
-    // const hash = encrypt('Hello World!', process.env.ENCRYPTION_KEY);
-    // const text = decrypt(hash, process.env.ENCRYPTION_KEY);
-
     const fetch_url = `${url}/api/v2?apikey=${api_key}&cmd=get_libraries`;
     const response = await fetch(fetch_url);
     const json = await response.json();

@@ -47,6 +47,30 @@
     top: 0;
     transition: top ease 0.5s;
   }
+
+  .card_dragging {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+    padding: 16px;
+    text-align: center;
+    color: black;
+    border-radius: 10px;
+    height: 180px;
+
+    text-decoration: none;
+  
+    position: relative;
+    top: 0;
+  }
+
+  .card_dragging:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    cursor: pointer;
+    color:  rgb(68, 67, 67);
+  }
+
+  .card_dragging img {
+    height: 115px;
+  }
   
   @media screen and (max-width: 1600px) {
     .card_container {

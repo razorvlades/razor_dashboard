@@ -48,6 +48,29 @@
 .compact_card img {
     height: 50px;
 }
+
+.compact_card_dragging:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    cursor: pointer;
+    color:  rgb(68, 67, 67);
+}
+    
+.compact_card_dragging {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+    padding: 16px;
+    color: black;
+    border-radius: 10px;
+    height: 60px;
+    text-decoration: none;
+    position: relative;
+    top: 0;
+    display: flex;
+    padding-left: 20px;
+}
+    
+.compact_card_dragging img {
+    height: 50px;
+}
   
 /* .compact_card_name_container {
     flex: 5;

@@ -4,6 +4,8 @@ import { useStores } from '../../util/stores';
 import { lightTheme, darkTheme } from '../../util/themes';
 import { retrieveApiData } from '../../util/enhancedAppsController';
 import '../../css/card.css';
+import { SortableContainer, SortableElement } from 'react-sortable-hoc';
+import arrayMove from 'array-move';
 
 const Card = observer((props) => {
     const {
@@ -61,7 +63,7 @@ const Card = observer((props) => {
     }, []);
   
     return (
-      <a style={{ backgroundColor: customColor ? color : theme.body }} className="card" href={url} rel="noopener noreferrer" target="_blank" >
+      <a style={{ backgroundColor: customColor ? color : theme.body }}  className={ props.isDragging ? "card_dragging" : "card"} href={url} rel="noopener noreferrer" target="_blank" >
           <div style={{ fontWeight: 'bold', textAlign: 'left', color: customColor ? 'white' : theme.text }}>
             {name}
           </div>
@@ -98,6 +100,20 @@ const Card = observer((props) => {
     )
 });
 
+const SortableItem = SortableElement(({ item, isDragging }) => <Card item={item} isDragging={isDragging}/>);
+
+const SortableList = SortableContainer(({ items, isDragging }) => {
+  return (
+    <div className="card_container">
+      {
+        items.map((app, index) => (
+          <SortableItem isDragging={isDragging} key={app.id} index={index} item={app}/>
+        ))
+      }
+    </div>
+  );
+});
+
 const Cards = observer((props) => {
   const { globalStore } = useStores();
 
@@ -105,14 +121,46 @@ const Cards = observer((props) => {
     apps: appList,
   } = globalStore;
 
+  const [isDragging, setIsDragging] = useState(false);
+
+  const saveApps = async (newApps) => {
+
+    await fetch('/updateConfig', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            apps: newApps,
+            theme: globalStore.theme,
+            title: globalStore.title,
+            view: globalStore.view,
+            refreshInterval: globalStore.refreshInterval
+        })
+    });
+  }
+
+  const onSortStart = () => {
+    setIsDragging(true);
+  }
+
+  const onSortEnd = ({ oldIndex, newIndex }) => {
+    setIsDragging(false);
+    const newApps = arrayMove(appList, oldIndex, newIndex);
+    globalStore.setApps(newApps);
+    saveApps(newApps);
+  };
+
   return (
-    <div className="card_container">
-      {
-        appList.map((app, index) => (
-         <Card key={app.url + index} item={app}/>
-        ))
-      }
-    </div>
+    <SortableList
+      items={appList}
+      onSortStart={onSortStart}
+      onSortEnd={onSortEnd}
+      axis='xy'
+      isDragging={isDragging}
+      useWindowAsScrollContainer={true}
+    />
   )
 });
 

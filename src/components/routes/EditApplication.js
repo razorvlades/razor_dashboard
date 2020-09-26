@@ -89,7 +89,8 @@ export const EditApplication = observer((props) => {
                 apps: newApps,
                 theme: globalStore.theme,
                 title: globalStore.title,
-                view: globalStore.view
+                view: globalStore.view,
+                refreshInterval: globalStore.refreshInterval
             })
         });
 
@@ -131,6 +132,7 @@ export const EditApplication = observer((props) => {
                 theme: globalStore.theme,
                 title: globalStore.title,
                 view: globalStore.view,
+                refreshInterval: globalStore.refreshInterval
             })
         });
 
