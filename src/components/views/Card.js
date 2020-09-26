@@ -63,7 +63,7 @@ const Card = observer((props) => {
     }, []);
   
     return (
-      <a style={{ backgroundColor: customColor ? color : theme.body }}  className={ props.isDragging ? "card_dragging" : "card"} href={url} rel="noopener noreferrer" target="_blank" >
+      <a style={{ cursor: props.isDragging ? 'move' : 'pointer', backgroundColor: customColor ? color : theme.body }}  className={ props.isDragging ? "card_dragging" : "card"} href={url} rel="noopener noreferrer" target="_blank" >
           <div style={{ fontWeight: 'bold', textAlign: 'left', color: customColor ? 'white' : theme.text }}>
             {name}
           </div>
@@ -104,7 +104,7 @@ const SortableItem = SortableElement(({ item, isDragging }) => <Card item={item}
 
 const SortableList = SortableContainer(({ items, isDragging }) => {
   return (
-    <div className="card_container">
+    <div style={{ cursor: isDragging ? 'move' : 'default' }} className="card_container">
       {
         items.map((app, index) => (
           <SortableItem isDragging={isDragging} key={app.id} index={index} item={app}/>

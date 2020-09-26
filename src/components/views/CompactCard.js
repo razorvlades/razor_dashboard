@@ -63,7 +63,7 @@ export const CompactCard = observer((props) => {
   }, []);
 
   return (
-    <a style={{ backgroundColor: customColor ? color : theme.body }} className={ props.isDragging ? "compact_card_dragging" : "compact_card"} href={url} rel="noopener noreferrer" target="_blank" >
+    <a style={{ cursor: props.isDragging ? 'move' : 'pointer', backgroundColor: customColor ? color : theme.body }} className={ props.isDragging ? "compact_card_dragging" : "compact_card"} href={url} rel="noopener noreferrer" target="_blank" >
       <div style={{ color: customColor ? 'white' : theme.text }} className="compact_card_icon_container">
           <img src={'/icons/' + icon} alt={url}></img>
       </div>
@@ -106,7 +106,7 @@ const SortableItem = SortableElement(({ item, isDragging }) => <CompactCard item
 
 const SortableList = SortableContainer(({ items, isDragging }) => {
   return (
-    <div className="compact_card_container">
+    <div style={{ cursor: isDragging ? 'move' : 'default' }} className="compact_card_container">
       {
         items.map((app, index) => (
           <SortableItem isDragging={isDragging} key={app.id} index={index} item={app}/>

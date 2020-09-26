@@ -63,7 +63,7 @@ export const SmallCard = observer((props) => {
   }, []);
 
   return (
-    <a style={{ backgroundColor: customColor ? color : theme.body }} className={ props.isDragging ? "smallcard_dragging" : "smallcard"} href={url} rel="noopener noreferrer" target="_blank" >
+    <a style={{ cursor: props.isDragging ? 'move' : 'pointer', backgroundColor: customColor ? color : theme.body }} className={ props.isDragging ? "smallcard_dragging" : "smallcard"} href={url} rel="noopener noreferrer" target="_blank" >
       <div style={{ color: customColor ? 'white' : theme.text }} className="smallcard_icon_container">
           <img src={'/icons/' + icon} alt={url}></img>
       </div>
@@ -104,7 +104,7 @@ const SortableItem = SortableElement(({ item, isDragging }) => <SmallCard item={
 
 const SortableList = SortableContainer(({ items, isDragging }) => {
   return (
-    <div className="card_container">
+    <div style={{ cursor: isDragging ? 'move' : 'default' }} className="card_container">
       {
         items.map((app, index) => (
           <SortableItem isDragging={isDragging} key={app.id} index={index} item={app}/>

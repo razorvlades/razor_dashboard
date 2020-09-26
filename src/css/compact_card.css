@@ -51,8 +51,7 @@
 
 .compact_card_dragging:hover {
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-    cursor: pointer;
-    color:  rgb(68, 67, 67);
+    color:  rgb(68, 68, 68);
 }
     
 .compact_card_dragging {
