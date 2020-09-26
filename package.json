@@ -57,8 +57,7 @@
     ]
   },
   "devDependencies": {
-    "nodemon": "^2.0.4",
-    "purify-css": "^1.2.5"
+    "nodemon": "^2.0.4"
   },
   "proxy": "http://localhost:9078"
 }

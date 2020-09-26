@@ -4,13 +4,12 @@ const app = express();
 const fs = require('fs');
 const fs_extra = require('fs-extra')
 const multer = require('multer');
-const crypto = require('crypto');
 const passport = require('passport');
 const session = require('express-session');
 const mongoose = require('mongoose');
-const passportLocalMongoose = require('passport-local-mongoose');
 const MongoStore = require('connect-mongo')(session);
 const api_router = require('./routers/api');
+const UserDetails = require('./models/UserDetails');
 
 // get current directory
 const path = require('path');
@@ -38,52 +37,49 @@ const CONNECTION_SETTINGS = {
 }
 
 mongoose.connect(DB_URI, CONNECTION_SETTINGS);
-const Schema = mongoose.Schema;
-const UserDetail = new Schema({
-  username: String,
-  password: String
-});
 
-UserDetail.plugin(passportLocalMongoose, { usernameLowerCase: true });
-const UserDetails = mongoose.model('user', UserDetail, 'user');
-
-if (!fs.existsSync(dir + '../config')) {
-    fs.mkdirSync(dir + '../config', { recursive: true });
+const init_config = async () => {
+    if (!fs.existsSync(dir + '../config')) {
+        fs.mkdirSync(dir + '../config', { recursive: true });
+    }
+    
+    if (!fs.existsSync(dir + '../config/assets/icons') || !fs.existsSync(dir + '../config/assets/background')) {
+        fs_extra.copy(dir + '../defaults/assets', dir + '../config/assets');
+        console.log('assets directory created');
+    }
+    
+    if (!fs.existsSync(dir + '../config/icons.json')) {
+        fs.copyFileSync(dir + '../defaults/default_icons.json', dir + '../config/icons.json');
+    }
+    
+    if (!fs.existsSync(dir + '../config/config.json')) {
+        fs.copyFileSync(dir + '../defaults/default_config.json', dir + '../config/config.json');
+    }
+    
+    if (!fs.existsSync(dir + '../config/apps.json')) {
+        fs.copyFileSync(dir + '../defaults/default_apps.json', dir + '../config/apps.json');
+    }
+    
+    const oldFile = fs.readFileSync(dir + '../defaults/default_icons.json');
+    const newFile = fs.readFileSync(dir + '../config/icons.json');
+    
+    if (!oldFile.equals(newFile)) {
+        fs.copyFileSync(dir + '../defaults/default_icons.json', dir + '../config/icons.json');
+        fs_extra.copy(dir + '../defaults/assets/icons', dir + '../config/assets/icons');
+    }
+    
+    const oldFile1 = fs.readFileSync(dir + '../defaults/default_apps.json');
+    const newFile1 = fs.readFileSync(dir + '../config/apps.json');
+    
+    if (!oldFile1.equals(newFile1)) {
+        fs.copyFileSync(dir + '../defaults/default_apps.json', dir + '../config/apps.json');
+    }
 }
 
-if (!fs.existsSync(dir + '../config/assets/icons') || !fs.existsSync(dir + '../config/assets/background')) {
-    fs_extra.copy(dir + '../defaults/assets', dir + '../config/assets');
-    console.log('assets directory created');
-}
-
-if (!fs.existsSync(dir + '../config/icons.json')) {
-    fs.copyFileSync(dir + '../defaults/default_icons.json', dir + '../config/icons.json');
-}
-
-if (!fs.existsSync(dir + '../config/config.json')) {
-    fs.copyFileSync(dir + '../defaults/default_config.json', dir + '../config/config.json');
-}
-
-if (!fs.existsSync(dir + '../config/apps.json')) {
-    fs.copyFileSync(dir + '../defaults/default_apps.json', dir + '../config/apps.json');
-}
-
-const oldFile = fs.readFileSync(dir + '../defaults/default_icons.json');
-const newFile = fs.readFileSync(dir + '../config/icons.json');
-
-if (!oldFile.equals(newFile)) {
-    fs.copyFileSync(dir + '../defaults/default_icons.json', dir + '../config/icons.json');
-    fs_extra.copy(dir + '../defaults/assets/icons', dir + '../config/assets/icons');
-}
-
-const oldFile1 = fs.readFileSync(dir + '../defaults/default_apps.json');
-const newFile1 = fs.readFileSync(dir + '../config/apps.json');
-
-if (!oldFile1.equals(newFile1)) {
-    fs.copyFileSync(dir + '../defaults/default_apps.json', dir + '../config/apps.json');
-}
+init_config();
 
 app.use(express.static('config/assets'));
+app.use(express.static(path.join(dir, '../build')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/api', api_router);
@@ -94,6 +90,7 @@ const sessionOptions = {
     secret: process.env.SESSION_SECRET,
     store: new MongoStore({ mongooseConnection: mongoose.connection })
 };
+
 app.use(session(sessionOptions));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -101,8 +98,6 @@ app.use(passport.session());
 passport.use(UserDetails.createStrategy());
 passport.serializeUser(UserDetails.serializeUser());
 passport.deserializeUser(UserDetails.deserializeUser());
-
-app.use(express.static(path.join(dir, '../build')));
 
 const content_routes = ['/', '/editapps', '/settings', '/login', '/register'];
 
@@ -203,8 +198,6 @@ app.post('/create_user', async (req, res) => {
         password
     } = req.body;
 
-    console.log(req.body);
-
     UserDetails.register( new UserDetails({ username: username, active: false }), password, (err, account) => {
         if (err)
             return res.send({ registered: false });
@@ -214,8 +207,6 @@ app.post('/create_user', async (req, res) => {
 });
 
 app.get('/user', (req, res, next) => {
-    console.log('===== user!!======')
-    console.log(req.user)
     if (req.user) {
         res.json({ user: req.user });
     } else {
@@ -242,9 +233,7 @@ app.get('/user/delete', (req, res, next) => {
 
 app.post('/user/update', async (req, res, next) => {
     const user = req.body.user;
-
     const new_password = user.password;
-    const current_password = user.current_password;
     const new_username = user.username;
     const current_username = user.current_username;
 

@@ -10,7 +10,7 @@ router.use(express.urlencoded({ extended: true }));
 router.get('/tautulli', async (req, res) => {
     const url = req.query.url;
     const api_key = req.query.api_key;
-    //const api_key = process.env.TAUTULLI_API_KEY;
+
     const fetch_url = `${url}/api/v2?apikey=${api_key}&cmd=get_libraries`;
     const response = await fetch(fetch_url);
     const json = await response.json();
@@ -30,8 +30,6 @@ router.get('/rutorrent', async (req, res) => {
     const port = url.split('/')[2].split(':')[1];
     const username = req.query.username;
     const password = req.query.password;
-    // const username = process.env.RUTORRENT_USERNAME;
-    // const password = process.env.RUTORRENT_PASSWORD;
 
     const options = {
         host: ip,
@@ -65,7 +63,6 @@ router.get('/rutorrent', async (req, res) => {
 router.get('/radarr', async (req, res) => {
     const url = req.query.url;
     const api_key = req.query.api_key;
-    //const api_key = process.env.RADARR_API_KEY;
 
     let fetch_url = `${url}/api/queue?apiKey=${api_key}`;
     let result = await fetch(fetch_url);
@@ -89,7 +86,6 @@ router.get('/radarr', async (req, res) => {
 router.get('/jellyfin', async (req, res) => {
     const url = req.query.url;
     const api_key = req.query.api_key;
-    // const api_key = process.env.JELLYFIN_API_KEY;
 
     const fetch_url = `${url}/emby/Items/Counts`;
     const result = await fetch(fetch_url, {
