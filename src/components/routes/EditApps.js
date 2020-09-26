@@ -8,8 +8,9 @@ import {
     useRouteMatch,
     useHistory,
     useLocation,
-  } from "react-router-dom";
-
+} from "react-router-dom";
+import { SortableContainer, SortableElement } from 'react-sortable-hoc';
+import arrayMove from 'array-move';
 import { EditApplication } from './EditApplication';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -100,6 +101,10 @@ const EditAppsComponent = observer((props) => {
         history.replace(from);
     }
 
+    const onSortEnd = ({ oldIndex, newIndex }) => {
+        setAppsCopy(arrayMove(appsCopy, oldIndex, newIndex));
+    };
+
     return (
         <div className='editAppsContainer'>
             <div className='editAppsTable'>
@@ -112,7 +117,20 @@ const EditAppsComponent = observer((props) => {
                     <div className='table_header_delete'>Delete</div>
                 </div>
 
-                <div className="edit_apps_body">
+                <SortableList
+                    items={appsCopy}
+                    onSortEnd={onSortEnd}
+                    axis='y'
+                    useWindowAsScrollContainer={true}
+
+                    editing={editing}
+                    appsCopy={appsCopy}
+                    setAppsCopy={setAppsCopy}
+                    configsToDelete={configsToDelete}
+                    setConfigsToDelete={setConfigsToDelete}
+                />
+
+                {/* <div className="edit_apps_body">
                     {
                         appsCopy.map((app, index) => (
                             <SettingsAppItem
@@ -126,7 +144,7 @@ const EditAppsComponent = observer((props) => {
                             />
                         ))
                     }
-                </div>
+                </div> */}
             </div>
                 <div onClick={addApplication} className="addAppStyle">
                     <div style={{ paddingLeft: 15 }}>Add New Application</div>
@@ -134,6 +152,38 @@ const EditAppsComponent = observer((props) => {
         </div>
     )
 });
+
+const SortableItem = SortableElement(({ item, editing, appsCopy, setAppsCopy, configsToDelete, setConfigsToDelete }) => (
+    <SettingsAppItem
+        key={item.id}
+        app={item}
+        editing={editing}
+        appsCopy={appsCopy}
+        setAppsCopy={setAppsCopy}
+        configsToDelete={configsToDelete}
+        setConfigsToDelete={setConfigsToDelete}
+    />
+));
+
+const SortableList = SortableContainer(({ items, editing, appsCopy, setAppsCopy, configsToDelete, setConfigsToDelete }) => (
+    <div className="edit_apps_body">
+        {
+            items.map((app, index) => (
+                <SortableItem
+                    key={app.id}
+                    index={index}
+                    disabled={!editing}
+                    item={app}
+                    editing={editing}
+                    appsCopy={appsCopy}
+                    setAppsCopy={setAppsCopy}
+                    configsToDelete={configsToDelete}
+                    setConfigsToDelete={setConfigsToDelete}
+                />
+            ))
+        }
+    </div>
+));
 
 const SettingsAppItem = observer((props) => {
 
