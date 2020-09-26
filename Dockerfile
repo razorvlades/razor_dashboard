@@ -29,6 +29,8 @@ FROM node:14-alpine
 
 WORKDIR /usr/src/app
 
+ENV NODE_ENV production
+
 COPY --from=BUILD_IMAGE /usr/src/app/build ./build
 COPY --from=BUILD_IMAGE /usr/src/app/node_modules ./node_modules
 COPY --from=BUILD_IMAGE /usr/src/app/defaults ./defaults
