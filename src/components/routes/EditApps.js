@@ -38,6 +38,7 @@ const EditAppsComponent = observer((props) => {
     const [editLock, setEditLock] = useState(false);
     const [editing, setEditing] = useState(false);
     const [appsCopy, setAppsCopy] = useState(globalStore.apps);
+    const [configsToDelete, setConfigsToDelete] = useState([]);
 
     const _toggleEditing = () => {
         if (!editLock || editing) {
@@ -54,6 +55,14 @@ const EditAppsComponent = observer((props) => {
 
     const saveApps = async (newApps) => {
         globalStore.setApps(newApps);
+
+        for (let id of configsToDelete) {
+            await fetch('/api/deleteAuth?id=' + id, {
+                method: 'DELETE'
+            });
+        }
+
+        setConfigsToDelete([]);
 
         await fetch('/updateConfig', {
             method: 'POST',
@@ -111,6 +120,8 @@ const EditAppsComponent = observer((props) => {
                                 editing={editing}
                                 appsCopy={appsCopy}
                                 setAppsCopy={setAppsCopy}
+                                configsToDelete={configsToDelete}
+                                setConfigsToDelete={setConfigsToDelete}
                             />
                         ))
                     }
@@ -131,7 +142,9 @@ const SettingsAppItem = observer((props) => {
         app,
         editing,
         appsCopy,
-        setAppsCopy
+        setAppsCopy,
+        configsToDelete,
+        setConfigsToDelete
     } = props;
 
     const [deleting, setDeleting] = useState(false);
@@ -160,6 +173,7 @@ const SettingsAppItem = observer((props) => {
 
     const deleteApp = async () => {
         const newApps = appsCopy.filter(a => a.id !== app.id);
+        setConfigsToDelete([...configsToDelete, app.id]);
         setAppsCopy(newApps);
     }
 

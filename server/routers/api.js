@@ -43,6 +43,16 @@ router.get('/auth', async (req, res) => {
     });
 });
 
+router.delete('/deleteauth', async (req, res) => {
+    const id = req.query.id;
+
+    ApiConfigModel.findOneAndDelete({ id: id }, {}, (err, doc) => {
+        if (err)
+            return res.send({ ok: false });
+        return res.send({ ok: true });
+    });
+});
+
 router.post('/updateauth', async (req, res) => {
 
     const id = req.body.id;

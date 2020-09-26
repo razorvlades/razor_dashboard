@@ -134,6 +134,10 @@ export const EditApplication = observer((props) => {
             })
         });
 
+        await fetch('/api/deleteAuth?id=' + id, {
+            method: 'DELETE'
+        });
+
         const { from } = location.state || { from: { pathname: "/editapps" } };
         history.replace(from);
     }
