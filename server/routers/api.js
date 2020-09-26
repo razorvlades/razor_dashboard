@@ -3,13 +3,102 @@ const fetch = require("node-fetch");
 const xmlrpc = require('xmlrpc');
 const router = express.Router();
 const xmlparser = require('fast-xml-parser');
+const { encrypt, decrypt } = require('../util');
+const db = require('../db');
+const ApiConfigModel = require('../models/ApiConfig');
 
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
+router.get('/auth', async (req, res) => {
+    const id = req.query.id;
+
+    const query = ApiConfigModel.findOne({ 'id': id });
+
+    query.exec((err, obj) => {
+        if (err) {
+            res.send({ ok: false });
+            return handleError(err);
+        }
+
+        if (!obj) {
+            return res.send({ ok: true, api_config: {} });
+        }
+        
+        const id = obj.id;
+        const api_url = obj.api_url;
+        const api_key = decrypt(obj.api_key, process.env.ENCRYPTION_KEY);
+        const api_username = obj.api_username;
+        const api_password = decrypt(obj.api_password, process.env.ENCRYPTION_KEY);
+        
+        const api_config = {
+            id,
+            api_url,
+            api_key,
+            api_username,
+            api_password
+        };
+
+        return res.send({ ok: true, api_config });
+    });
+});
+
+router.post('/updateauth', async (req, res) => {
+
+    const id = req.body.id;
+    const api_url = req.body.api_url || '';
+    const api_username = req.body.api_username || '';
+    const api_password = encrypt(req.body.api_password || '', process.env.ENCRYPTION_KEY);
+    const api_key = encrypt(req.body.api_key || '', process.env.ENCRYPTION_KEY);
+
+    const db_obj = {
+        id,
+        api_url,
+        api_key,
+        api_username,
+        api_password,
+    };
+
+    const query = ApiConfigModel.findOne({ 'id': id });
+
+    query.exec((err, obj) => {
+        if (err) {
+            res.send({ ok: false });
+            return handleError(err);
+        }
+
+        if (!obj) {
+            const api_config_obj = new ApiConfigModel(db_obj);
+
+            api_config_obj.save((err) => {
+                if (err) {
+                    return res.send({ ok: false });
+                }
+                return res.send({ ok: true });
+            });
+        }
+        else {
+            const api_config_obj = new ApiConfigModel(obj);
+            api_config_obj.api_key = api_key;
+            api_config_obj.api_username = api_username;
+            api_config_obj.api_password = api_password;
+            api_config_obj.api_url = api_url;
+            api_config_obj.save(err => {
+                if (err) {
+                    return res.send({ ok: false });
+                }
+                return res.send({ ok: true });
+            });
+        }
+    });
+});
+
 router.get('/tautulli', async (req, res) => {
     const url = req.query.url;
     const api_key = req.query.api_key;
+
+    // const hash = encrypt('Hello World!', process.env.ENCRYPTION_KEY);
+    // const text = decrypt(hash, process.env.ENCRYPTION_KEY);
 
     const fetch_url = `${url}/api/v2?apikey=${api_key}&cmd=get_libraries`;
     const response = await fetch(fetch_url);

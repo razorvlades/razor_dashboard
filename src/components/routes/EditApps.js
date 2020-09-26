@@ -81,10 +81,6 @@ const EditAppsComponent = observer((props) => {
             customColor: false,
             type: 'none',
             enhanced: false,
-            api_key: '',
-            api_password: '',
-            api_username: '',
-            api_url: '',
             new: true,
         }
         const newApps = [...appsCopy, newApp];

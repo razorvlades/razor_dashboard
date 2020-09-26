@@ -1,22 +1,22 @@
-export const retrieveApiData = (type, app, i) => {
+export const retrieveApiData = (type, app, apiConfig, i) => {
     let data = { data_left: {}, data_right: {} };
-    const url = app.api_url === '' ? app.url : app.api_url;
+    const url = apiConfig.api_url === '' ? app.url : apiConfig.api_url;
     
     switch (type) {
         case 'tautulli':
-            return getTautulliStats(url, app.api_key);
+            return getTautulliStats(url, apiConfig.api_key);
         case 'rutorrent':
-            return getRuTorrentStats(url, app.api_username, app.api_password);
+            return getRuTorrentStats(url, apiConfig.api_username, apiConfig.api_password);
         case 'radarr':
-            return getRadarrStats(url, app.api_key);
+            return getRadarrStats(url, apiConfig.api_key);
         case 'jellyfin':
-            return getJellyfinStats(url, app.api_key);
+            return getJellyfinStats(url, apiConfig.api_key);
         case 'netdata':
             return getNetdataStats(url);
         case 'shoko':
-            return getShokoStats(url, app.api_username, app.api_password);
+            return getShokoStats(url, apiConfig.api_username, apiConfig.api_password);
         case 'plex':
-            return getPlexStats(url, app.api_key, i);
+            return getPlexStats(url, apiConfig.api_key, i);
         case 'portainer':
             return getPortainerStats(url);
         default:

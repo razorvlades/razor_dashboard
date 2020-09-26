@@ -13,7 +13,8 @@ const Card = observer((props) => {
       color,
       customColor,
       type,
-      enhanced
+      enhanced,
+      id
     } = props.item;
 
     const { globalStore } = useStores();
@@ -29,25 +30,34 @@ const Card = observer((props) => {
     }, [globalStore.theme]);
 
     useEffect(() => {
-      let i = 0;
-      const getApiData = async () => {
-        const {
-          data_left,
-          data_right
-        } = await retrieveApiData(type, props.item, i++);
-        setDataLeft(data_left);
-        setDataRight(data_right);
+
+      const getApiConfig = async () => {
+        const res = await fetch('/api/auth?id=' + id);
+        const json = await res.json();
+        return json.api_config;
       }
-  
-      let getApiDataInterval;
-      if (enhanced) {
-        getApiData();
-        getApiDataInterval = setInterval(getApiData, globalStore.refreshInterval);
-      }
-  
-      return () => {
-        clearInterval(getApiDataInterval);
-      }
+      getApiConfig().then(apiConfig => {
+        let i = 0;
+        const getApiData = async () => {
+          const {
+            data_left,
+            data_right
+          } = await retrieveApiData(type, props.item, apiConfig, i++);
+          setDataLeft(data_left);
+          setDataRight(data_right);
+        }
+    
+        let getApiDataInterval;
+        if (enhanced) {
+          getApiData();
+          getApiDataInterval = setInterval(getApiData, globalStore.refreshInterval);
+        }
+    
+        return () => {
+          clearInterval(getApiDataInterval);
+        }
+      });
+      
     }, []);
   
     return (

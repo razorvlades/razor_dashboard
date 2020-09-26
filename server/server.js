@@ -156,7 +156,6 @@ app.post("/upload-image", upload.single('imageData'), (req, res, next) => {
 app.post('/login', (req, res, next) => {
     passport.authenticate('local',
     (err, user, info) => {
-        console.log(user);
         if (err) {
             return next(err);
         }
@@ -166,7 +165,6 @@ app.post('/login', (req, res, next) => {
             return next();
         }
 
-        console.log("remember me: ", req.body.remember_me);
         if (req.body.remember_me) {
             req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000;
         }
@@ -217,7 +215,6 @@ app.get('/user', (req, res, next) => {
 app.get('/users', (req, res, next) => {
     const query = UserDetails.find({});
     query.exec((err, users) => {
-        console.log(users);
         res.send({ users });
     })
 });

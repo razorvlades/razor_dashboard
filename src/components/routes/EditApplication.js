@@ -23,6 +23,14 @@ export const EditApplication = observer((props) => {
     const [deleting, setDeleting] = useState(false);
     const [enhanced, setEnhanced] = useState(false);
 
+    const [apiConfig, setApiConfig] = useState({
+        id: app.id,
+        api_key: '',
+        api_url: '',
+        api_username: '',
+        api_password: '',
+    });
+
     const [colorPickerVisible, setColorPickerVisible] = useState(false);
 
     const _showColorPicker = () => setColorPickerVisible(true);
@@ -35,6 +43,13 @@ export const EditApplication = observer((props) => {
         if (loading) {
             const foundApp = globalStore.apps.find(a => a.id === id)
             setApp(foundApp);
+
+            const getApiConfig = async () => {
+                const res = await fetch('/api/auth?id=' + id);
+                const json = await res.json();
+                setApiConfig(json.api_config);
+            }
+            getApiConfig();
 
             setLoading(false);
         }
@@ -75,6 +90,18 @@ export const EditApplication = observer((props) => {
                 theme: globalStore.theme,
                 title: globalStore.title,
                 view: globalStore.view
+            })
+        });
+
+        await fetch('/api/updateauth', {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                ...apiConfig,
+                id: app.id
             })
         });
 
@@ -171,31 +198,31 @@ export const EditApplication = observer((props) => {
     }
     
     const _changeApiKey = async e => {
-        setApp({
-            ...app,
+        setApiConfig({
+            ...apiConfig,
             api_key: e.target.value
         });
     }
 
     const _changeApiPassword = async e => {
-        setApp({
-            ...app,
+        setApiConfig({
+            ...apiConfig,
             api_password: e.target.value
         });
     }
 
     const _changeApiUsername = async e => {
-        setApp({
-            ...app,
+        setApiConfig({
+            ...apiConfig,
             api_username: e.target.value
         });
     }
 
     const _changeApiUrl = async e => {
-        setApp({
-            ...app,
+        setApiConfig({
+            ...apiConfig,
             api_url: e.target.value
-        })
+        });
     }
 
     const _uploadImage = async (e) => {
@@ -225,6 +252,7 @@ export const EditApplication = observer((props) => {
             <Header app={app} _saveApp={_saveApp} _deleteApp={_deleteApp} deleting={deleting} />
             <Body
                 app={app}
+                apiConfig={apiConfig}
                 _changeName={_changeName}
                 _changeType={_changeType}
                 _changeURL={_changeURL}
@@ -250,6 +278,7 @@ const Body = observer(props => {
 
     const {
         app,
+        apiConfig,
         _changeName,
         _changeColor,
         _changeType,
@@ -384,28 +413,28 @@ const Body = observer(props => {
                 <div className='edit_app_body_item_container'>
                     <div className='edit_body_app_item'>
                         <label className='edit_app_body_input_label' htmlFor="app_api_url">API URL (if different from above)</label>
-                        <input id='app_api_url' className='textInput' disabled={!enhancedEnabled} onChange={_changeApiUrl} value={app.api_url || ''} type="text"/>
+                        <input id='app_api_url' className='textInput' disabled={!enhancedEnabled} onChange={_changeApiUrl} value={apiConfig.api_url || ''} type="text"/>
                     </div>
                 </div>
 
                 <div className='edit_app_body_item_container'>
                     <div className='edit_body_app_item'>
                         <label className='edit_app_body_input_label' htmlFor="app_api_key">API_KEY</label>
-                        <input id='app_api_key' className='textInput' disabled={!enhancedEnabled} onChange={_changeApiKey} value={app.api_key || ''} type="text"/>
+                        <input id='app_api_key' className='textInput' disabled={!enhancedEnabled} onChange={_changeApiKey} value={apiConfig.api_key || ''} type="text"/>
                     </div>
                 </div>
 
                 <div className='edit_app_body_item_container'>
                     <div className='edit_body_app_item'>
                         <label className='edit_app_body_input_label' htmlFor="app_api_username">Username</label>
-                        <input id='app_api_username' className='textInput' disabled={!enhancedEnabled} onChange={_changeApiUsername} value={app.api_username || ''} type="text"/>
+                        <input id='app_api_username' className='textInput' disabled={!enhancedEnabled} onChange={_changeApiUsername} value={apiConfig.api_username || ''} type="text"/>
                     </div>
                 </div>
 
                 <div className='edit_app_body_item_container'>
                     <div className='edit_body_app_item'>
                         <label className='edit_app_body_input_label' htmlFor="app_api_password">Password</label>
-                        <input id='app_api_password' className='textInput' disabled={!enhancedEnabled} onChange={_changeApiPassword} value={app.api_password || ''} type="password"/>
+                        <input id='app_api_password' className='textInput' disabled={!enhancedEnabled} onChange={_changeApiPassword} value={apiConfig.api_password || ''} type="password"/>
                     </div>
                 </div>
 
