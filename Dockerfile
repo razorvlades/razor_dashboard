@@ -20,6 +20,11 @@ RUN npm prune --production
 
 RUN /usr/local/bin/node-prune
 
+RUN rm -rf node_modules/@icons
+RUN rm -rf node_modules/.cache
+RUN rm -rf node_modules/@testing-library
+RUN rm -rf node_modules/@babel
+
 FROM node:14-alpine
 
 WORKDIR /usr/src/app
