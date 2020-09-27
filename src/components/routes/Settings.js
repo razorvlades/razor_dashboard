@@ -253,7 +253,7 @@ const BackgroundImageSettingsItem = (props) => {
                  <div className='settingsOptionTitle'>Background Image</div>
              </div>
              <div className='settings_item_input_container'>
-                <Link className='edit_page_link' to={`/edit_background`}>Edit Background</Link>
+                <Link className='edit_background_link' to={`/edit_background`}>Edit Background</Link>
              </div>
          </div>
      )

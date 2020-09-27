@@ -239,6 +239,19 @@ select {
     text-decoration: none;
 }
 
+.edit_background_link {
+    display: flex;
+    align-self: center;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    color: white;
+    height: 100%;
+    text-decoration: none;
+    width: 75%;
+}
+
 .settings_item_textinput {
     -webkit-writing-mode: horizontal-tb !important;
     text-rendering: auto;
