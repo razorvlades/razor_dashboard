@@ -111,8 +111,11 @@ app.get('/getIcons', (req, res) => {
 });
 
 app.get('/getApps', (req, res) => {
-    const apps = fs.readFileSync(dir + '../config/apps.json');
-    res.send(apps);
+    const apps = JSON.parse(fs.readFileSync(dir + '../config/apps.json')).apps;
+    const sorted_apps = apps.sort((a, b) => {
+        return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+    });
+    res.send({ apps: sorted_apps });
 });
 
 app.get('/getConfig', (req, res) => {
