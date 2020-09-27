@@ -1,16 +1,16 @@
 import { observable, action, decorate } from 'mobx';
 
 export default class GlobalStore {
-    title = '';
+    title = 'Razor Dash';
     setTitle = title => this.title = title;
   
     apps = [];
     setApps = apps => this.apps = apps;
   
-    theme = '';
+    theme = 'dark';
     setTheme = theme => this.theme = theme;
 
-    view = 'grid';
+    view = 'small_grid';
     setView = view => this.view = view;
 
     refreshInterval = 5000;
@@ -28,7 +28,10 @@ export default class GlobalStore {
     searchBarVisible = true;
     setSearchBarVisible = searchBarVisible => this.searchBarVisible = searchBarVisible;
 
-    defaultSearchProvider = {};
+    defaultSearchProvider = {
+      name: 'Google',
+      url: 'https://www.google.com/search?q=',
+    };
     setDefaultSearchProvider = defaultSearchProvider => this.defaultSearchProvider = defaultSearchProvider;
 }
 

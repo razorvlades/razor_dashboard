@@ -1,8 +1,8 @@
 {
     "apps": [
     ],
-    "theme": "light",
-    "title": "Welcome Home",
+    "theme": "dark",
+    "title": "Razor Dash",
     "view": "small_grid",
     "refreshInterval": 5000,
     "searchBarVisible": true,
