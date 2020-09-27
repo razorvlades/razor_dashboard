@@ -19,6 +19,7 @@ import Header from './components/Header';
 import Home from './components/routes/Home';
 import AppSettings from './components/routes/EditApps';
 import Settings from './components/routes/Settings';
+import { EditBackgroundImage } from './components/settings/BackgroundImage';
 import { v4 as uuidv4 } from 'uuid';
 
 const App = observer(() => {
@@ -110,6 +111,9 @@ const App = observer(() => {
               </Route>
               <Route path="/register">
                 <Signup/>
+              </Route>
+              <Route path={`/edit_background`}>
+                <EditBackgroundImage />
               </Route>
             </Switch>
 

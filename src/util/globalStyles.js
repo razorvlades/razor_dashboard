@@ -44,6 +44,14 @@ export const GlobalStyles = createGlobalStyle`
         background-color: ${({ theme }) => theme.hover};
     }
 
+    .container_header {
+        background-color: ${({ theme }) => theme.hover};
+    }
+
+    .container_background {
+        background-color: ${({ theme }) => theme.body};
+    }
+
     .settingsItem {
         background-color: ${({ theme }) => theme.body};
     }

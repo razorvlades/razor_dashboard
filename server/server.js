@@ -9,6 +9,7 @@ const session = require('express-session');
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
 const api_router = require('./routers/api');
+const images_router = require('./routers/images');
 const UserDetails = require('./models/UserDetails');
 
 // get current directory
@@ -83,6 +84,7 @@ app.use(express.static(path.join(dir, '../build')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/api', api_router);
+app.use('/images', images_router)
 
 const sessionOptions = {
     resave: false,

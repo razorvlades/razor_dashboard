@@ -11,6 +11,7 @@ import {
   } from "react-router-dom";
 import { Accounts } from '../settings/Accounts';
 import { EditUser } from '../settings/EditUser';
+import { EditBackgroundImage } from '../settings/BackgroundImage';
 
 const views = [
     {
@@ -127,6 +128,7 @@ const SettingsComponent = observer((props) => {
                         <TitleTextSettingsItem />
                         <ThemeSettingsItem />
                         <RefreshIntervalSettingsItem refreshInterval={refreshInterval} setRefreshInterval={setRefreshInterval} />
+                        <BackgroundImageSettingsItem />
                     </div>
                 </div>
             </div>
@@ -242,5 +244,19 @@ const RefreshIntervalSettingsItem = (props) => {
         </div>
     )
 }
+
+const BackgroundImageSettingsItem = (props) => {
+ 
+     return (
+         <div className="settingsItem">
+             <div className="settings_item_title_container">
+                 <div className='settingsOptionTitle'>Background Image</div>
+             </div>
+             <div className='settings_item_input_container'>
+                <Link className='edit_page_link' to={`/edit_background`}>Edit Background</Link>
+             </div>
+         </div>
+     )
+ }
 
 export default Settings;

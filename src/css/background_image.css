@@ -1,0 +1,196 @@
+.edit_background_container {
+    overflow: hidden;
+    justify-content: center;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    align-content: center;
+    width: 800px;
+    height: 540px;
+    margin: auto;
+    margin-top: 25px;
+}
+
+.edit_background_header {
+    height: 30px;
+    padding: 10px;
+    display: flex;
+}
+
+.edit_background_header_title {
+    display: flex;
+    flex: 10;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 10px;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.edit_background_header_save_button {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit_background_cancel_edit_button {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit_background_body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+}
+
+.edit_background_body_row_1 {
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit_background_body_row_2 {
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit_background_body_row_3 {
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit_background_preview {
+    width: 350px;
+    align-self: center;
+    padding-bottom: 10px;
+}
+
+.edit_background_preview_title {
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+.edit_background_body_item_container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.edit_body_background_item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    flex-direction: column;
+}
+
+.edit_background_body_input_label {
+    font-size: 12px;
+    width: 75%;
+    padding: 10px;
+    margin-left: -10px;
+}
+
+.edit_background_body_icon_style {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+}
+
+.enhanced_checkbox_div {
+    display: flex;
+    flex: 10;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 10px;
+    font-size: 18px;
+}
+
+.edit_background_select {
+    -webkit-writing-mode: horizontal-tb !important;
+    text-rendering: auto;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: start;
+    appearance: textfield;
+    -webkit-rtl-ordering: logical;
+    margin: 0em;
+    font: 400 13.3333px Arial;
+    padding: 1px 2px;
+    border-width: 2px;
+    border-style: inset;
+    border-image: initial;
+    width: 75%;
+    border: 1px solid #dedfe2;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.edit_background_color_input {
+    text-rendering: auto;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: start;
+    appearance: textfield;
+    -webkit-rtl-ordering: logical;
+    margin: 0em;
+    font: 400 13.3333px Arial;
+    padding: 1px 2px;
+    border-width: 2px;
+    border-style: inset;
+    border-image: initial;
+    width: 75%;
+    border: 1px solid #dedfe2;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+}
+
+.upload_bg_image_btn {
+    align-self: center;
+    justify-self: center;
+    align-content: center;
+    display: flex;
+    cursor: pointer;
+    background: grey;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10px;
+    flex: 1;
+}
+
+.edit_background_upload_btn_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+}
+
+.edit_background_image_preview {
+    max-width: 800px;
+    max-height: 320px;
+}

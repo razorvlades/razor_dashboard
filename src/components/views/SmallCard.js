@@ -160,6 +160,7 @@ const SmallCards = observer((props) => {
         axis='xy'
         isDragging={isDragging}
         useWindowAsScrollContainer={true}
+        pressDelay={200}
       />
   )
 });
