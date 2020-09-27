@@ -12,6 +12,7 @@ import {
 import { Accounts } from '../settings/Accounts';
 import { EditUser } from '../settings/EditUser';
 import { EditBackgroundImage } from '../settings/BackgroundImage';
+import { searchProviders } from '../SearchBar';
 
 const views = [
     {
@@ -103,7 +104,9 @@ const SettingsComponent = observer((props) => {
                 theme: globalStore.theme,
                 title: globalStore.title,
                 view: globalStore.view,
-                refreshInterval: refreshInterval
+                refreshInterval: refreshInterval,
+                searchBarVisible: globalStore.searchBarVisible,
+                defaultSearchProvider: globalStore.defaultSearchProvider
             })
         });
 
@@ -129,6 +132,8 @@ const SettingsComponent = observer((props) => {
                         <ThemeSettingsItem />
                         <RefreshIntervalSettingsItem refreshInterval={refreshInterval} setRefreshInterval={setRefreshInterval} />
                         <BackgroundImageSettingsItem />
+                        <SearchBarVisibleSettingsItem />
+                        <SearchProviderSettingsItem />
                     </div>
                 </div>
             </div>
@@ -247,16 +252,96 @@ const RefreshIntervalSettingsItem = (props) => {
 
 const BackgroundImageSettingsItem = (props) => {
  
-     return (
-         <div className="settingsItem">
-             <div className="settings_item_title_container">
-                 <div className='settingsOptionTitle'>Background Image</div>
-             </div>
-             <div className='settings_item_input_container'>
+    return (
+        <div className="settingsItem">
+            <div className="settings_item_title_container">
+                <div className='settingsOptionTitle'>Background Image</div>
+            </div>
+            <div className='settings_item_input_container'>
                 <Link className='edit_background_link' to={`/edit_background`}>Edit Background</Link>
-             </div>
-         </div>
-     )
- }
+            </div>
+        </div>
+    )
+}
+
+const SearchProviderSettingsItem = observer((props) => {
+
+    const { globalStore } = useStores();
+
+    const _updateSearchProvider = async (e) => {
+        globalStore.setDefaultSearchProvider(searchProviders.find(item => item.name === e.target.value));
+    }
+
+    return (
+        <div className="settingsItem">
+            <div className="settings_item_title_container">
+                <div className='settingsOptionTitle'>Default Search Provider</div>
+            </div>
+            <div className='settings_item_input_container'>
+                <select
+                    value={globalStore.defaultSearchProvider.name} 
+                    onChange={_updateSearchProvider}
+                    className='settings_item_select'
+                >
+                    {
+                        searchProviders.map((item) => {
+                            return (
+                                <option key={item.name} value={item.name}>{item.name}</option>
+                            )
+                        })
+                    }
+                </select>
+            </div>
+        </div>
+    )
+});
+
+const enabled_enum = [
+    {
+        text: 'Enabled',
+        value: true
+    },
+    {
+        text: 'Disabled',
+        value: false
+    }
+]
+
+const SearchBarVisibleSettingsItem = observer((props) => {
+
+    const { globalStore } = useStores();
+
+    const _updateSearchBarVisible = e => {
+        console.log(enabled_enum.find(item => String(item.value) === e.target.value).value);
+        globalStore.setSearchBarVisible(enabled_enum.find(item => String(item.value) === e.target.value).value);
+    }
+    
+    React.useEffect(() => {
+        console.log(globalStore.searchBarVisible);
+    }, []);
+ 
+    return (
+        <div className="settingsItem">
+            <div className="settings_item_title_container">
+                <div className='settingsOptionTitle'>Search Bar</div>
+            </div>
+            <div className='settings_item_input_container'>
+                <select
+                    value={globalStore.searchBarVisible} 
+                    onChange={_updateSearchBarVisible}
+                    className='settings_item_select'
+                >
+                    {
+                        enabled_enum.map((item) => {
+                            return (
+                                <option key={item.text} value={item.value}>{item.text}</option>
+                            )
+                        })
+                    }
+                </select>
+            </div>
+        </div>
+    )
+});
 
 export default Settings;

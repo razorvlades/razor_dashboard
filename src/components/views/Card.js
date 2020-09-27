@@ -136,7 +136,9 @@ const Cards = observer((props) => {
             theme: globalStore.theme,
             title: globalStore.title,
             view: globalStore.view,
-            refreshInterval: globalStore.refreshInterval
+            refreshInterval: globalStore.refreshInterval,
+            searchBarVisible: globalStore.searchBarVisible,
+            defaultSearchProvider: globalStore.defaultSearchProvider
         })
     });
   }

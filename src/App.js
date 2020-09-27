@@ -42,6 +42,10 @@ const App = observer(() => {
         globalStore.setView(config.view);
       if (config.refreshInterval)
         globalStore.setRefreshInterval(config.refreshInterval);
+      if (config.searchBarVisible)
+        globalStore.setSearchBarVisible(config.searchBarVisible);
+      if (config.defaultSearchProvider)
+        globalStore.setDefaultSearchProvider(config.defaultSearchProvider);
 
       const apps = config.apps;
       

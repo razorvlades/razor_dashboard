@@ -4,6 +4,7 @@ import { observer } from 'mobx-react';
 import Cards from '../views/Card';
 import SmallCards from '../views/SmallCard';
 import CompactCards from '../views/CompactCard';
+import { SearchBar } from '../SearchBar';
 
 const Home = observer((props) => {
 
@@ -14,11 +15,16 @@ const Home = observer((props) => {
     } = globalStore;
   
     return (
-        view === 'grid' ? 
-          <Cards/>
-        : view === 'small_grid' ?
-          <SmallCards/>
-        : <CompactCards/>
+      <>
+        { globalStore.searchBarVisible && <SearchBar /> }
+        {
+          view === 'grid' ? 
+            <Cards />
+          : view === 'small_grid' ?
+            <SmallCards />
+          : <CompactCards />
+        }
+      </>
       )
 });
 

@@ -131,5 +131,24 @@ export const GlobalStyles = createGlobalStyle`
 
     .edit_page_link {
         color: ${({ theme }) => theme.text};
-}
+    }
+
+    .search_bar_container input {
+        background-color: ${({ theme }) => theme.body};
+        color: ${({ theme }) => theme.text}
+    }
+
+    .search_bar_container button {
+        background-color: ${({ theme }) => theme.hover};
+        color: ${({ theme }) => theme.text}
+    }
+
+    .search_bar_container select {
+        background-color: ${({ theme }) => theme.hover};
+        color: ${({ theme }) => theme.text}
+    }
+
+    .search_bar_container input::placeholder {
+        color: ${({ theme }) => theme.background};
+    }
   `

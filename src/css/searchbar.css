@@ -1,0 +1,43 @@
+.search_bar_div {
+    display: flex;
+    width: 100vw;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    justify-items: center;
+    margin-top: 5px;
+}
+
+.search_bar_container {
+    height: 50px;
+    min-width: 25%;
+    display: flex;
+    border-radius: 10px;
+}
+
+.search_bar_container input {
+    flex: 4;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 18px
+}
+
+.search_bar_container button {
+    flex: 1;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border: none;
+    text-align: center;
+    font-weight: bold;
+    min-width: 80px
+}
+
+.search_bar_container select {
+    flex: 1;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border: none;
+    min-width: 85px;
+}

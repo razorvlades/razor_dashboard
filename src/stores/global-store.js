@@ -24,6 +24,12 @@ export default class GlobalStore {
 
     headerVisible = true;
     setHeaderVisible = headerVisible => this.headerVisible = headerVisible;
+
+    searchBarVisible = true;
+    setSearchBarVisible = searchBarVisible => this.searchBarVisible = searchBarVisible;
+
+    defaultSearchProvider = {};
+    setDefaultSearchProvider = defaultSearchProvider => this.defaultSearchProvider = defaultSearchProvider;
 }
 
 decorate(GlobalStore, {
@@ -42,5 +48,9 @@ decorate(GlobalStore, {
   headerVisible: observable,
   setHeaderVisible: action,
   refreshInterval: observable,
-  setRefreshInterval: action
+  setRefreshInterval: action,
+  searchBarVisible: observable,
+  setSearchBarVisible: action,
+  defaultSearchProvider: observable,
+  setDefaultSearchProvider: action
 });

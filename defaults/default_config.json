@@ -4,5 +4,10 @@
     "theme": "light",
     "title": "Welcome Home",
     "view": "small_grid",
-    "refreshInterval": 5000
+    "refreshInterval": 5000,
+    "searchBarVisible": true,
+    "defaultSearchProvider": {
+        "name": "Google",
+        "url": "https://www.google.com/search?q="
+    }
 }
