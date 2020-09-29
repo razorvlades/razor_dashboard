@@ -79,6 +79,29 @@ const init_config = async () => {
 
 init_config();
 
+const create_default_user = async () => {
+    UserDetails.register( new UserDetails({ username: 'admin', active: false }), 'password', (err, account) => {
+        if (err)
+            return false;
+        else
+            return true;
+    });
+}
+
+const init_defualt_user = async () => {
+    UserDetails.count({}, ( err, count) => {
+        if (err)
+            return false;
+        
+        console.log(count);
+        if (count === 0) {
+            return create_default_user();
+        }
+    });
+}
+
+init_defualt_user();
+
 app.use(express.static('config/assets'));
 app.use(express.static(path.join(dir, '../build')));
 app.use(express.json());
